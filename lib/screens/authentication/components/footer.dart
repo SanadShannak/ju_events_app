@@ -5,12 +5,12 @@ class FooterWidget extends StatelessWidget {
   const FooterWidget({
     super.key,
     required this.leftText,
-    required this.rightClicableText,
+    required this.rightClickableText,
     required this.rightTextOnPressed,
   });
 
   final String leftText;
-  final String rightClicableText;
+  final String rightClickableText;
   final void Function() rightTextOnPressed;
 
   @override
@@ -28,13 +28,12 @@ class FooterWidget extends StatelessWidget {
                 color: (orientation == Orientation.portrait)
                     ? AppColors.kPaleGoldenrod
                     : AppColors.kDarkGreen, //
-                fontFamily: 'Roboto',
                 fontWeight: FontWeight.w400),
           ),
           TextButton(
               onPressed: rightTextOnPressed,
               child: Text(
-                rightClicableText,
+                rightClickableText,
                 style: TextStyle(
                     color: (orientation == Orientation.portrait)
                         ? AppColors.kBackground

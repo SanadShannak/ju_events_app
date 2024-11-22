@@ -12,13 +12,6 @@ class CustomTextFormFieldContainer extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       width: size.width * 0.9,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.kDarkGreen,
-          width: 0.8,
-        ),
-        borderRadius: BorderRadius.circular(10),
-      ),
       child: textFormField,
     );
   }
@@ -48,28 +41,19 @@ class _EmailTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return CustomTextFormFieldContainer(
       textFormField: TextFormField(
+        cursorColor: AppColors.kForestGreen,
         validator: widget.validator,
         controller: widget.controller,
         // decoration
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(vertical: 12),
           hintText: widget.hint,
-          border: InputBorder.none,
-          hintStyle: const TextStyle(
-            color: Color(0xffA9A9A9),
-            fontSize: 15,
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w500,
-          ),
           prefixIcon:
               (widget.passwordField == null || widget.passwordField == false)
                   ? const Icon(
                       Icons.person,
-                      color: AppColors.kDarkGreen,
                     )
                   : const Icon(
                       Icons.password,
-                      color: AppColors.kDarkGreen,
                     ),
           // if passwordField true
           suffixIcon:
@@ -77,19 +61,11 @@ class _EmailTextFormFieldState extends State<CustomTextFormField> {
                   ? null
                   : GestureDetector(
                       child: obscureState
-                          ? const Opacity(
-                              opacity: 0.75,
-                              child: Icon(
-                                Icons.visibility_off,
-                                color: AppColors.kDarkGreen,
-                              ),
+                          ? const Icon(
+                              Icons.visibility_off,
                             )
-                          : const Opacity(
-                              opacity: 0.75,
-                              child: Icon(
-                                Icons.visibility,
-                                color: AppColors.kDarkGreen,
-                              ),
+                          : const Icon(
+                              Icons.visibility,
                             ),
                       onTap: () {
                         setState(() {

@@ -23,10 +23,15 @@ class LoginPage extends StatelessWidget {
               const BackgroundVectorShape(),
 
               // Login Screen Components
+
               SizedBox(
                 height: size.height,
                 child: Column(
                   children: [
+                    // Top Padding
+                    const SizedBox(
+                      height: 50,
+                    ),
                     // JU Logo
                     SizedBox(
                       width: size.width,
@@ -36,19 +41,18 @@ class LoginPage extends StatelessWidget {
                         alignment: Alignment.center,
                       ),
                     ),
-
+                    const SizedBox(
+                      height: 30,
+                    ),
                     // Sign In
                     Container(
-                      width: size.width * 0.9,
+                      width: size.width * 0.88,
                       alignment: Alignment.centerLeft,
-                      child: const Text(
-                        "Sign In",
-                        style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.kDarkGreen),
-                      ),
+                      child: const Text("Sign In",
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.kDarkGreen)),
                     ),
 
                     // Text Form Fields
@@ -81,9 +85,7 @@ class LoginPage extends StatelessWidget {
                           onPressed: () {},
                           child: const Text(
                             "Forgot Password?",
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                color: AppColors.kDarkGreen),
+                            style: TextStyle(color: AppColors.kDarkGreen),
                           ),
                         ),
                       ),
@@ -102,7 +104,6 @@ class LoginPage extends StatelessWidget {
                       child: const Text(
                         'OR',
                         style: TextStyle(
-                          fontFamily: 'Roboto',
                           color: AppColors.kPlaceHolderGrey,
                         ),
                       ),
@@ -125,7 +126,7 @@ class LoginPage extends StatelessWidget {
                     Expanded(
                       child: FooterWidget(
                         leftText: "Don't Have An Account ?",
-                        rightClicableText: "Sign Up",
+                        rightClickableText: "Sign Up",
                         rightTextOnPressed: () {},
                       ),
                     )

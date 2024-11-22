@@ -27,6 +27,10 @@ class SignUpPage extends StatelessWidget {
                 height: size.height,
                 child: Column(
                   children: [
+                    // Top Padding
+                    const SizedBox(
+                      height: 50,
+                    ),
                     // JU Logo
                     SizedBox(
                       width: size.width,
@@ -44,7 +48,6 @@ class SignUpPage extends StatelessWidget {
                       child: const Text(
                         "Sign Up",
                         style: TextStyle(
-                            fontFamily: 'Roboto',
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                             color: AppColors.kDarkGreen),
@@ -94,7 +97,6 @@ class SignUpPage extends StatelessWidget {
                       child: const Text(
                         'OR',
                         style: TextStyle(
-                          fontFamily: 'Roboto',
                           color: AppColors.kPlaceHolderGrey,
                         ),
                       ),
@@ -117,7 +119,7 @@ class SignUpPage extends StatelessWidget {
                     Expanded(
                       child: FooterWidget(
                         leftText: "Already Have An Account ?",
-                        rightClicableText: "Sign In",
+                        rightClickableText: "Sign In",
                         rightTextOnPressed: () {},
                       ),
                     )

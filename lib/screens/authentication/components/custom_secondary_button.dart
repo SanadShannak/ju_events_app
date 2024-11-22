@@ -3,7 +3,11 @@ import 'package:temp_project/utilities/constants.dart';
 
 class CustomSecondaryButton extends StatelessWidget {
   const CustomSecondaryButton(
-      {super.key, required this.prompt, required this.onPressed, this.prefix, this.sizePercentage = 0.75});
+      {super.key,
+      required this.prompt,
+      required this.onPressed,
+      this.prefix,
+      this.sizePercentage = 0.75});
   final Widget? prefix;
   final String prompt;
   final void Function() onPressed;
@@ -15,7 +19,6 @@ class CustomSecondaryButton extends StatelessWidget {
 
     return Container(
       width: size.width * sizePercentage,
-
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -35,7 +38,7 @@ class CustomSecondaryButton extends StatelessWidget {
           children: [
             // Prefix
             prefix == null ? const SizedBox.shrink() : prefix!,
-            // Separator 
+            // Separator
             const SizedBox(
               width: 10,
             ),
@@ -43,7 +46,6 @@ class CustomSecondaryButton extends StatelessWidget {
             Text(
               prompt,
               style: const TextStyle(
-                  fontFamily: 'Roboto',
                   color: AppColors.kDarkGreen,
                   fontSize: 15,
                   fontWeight: FontWeight.w500),

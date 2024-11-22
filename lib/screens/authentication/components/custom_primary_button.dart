@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:temp_project/utilities/constants.dart';
 
 class CustomPrimaryButton extends StatelessWidget {
-  const CustomPrimaryButton({super.key, required this.prompt, required this.onPressed, this.sizePercentage = 0.75});
+  const CustomPrimaryButton(
+      {super.key,
+      required this.prompt,
+      required this.onPressed,
+      this.sizePercentage = 0.75});
   final String prompt;
   final void Function() onPressed;
-    final double sizePercentage;
-
+  final double sizePercentage;
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +33,10 @@ class CustomPrimaryButton extends StatelessWidget {
             backgroundColor: AppColors.kDarkGreen,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
-        child:  Text(
+        child: Text(
           prompt,
           style: const TextStyle(
-              fontFamily: 'Roboto',
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500),
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
         ),
       ),
     );
