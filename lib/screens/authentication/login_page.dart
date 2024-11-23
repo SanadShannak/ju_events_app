@@ -6,8 +6,14 @@ import 'package:temp_project/screens/authentication/components/custom_text_form_
 import 'package:temp_project/screens/authentication/components/footer.dart';
 import 'package:temp_project/utilities/constants.dart';
 
+import '../../utilities/validators.dart';
+
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,23 +58,32 @@ class LoginPage extends StatelessWidget {
                     ),
 
                     // Text Form Fields
-                    const Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        // Enter Your Email
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: CustomTextFormField(hint: 'Enter Your Email'),
-                        ),
-                        // Enter Your Password
-                        Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: CustomTextFormField(
-                            hint: 'Enter Your Password',
-                            passwordField: true,
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          // Enter Your Email
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: CustomTextFormField(
+                              hint: 'Enter Your Email',
+                              validator: Validators.email,
+                              controller: _emailController,
+                            ),
                           ),
-                        ),
-                      ],
+                          // Enter Your Password
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: CustomTextFormField(
+                              hint: 'Enter Your Password',
+                              passwordField: true,
+                              validator: Validators.password,
+                              controller: _passwordController,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
 
                     // Forgot Password?
@@ -81,9 +96,7 @@ class LoginPage extends StatelessWidget {
                           onPressed: () {},
                           child: const Text(
                             "Forgot Password?",
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                color: AppColors.kDarkGreen),
+                            style: TextStyle(fontFamily: 'Roboto', color: AppColors.kDarkGreen),
                           ),
                         ),
                       ),
@@ -92,7 +105,14 @@ class LoginPage extends StatelessWidget {
                     // Sign In Button
                     CustomPrimaryButton(
                       prompt: 'Sign In',
-                      onPressed: () {},
+                      onPressed: () {
+                        // validation
+                        if (_formKey.currentState!.validate()) {
+                          // collect data
+                          print('${_emailController.text}  || Email || collected');
+                          print('${_passwordController.text}  || Password || collected');
+                        }
+                      },
                     ),
 
                     // OR
@@ -126,7 +146,9 @@ class LoginPage extends StatelessWidget {
                       child: FooterWidget(
                         leftText: "Don't Have An Account ?",
                         rightClicableText: "Sign Up",
-                        rightTextOnPressed: () {},
+                        rightTextOnPressed: () {
+                          Navigator.pushReplacementNamed(context, '/signup');
+                        },
                       ),
                     )
                   ],

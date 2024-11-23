@@ -6,8 +6,15 @@ import 'package:temp_project/screens/authentication/components/custom_text_form_
 import 'package:temp_project/screens/authentication/components/footer.dart';
 import 'package:temp_project/utilities/constants.dart';
 
+import '../../utilities/validators.dart';
+
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+  SignUpPage({super.key});
+
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,33 +57,52 @@ class SignUpPage extends StatelessWidget {
                             color: AppColors.kDarkGreen),
                       ),
                     ),
-
                     // Text Form Fields
-                    const Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        // Enter Your Email
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: CustomTextFormField(hint: 'Enter Your Email'),
-                        ),
-                        // Enter Your Password
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: CustomTextFormField(
-                            hint: 'Enter Your Password',
-                            passwordField: true,
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          // Enter Your Email
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: CustomTextFormField(
+                              hint: 'Enter Your Email',
+                              validator: Validators.email,
+                              controller: _emailController,
+                            ),
                           ),
-                        ),
-                        // Repeat Your Password
-                        Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: CustomTextFormField(
-                            hint: 'Repeat Your Password',
-                            passwordField: true,
+                          // Enter Your Password
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: CustomTextFormField(
+                              hint: 'Enter Your Password',
+                              passwordField: true,
+                              validator: Validators.password,
+                              controller: _passwordController,
+                              autoValidateMode: AutovalidateMode.onUserInteraction,
+                            ),
                           ),
-                        ),
-                      ],
+                          // Repeat Your Password
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: CustomTextFormField(
+                              hint: 'Repeat Your Password',
+                              passwordField: true,
+                              controller: _confirmPasswordController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please confirm your password';
+                                } else if (value != _passwordController.text) {
+                                  return 'Passwords do not match';
+                                }
+                                return null;
+                              },
+                              autoValidateMode: AutovalidateMode.onUserInteraction,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
 
                     SizedBox(height: size.height * 0.025),
@@ -84,7 +110,15 @@ class SignUpPage extends StatelessWidget {
                     // Sign Up Button
                     CustomPrimaryButton(
                       prompt: 'Sign Up',
-                      onPressed: () {},
+                      onPressed: () {
+                        // validation
+                        if (_formKey.currentState!.validate()) {
+                          // collect data
+                          print('${_emailController.text}  || Email || collected');
+                          print('${_passwordController.text}  || Password || collected');
+                          print('${_confirmPasswordController.text}  || Confirm Password || collected');
+                        }
+                      },
                     ),
 
                     // OR
@@ -118,7 +152,9 @@ class SignUpPage extends StatelessWidget {
                       child: FooterWidget(
                         leftText: "Already Have An Account ?",
                         rightClicableText: "Sign In",
-                        rightTextOnPressed: () {},
+                        rightTextOnPressed: () {
+                          Navigator.pushReplacementNamed(context, '/');
+                        },
                       ),
                     )
                   ],

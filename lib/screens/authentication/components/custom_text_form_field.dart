@@ -10,7 +10,7 @@ class CustomTextFormFieldContainer extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       width: size.width * 0.9,
       decoration: BoxDecoration(
         border: Border.all(
@@ -26,16 +26,13 @@ class CustomTextFormFieldContainer extends StatelessWidget {
 
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField(
-      {super.key,
-      required this.hint,
-      this.controller,
-      this.validator,
-      this.passwordField});
+      {super.key, required this.hint, this.controller, this.validator, this.passwordField, this.autoValidateMode});
 
   final String hint;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final bool? passwordField;
+  final AutovalidateMode? autoValidateMode;
 
   @override
   State<CustomTextFormField> createState() => _EmailTextFormFieldState();
@@ -48,62 +45,64 @@ class _EmailTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return CustomTextFormFieldContainer(
       textFormField: TextFormField(
+        autovalidateMode: widget.autoValidateMode,
         validator: widget.validator,
         controller: widget.controller,
+
+        // keyboard input type
+        keyboardType: (widget.passwordField == null || widget.passwordField == false)
+            ? TextInputType.emailAddress
+            : TextInputType.text,
+
         // decoration
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(vertical: 12),
-          hintText: widget.hint,
           border: InputBorder.none,
+          hintText: widget.hint,
           hintStyle: const TextStyle(
             color: Color(0xffA9A9A9),
             fontSize: 15,
             fontFamily: 'Roboto',
             fontWeight: FontWeight.w500,
           ),
-          prefixIcon:
-              (widget.passwordField == null || widget.passwordField == false)
-                  ? const Icon(
-                      Icons.person,
-                      color: AppColors.kDarkGreen,
-                    )
-                  : const Icon(
-                      Icons.password,
-                      color: AppColors.kDarkGreen,
-                    ),
+          prefixIcon: (widget.passwordField == null || widget.passwordField == false)
+              ? const Icon(
+                  Icons.person,
+                  color: AppColors.kDarkGreen,
+                )
+              : const Icon(
+                  Icons.password,
+                  color: AppColors.kDarkGreen,
+                ),
           // if passwordField true
-          suffixIcon:
-              (widget.passwordField == null || widget.passwordField == false)
-                  ? null
-                  : GestureDetector(
-                      child: obscureState
-                          ? const Opacity(
-                              opacity: 0.75,
-                              child: Icon(
-                                Icons.visibility_off,
-                                color: AppColors.kDarkGreen,
-                              ),
-                            )
-                          : const Opacity(
-                              opacity: 0.75,
-                              child: Icon(
-                                Icons.visibility,
-                                color: AppColors.kDarkGreen,
-                              ),
-                            ),
-                      onTap: () {
-                        setState(() {
-                          obscureState = !obscureState;
-                        });
-                      },
-                    ),
+          suffixIcon: (widget.passwordField == null || widget.passwordField == false)
+              ? null
+              : GestureDetector(
+                  child: obscureState
+                      ? const Opacity(
+                          opacity: 0.75,
+                          child: Icon(
+                            Icons.visibility_off,
+                            color: AppColors.kDarkGreen,
+                          ),
+                        )
+                      : const Opacity(
+                          opacity: 0.75,
+                          child: Icon(
+                            Icons.visibility,
+                            color: AppColors.kDarkGreen,
+                          ),
+                        ),
+                  onTap: () {
+                    setState(() {
+                      obscureState = !obscureState;
+                    });
+                  },
+                ),
         ),
 
         // if passwordField true
-        obscureText:
-            (widget.passwordField == null || widget.passwordField == false)
-                ? false
-                : obscureState,
+        obscureText: (widget.passwordField == null || widget.passwordField == false) ? false : obscureState,
       ),
     );
   }
