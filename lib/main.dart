@@ -14,7 +14,22 @@ class JUEvents extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       themeMode: ThemeMode.light,
-      home: LoginPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LoginPage(),
+        '/signup': (context) => SignUpPage(),
+      },
+      // theme: ThemeData(textTheme: const TextTheme()),
     );
   }
 }
+
+// extension CustomStyles on TextTheme {
+//   TextStyle get error {
+//     return TextStyle(
+//       fontSize: 18.0,
+//       color: Colors.red,
+//       fontWeight: FontWeight.bold,
+//     );
+//   }
+// }

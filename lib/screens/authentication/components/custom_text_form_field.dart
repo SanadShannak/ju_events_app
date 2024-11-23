@@ -10,7 +10,7 @@ class CustomTextFormFieldContainer extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       width: size.width * 0.9,
       child: textFormField,
     );
@@ -19,16 +19,13 @@ class CustomTextFormFieldContainer extends StatelessWidget {
 
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField(
-      {super.key,
-      required this.hint,
-      this.controller,
-      this.validator,
-      this.passwordField});
+      {super.key, required this.hint, this.controller, this.validator, this.passwordField, this.autoValidateMode});
 
   final String hint;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final bool? passwordField;
+  final AutovalidateMode? autoValidateMode;
 
   @override
   State<CustomTextFormField> createState() => _EmailTextFormFieldState();
@@ -42,44 +39,46 @@ class _EmailTextFormFieldState extends State<CustomTextFormField> {
     return CustomTextFormFieldContainer(
       textFormField: TextFormField(
         cursorColor: AppColors.kForestGreen,
+        autovalidateMode: widget.autoValidateMode,
         validator: widget.validator,
         controller: widget.controller,
+
+        // keyboard input type
+        keyboardType: (widget.passwordField == null || widget.passwordField == false)
+            ? TextInputType.emailAddress
+            : TextInputType.text,
+
         // decoration
         decoration: InputDecoration(
           hintText: widget.hint,
-          prefixIcon:
-              (widget.passwordField == null || widget.passwordField == false)
-                  ? const Icon(
-                      Icons.person,
-                    )
-                  : const Icon(
-                      Icons.password,
-                    ),
+          prefixIcon: (widget.passwordField == null || widget.passwordField == false)
+              ? const Icon(
+                  Icons.person,
+                )
+              : const Icon(
+                  Icons.password,
+                ),
           // if passwordField true
-          suffixIcon:
-              (widget.passwordField == null || widget.passwordField == false)
-                  ? null
-                  : GestureDetector(
-                      child: obscureState
-                          ? const Icon(
-                              Icons.visibility_off,
-                            )
-                          : const Icon(
-                              Icons.visibility,
-                            ),
-                      onTap: () {
-                        setState(() {
-                          obscureState = !obscureState;
-                        });
-                      },
-                    ),
+          suffixIcon: (widget.passwordField == null || widget.passwordField == false)
+              ? null
+              : GestureDetector(
+                  child: obscureState
+                      ? const Icon(
+                          Icons.visibility_off,
+                        )
+                      : const Icon(
+                          Icons.visibility,
+                        ),
+                  onTap: () {
+                    setState(() {
+                      obscureState = !obscureState;
+                    });
+                  },
+                ),
         ),
 
         // if passwordField true
-        obscureText:
-            (widget.passwordField == null || widget.passwordField == false)
-                ? false
-                : obscureState,
+        obscureText: (widget.passwordField == null || widget.passwordField == false) ? false : obscureState,
       ),
     );
   }
