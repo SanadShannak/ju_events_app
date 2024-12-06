@@ -16,7 +16,7 @@ class JUEvents extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       themeMode: ThemeMode.light,
-      initialRoute: '/', //TODO: Change this to '/'
+      initialRoute: '/', 
       routes: {
         '/': (context) => LoginPage(),
         '/signup': (context) => SignUpPage(),
