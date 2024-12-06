@@ -34,6 +34,9 @@ class SignUpPage extends StatelessWidget {
                 height: size.height,
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: size.height * 0.05,
+                    ),
                     // JU Logo
                     SizedBox(
                       width: size.width,
@@ -42,6 +45,9 @@ class SignUpPage extends StatelessWidget {
                         height: size.height * 0.2,
                         alignment: Alignment.center,
                       ),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.05,
                     ),
 
                     // Sign In
@@ -148,7 +154,7 @@ class SignUpPage extends StatelessWidget {
                         leftText: "Already Have An Account ?",
                         rightClickableText: "Sign In",
                         rightTextOnPressed: () {
-                          Navigator.pushReplacementNamed(context, '/');
+                          Navigator.pushReplacementNamed(context, '/login');
                         },
                       ),
                     )

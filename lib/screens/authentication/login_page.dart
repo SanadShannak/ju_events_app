@@ -34,6 +34,9 @@ class LoginPage extends StatelessWidget {
                 height: size.height,
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: size.height * 0.05,
+                    ),
                     // JU Logo
                     SizedBox(
                       width: size.width,
@@ -43,8 +46,8 @@ class LoginPage extends StatelessWidget {
                         alignment: Alignment.center,
                       ),
                     ),
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: size.height * 0.05,
                     ),
                     // Sign In
                     Container(

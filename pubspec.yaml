@@ -10,6 +10,7 @@ environment:
 
 
 dependencies:
+  firebase_auth: ^5.3.3
   flutter:
     sdk: flutter
 
@@ -26,8 +27,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - lib/assets/images/others/
     - lib/assets/images/logos/
-    - lib/assets/images/svg_files/background_vector.svg
+    - lib/assets/images/svg_files/
 
   fonts:
     - family: Roboto
