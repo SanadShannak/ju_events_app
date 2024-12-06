@@ -19,7 +19,12 @@ class CustomTextFormFieldContainer extends StatelessWidget {
 
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField(
-      {super.key, required this.hint, this.controller, this.validator, this.passwordField, this.autoValidateMode});
+      {super.key,
+      required this.hint,
+      this.controller,
+      this.validator,
+      this.passwordField,
+      this.autoValidateMode});
 
   final String hint;
   final TextEditingController? controller;
@@ -44,41 +49,47 @@ class _EmailTextFormFieldState extends State<CustomTextFormField> {
         controller: widget.controller,
 
         // keyboard input type
-        keyboardType: (widget.passwordField == null || widget.passwordField == false)
-            ? TextInputType.emailAddress
-            : TextInputType.text,
+        keyboardType:
+            (widget.passwordField == null || widget.passwordField == false)
+                ? TextInputType.emailAddress
+                : TextInputType.text,
 
         // decoration
         decoration: InputDecoration(
           hintText: widget.hint,
-          prefixIcon: (widget.passwordField == null || widget.passwordField == false)
-              ? const Icon(
-                  Icons.person,
-                )
-              : const Icon(
-                  Icons.password,
-                ),
+          prefixIcon:
+              (widget.passwordField == null || widget.passwordField == false)
+                  ? const Icon(
+                      Icons.email,
+                    )
+                  : const Icon(
+                      Icons.password,
+                    ),
           // if passwordField true
-          suffixIcon: (widget.passwordField == null || widget.passwordField == false)
-              ? null
-              : GestureDetector(
-                  child: obscureState
-                      ? const Icon(
-                          Icons.visibility_off,
-                        )
-                      : const Icon(
-                          Icons.visibility,
-                        ),
-                  onTap: () {
-                    setState(() {
-                      obscureState = !obscureState;
-                    });
-                  },
-                ),
+          suffixIcon:
+              (widget.passwordField == null || widget.passwordField == false)
+                  ? null
+                  : GestureDetector(
+                      child: obscureState
+                          ? const Icon(
+                              Icons.visibility_off,
+                            )
+                          : const Icon(
+                              Icons.visibility,
+                            ),
+                      onTap: () {
+                        setState(() {
+                          obscureState = !obscureState;
+                        });
+                      },
+                    ),
         ),
 
         // if passwordField true
-        obscureText: (widget.passwordField == null || widget.passwordField == false) ? false : obscureState,
+        obscureText:
+            (widget.passwordField == null || widget.passwordField == false)
+                ? false
+                : obscureState,
       ),
     );
   }

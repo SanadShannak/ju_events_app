@@ -14,7 +14,8 @@ class SignUpPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,10 @@ class SignUpPage extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: const Text(
                         "Sign Up",
-                        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: AppColors.kDarkGreen),
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.kDarkGreen),
                       ),
                     ),
                     // Text Form Fields
@@ -76,7 +80,8 @@ class SignUpPage extends StatelessWidget {
                               passwordField: true,
                               validator: Validators.password,
                               controller: _passwordController,
-                              autoValidateMode: AutovalidateMode.onUserInteraction,
+                              autoValidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             ),
                           ),
                           // Repeat Your Password
@@ -94,7 +99,8 @@ class SignUpPage extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              autoValidateMode: AutovalidateMode.onUserInteraction,
+                              autoValidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             ),
                           ),
                         ],
@@ -110,9 +116,12 @@ class SignUpPage extends StatelessWidget {
                         // validation
                         if (_formKey.currentState!.validate()) {
                           // collect data
-                          print('${_emailController.text}  || Email || collected');
-                          print('${_passwordController.text}  || Password || collected');
-                          print('${_confirmPasswordController.text}  || Confirm Password || collected');
+                          print(
+                              '${_emailController.text}  || Email || collected');
+                          print(
+                              '${_passwordController.text}  || Password || collected');
+                          print(
+                              '${_confirmPasswordController.text}  || Confirm Password || collected');
                         }
                       },
                     ),

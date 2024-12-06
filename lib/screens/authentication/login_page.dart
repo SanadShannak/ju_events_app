@@ -4,6 +4,7 @@ import 'package:temp_project/screens/authentication/components/custom_primary_bu
 import 'package:temp_project/screens/authentication/components/custom_secondary_button.dart';
 import 'package:temp_project/screens/authentication/components/custom_text_form_field.dart';
 import 'package:temp_project/screens/authentication/components/footer.dart';
+import 'package:temp_project/screens/authentication/forgot_password_page.dart';
 import 'package:temp_project/utilities/constants.dart';
 
 import '../../utilities/validators.dart';
@@ -51,7 +52,10 @@ class LoginPage extends StatelessWidget {
                       width: size.width * 0.88,
                       alignment: Alignment.centerLeft,
                       child: const Text("Sign In",
-                          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: AppColors.kDarkGreen)),
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.kDarkGreen)),
                     ),
 
                     // Text Form Fields
@@ -90,7 +94,13 @@ class LoginPage extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.topRight,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ForgotPasswordPage(
+                                        sourcePage: 'Login Page')));
+                          },
                           child: const Text(
                             "Forgot Password?",
                             style: TextStyle(color: AppColors.kDarkGreen),
@@ -106,8 +116,10 @@ class LoginPage extends StatelessWidget {
                         // validation
                         if (_formKey.currentState!.validate()) {
                           // collect data
-                          print('${_emailController.text}  || Email || collected');
-                          print('${_passwordController.text}  || Password || collected');
+                          print(
+                              '${_emailController.text}  || Email || collected');
+                          print(
+                              '${_passwordController.text}  || Password || collected');
                         }
                       },
                     ),
