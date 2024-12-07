@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../utilities/constants.dart';
-import 'authentication/components/custom_primary_button.dart';
+import '../../utilities/constants.dart';
+import 'components/custom_primary_button.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});

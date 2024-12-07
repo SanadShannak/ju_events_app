@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:temp_project/screens/authentication/landing_page.dart';
 import 'package:temp_project/screens/authentication/login_page.dart';
 import 'package:temp_project/screens/authentication/signup_page.dart';
-import 'package:temp_project/screens/landing_page.dart';
 import 'package:temp_project/utilities/theme/theme.dart';
 
 void main() => runApp(const JUEvents());
