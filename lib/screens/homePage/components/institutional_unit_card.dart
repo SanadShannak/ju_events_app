@@ -5,7 +5,12 @@ import '../../../utilities/constants.dart';
 
 class InstitutionalUnitCard extends StatelessWidget {
   const InstitutionalUnitCard(
-      {super.key, required this.name, required this.imagePath, this.width = 110, this.height = 110, this.onTap});
+      {super.key,
+      required this.name,
+      required this.imagePath,
+      this.width = 110,
+      this.height = 110,
+      this.onTap});
 
   final String name;
   final String imagePath;
@@ -43,9 +48,12 @@ class InstitutionalUnitCard extends StatelessWidget {
           borderRadius: const BorderRadius.all(borderRadius),
           child: Stack(
             children: [
-              Image.asset(imagePath, fit: BoxFit.cover, height: height, width: width,
-                  errorBuilder: (context, error, stackTrace) {
-                return Icon(Icons.broken_image, size: height, color: Colors.grey);
+              Image.asset(imagePath,
+                  fit: BoxFit.cover,
+                  height: height,
+                  width: width, errorBuilder: (context, error, stackTrace) {
+                return Icon(Icons.broken_image,
+                    size: height, color: Colors.grey);
               }),
               Align(
                 alignment: Alignment.bottomCenter,
@@ -69,7 +77,9 @@ class InstitutionalUnitCard extends StatelessWidget {
                       child: AutoSizeText(
                         name,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontWeight: FontWeight.w500, color: AppColors.kDarkGreen),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.kDarkGreen),
                         minFontSize: 8,
                         maxFontSize: 10,
                         maxLines: 2,

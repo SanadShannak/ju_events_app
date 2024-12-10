@@ -128,7 +128,9 @@ class SignUpPage extends StatelessWidget {
                               '${_passwordController.text}  || Password || collected');
                           print(
                               '${_confirmPasswordController.text}  || Confirm Password || collected');
+                        
                         }
+                      
                       },
                     ),
 

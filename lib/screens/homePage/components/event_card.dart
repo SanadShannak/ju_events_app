@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:temp_project/utilities/constants.dart';
 
@@ -16,8 +17,10 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double eventcardWidth = 300;
-    double eventcardHeight = 200;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    double eventcardWidth = screenWidth * 0.73;
+    double eventcardHeight = eventcardWidth * 0.6666;
     return Container(
       // MAIN CARD
       width: eventcardWidth,
@@ -38,11 +41,15 @@ class EventCard extends StatelessWidget {
           // BACKGROUND IMAGE
           ClipRRect(
             borderRadius: BorderRadius.circular(25),
-            child: Image.asset(
-              backgroundImage,
-              height: eventcardHeight,
-              width: eventcardWidth,
-            ),
+            child: Image.asset(backgroundImage,
+                height: eventcardHeight, width: eventcardWidth,
+                errorBuilder: (context, error, stackTrace) {
+              return Icon(
+                Icons.broken_image,
+                size: eventcardWidth,
+                color: Colors.grey,
+              );
+            }),
           ),
           //WHITE BOX
           Positioned(
@@ -65,72 +72,70 @@ class EventCard extends StatelessWidget {
                     height: 7,
                   ),
                   // TITLE ROW
-                  Row(
-                    children: [
-                      // SPACE BEFORE TITLE
-                      SizedBox(
-                        width: 20,
-                      ),
-                      // TITLE TEXT
-                      Text(
-                        eventTitle,
-                        style: TextStyle(
-                            color: AppColors.kDarkGreen,
-                            fontSize: 19,
-                            fontWeight: FontWeight.w600),
-                      )
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Text(
+                      eventTitle,
+                      style: TextStyle(
+                          fontSize: 19,
+                          color: AppColors.kDarkGreen,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                   // DETAILS ROW
-                  Row(
-                    children: [
-                      // SPACE BEFORE DATE
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      // CALENDAR ICON
-                      Image.asset(
-                        'lib/assets/images/icons/calendar.png',
-                        color: AppColors.kDarkGreen,
-                        width: 15,
-                        height: 15,
-                      ),
-                      // SPACE BETWEEN CALENDAR ICON AND TEXT
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      // DATE TEXT
-                      Text(
-                        eventDate,
-                        style: TextStyle(
-                            color: AppColors.kForestGreen,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      // SPACE BETWEEN DATE AND LOCATION
-                      const SizedBox(
-                        width: 50,
-                      ),
-                      // LOCATION ICON
-                      Image.asset(
-                        'lib/assets/images/icons/location.png',
-                        color: AppColors.kDarkGreen,
-                        width: 15,
-                        height: 15,
-                      ),
-                      // SPACE BETWEEN LOCATION ICON AND TEXT
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      // LOCATION TEXT
-                      Text(
-                        eventLocation,
-                        style: TextStyle(
-                            color: AppColors.kForestGreen,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600),
-                      )
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 0),
+                    child: Row(
+                      children: [
+                        // SPACE BEFORE DATE
+
+                        // CALENDAR ICON
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: Image.asset(
+                            'lib/assets/images/icons/calendar.png',
+                            color: AppColors.kDarkGreen,
+                            width: 15,
+                            height: 15,
+                          ),
+                        ),
+                        // SPACE BETWEEN CALENDAR ICON AND TEXT
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        // DATE TEXT
+                        Text(
+                          eventDate,
+                          style: TextStyle(
+                              color: AppColors.kForestGreen,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        // SPACE BETWEEN DATE AND LOCATION
+                        const SizedBox(
+                          width: 50,
+                        ),
+                        // LOCATION ICON
+                        Image.asset(
+                          'lib/assets/images/icons/location.png',
+                          color: AppColors.kDarkGreen,
+                          width: 15,
+                          height: 15,
+                        ),
+                        // SPACE BETWEEN LOCATION ICON AND TEXT
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        // LOCATION TEXT
+                        Text(
+                          eventLocation,
+                          style: TextStyle(
+                              color: AppColors.kForestGreen,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600),
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
