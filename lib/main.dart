@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:temp_project/screens/authentication/landing_page.dart';
 import 'package:temp_project/screens/authentication/login_page.dart';
 import 'package:temp_project/screens/authentication/signup_page.dart';
 import 'package:temp_project/screens/authentication/forgot_password_page.dart';
@@ -18,7 +19,8 @@ class JUEvents extends StatelessWidget {
       themeMode: ThemeMode.light,
       initialRoute: '/',
       routes: {
-        '/': (context) => LoginPage(),
+        '/': (context) => LandingPage(),
+        '/login': (context) => LoginPage(),
         '/signup': (context) => SignUpPage(),
       },
       // theme: ThemeData(textTheme: const TextTheme()),
