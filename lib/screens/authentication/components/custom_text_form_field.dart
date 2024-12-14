@@ -1,9 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:temp_project/utilities/constants.dart';
 
+enum FormType {
+  password(
+    keyboardType: TextInputType.text,
+    firstSuffixIcon: Icon(Icons.visibility_off),
+    secondSuffixIcon: Icon(Icons.visibility),
+    prefixIcon: Icon(Icons.password),
+    changeObscurityOnSuffixTap: true,
+  ),
+  emailAddress(
+    keyboardType: TextInputType.emailAddress,
+    prefixIcon: Icon(Icons.email),
+  ),
+  userName(
+    keyboardType: TextInputType.name,
+  );
+
+  const FormType(
+      {this.keyboardType = TextInputType.text,
+      this.prefixIcon,
+      this.firstSuffixIcon,
+      this.secondSuffixIcon,
+      this.changeObscurityOnSuffixTap = false});
+
+  final TextInputType keyboardType;
+  final Icon? prefixIcon;
+  final Icon? firstSuffixIcon;
+  final Icon? secondSuffixIcon;
+  final bool changeObscurityOnSuffixTap;
+}
+
 class CustomTextFormFieldContainer extends StatelessWidget {
-  const CustomTextFormFieldContainer({super.key, required this.textFormField});
+  const CustomTextFormFieldContainer(
+      {super.key, required this.textFormField, required this.screenWidthRatio});
   final TextFormField textFormField;
+  final double screenWidthRatio;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +43,7 @@ class CustomTextFormFieldContainer extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-      width: size.width * 0.9,
+      width: size.width * screenWidthRatio,
       child: textFormField,
     );
   }
@@ -23,25 +55,28 @@ class CustomTextFormField extends StatefulWidget {
       required this.hint,
       this.controller,
       this.validator,
-      this.passwordField,
-      this.autoValidateMode});
+      this.autoValidateMode,
+      required this.formType,
+      this.screenWidthRatio = 0.9});
 
   final String hint;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
-  final bool? passwordField;
+  final FormType formType;
   final AutovalidateMode? autoValidateMode;
+  final double screenWidthRatio;
 
   @override
   State<CustomTextFormField> createState() => _EmailTextFormFieldState();
 }
 
 class _EmailTextFormFieldState extends State<CustomTextFormField> {
-  bool obscureState = true;
+  bool suffixIconState = true;
 
   @override
   Widget build(BuildContext context) {
     return CustomTextFormFieldContainer(
+      screenWidthRatio: widget.screenWidthRatio,
       textFormField: TextFormField(
         cursorColor: AppColors.kForestGreen,
         autovalidateMode: widget.autoValidateMode,
@@ -49,47 +84,33 @@ class _EmailTextFormFieldState extends State<CustomTextFormField> {
         controller: widget.controller,
 
         // keyboard input type
-        keyboardType:
-            (widget.passwordField == null || widget.passwordField == false)
-                ? TextInputType.emailAddress
-                : TextInputType.text,
+        keyboardType: widget.formType.keyboardType,
 
         // decoration
         decoration: InputDecoration(
           hintText: widget.hint,
-          prefixIcon:
-              (widget.passwordField == null || widget.passwordField == false)
-                  ? const Icon(
-                      Icons.email,
-                    )
-                  : const Icon(
-                      Icons.password,
-                    ),
-          // if passwordField true
-          suffixIcon:
-              (widget.passwordField == null || widget.passwordField == false)
-                  ? null
-                  : GestureDetector(
-                      child: obscureState
-                          ? const Icon(
-                              Icons.visibility_off,
-                            )
-                          : const Icon(
-                              Icons.visibility,
-                            ),
-                      onTap: () {
-                        setState(() {
-                          obscureState = !obscureState;
-                        });
-                      },
-                    ),
+          prefixIcon: widget.formType.prefixIcon,
+          contentPadding: widget.formType.prefixIcon == null
+              ? const EdgeInsets.only(left: 20)
+              : null,
+          // Suffix Icon
+          suffixIcon: widget.formType.secondSuffixIcon == null
+              ? widget.formType.firstSuffixIcon
+              : GestureDetector(
+                  child: suffixIconState
+                      ? widget.formType.firstSuffixIcon
+                      : widget.formType.secondSuffixIcon,
+                  onTap: () {
+                    setState(() {
+                      suffixIconState = !suffixIconState;
+                    });
+                  },
+                ),
         ),
 
-        // if passwordField true
-        obscureText:
-            (widget.passwordField == null || widget.passwordField == false)
-                ? false
-                : obscureState,
+        obscureText: widget.formType.changeObscurityOnSuffixTap
+            ? suffixIconState
+            : false,
       ),
     );
   }

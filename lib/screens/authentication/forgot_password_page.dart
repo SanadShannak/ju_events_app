@@ -57,9 +57,11 @@ class ForgotPasswordPage extends StatelessWidget {
               Form(
                 key: _formKey,
                 child: CustomTextFormField(
-                    hint: 'Enter Your Email',
-                    validator: Validators.email,
-                    controller: _emailController),
+                  hint: 'Enter Your Email',
+                  validator: Validators.email,
+                  controller: _emailController,
+                  formType: FormType.emailAddress,
+                ),
               ),
               const SizedBox(
                 height: 10,

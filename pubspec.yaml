@@ -17,6 +17,7 @@ dependencies:
 
   flutter_svg: ^2.0.11
   intl: ^0.17.0
+  dots_indicator: ^2.1.1
   
   
 
@@ -37,6 +38,9 @@ flutter:
     - lib/assets/images/event_card_images/
     - lib/assets/images/icons/
     - lib/assets/images/svg_files/
+    - lib/assets/images/emojis/
+    - lib/assets/images/background_images/
+
 
   fonts:
     - family: Roboto

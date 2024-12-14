@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:temp_project/screens/authentication/landing_page.dart';
 import 'package:temp_project/screens/authentication/login_page.dart';
 import 'package:temp_project/screens/authentication/signup_page.dart';
+import 'package:temp_project/screens/dataCollection/greeting_page.dart';
+
+import 'package:temp_project/screens/dataCollection/name_collection.dart';
+import 'package:temp_project/screens/homePage/home_page.dart';
 
 import 'package:temp_project/utilities/theme/theme.dart';
 
@@ -18,9 +22,12 @@ class JUEvents extends StatelessWidget {
       themeMode: ThemeMode.light,
       initialRoute: '/',
       routes: {
-        '/': (context) => LandingPage(),
+        '/': (context) => const LandingPage(),
         '/login': (context) => LoginPage(),
         '/signup': (context) => SignUpPage(),
+        '/nameCollection': (context) => NameCollectionPage(),
+        '/greetingPage': (context) => const GreetingPage(),
+        '/homePage': (context) => const HomePage(),
       },
       // theme: ThemeData(textTheme: const TextTheme()),
     );

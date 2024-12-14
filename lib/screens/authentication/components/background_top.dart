@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class BackgroundVectorShape extends StatelessWidget {
-  const BackgroundVectorShape({
+class TopBackgroundVectorShape extends StatelessWidget {
+  const TopBackgroundVectorShape({
     super.key,
   });
 
@@ -13,12 +13,12 @@ class BackgroundVectorShape extends StatelessWidget {
 
     return (orientation == Orientation.portrait)
         ? Container(
-            alignment: Alignment.bottomCenter,
+            alignment: Alignment.topCenter,
             height: size.height,
             child: SvgPicture.asset(
               // 'lib/assets/images/svg_files/background_vector.svg',
-              'lib/assets/images/svg_files/bottom_green_layered_waves.svg',
-              alignment: Alignment.bottomCenter,
+              'lib/assets/images/svg_files/top_green_layered-waves.svg',
+              alignment: Alignment.topCenter,
               height: size.height * 0.4,
               fit: BoxFit.fill,
             ),

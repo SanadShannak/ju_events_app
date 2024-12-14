@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:temp_project/utilities/constants.dart';
 
 class CalendarWidget extends StatefulWidget {
+  const CalendarWidget({super.key});
+
   @override
   _CalendarWidgetState createState() => _CalendarWidgetState();
 }

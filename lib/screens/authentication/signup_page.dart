@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:temp_project/screens/authentication/components/background.dart';
+import 'package:temp_project/screens/authentication/components/background_top.dart';
 import 'package:temp_project/screens/authentication/components/custom_primary_button.dart';
 import 'package:temp_project/screens/authentication/components/custom_secondary_button.dart';
 import 'package:temp_project/screens/authentication/components/custom_text_form_field.dart';
@@ -28,6 +29,7 @@ class SignUpPage extends StatelessWidget {
           child: Stack(
             children: [
               // Background Widget
+              const TopBackgroundVectorShape(),
               const BackgroundVectorShape(),
 
               // Sign Up Screen Components
@@ -76,6 +78,7 @@ class SignUpPage extends StatelessWidget {
                               hint: 'Enter Your Email',
                               validator: Validators.email,
                               controller: _emailController,
+                              formType: FormType.emailAddress,
                             ),
                           ),
                           // Enter Your Password
@@ -83,11 +86,11 @@ class SignUpPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: CustomTextFormField(
                               hint: 'Enter Your Password',
-                              passwordField: true,
                               validator: Validators.password,
                               controller: _passwordController,
                               autoValidateMode:
                                   AutovalidateMode.onUserInteraction,
+                              formType: FormType.password,
                             ),
                           ),
                           // Repeat Your Password
@@ -95,7 +98,6 @@ class SignUpPage extends StatelessWidget {
                             padding: const EdgeInsets.only(top: 10),
                             child: CustomTextFormField(
                               hint: 'Repeat Your Password',
-                              passwordField: true,
                               controller: _confirmPasswordController,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -105,8 +107,8 @@ class SignUpPage extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              autoValidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              autoValidateMode: AutovalidateMode.disabled,
+                              formType: FormType.password,
                             ),
                           ),
                         ],
@@ -128,9 +130,10 @@ class SignUpPage extends StatelessWidget {
                               '${_passwordController.text}  || Password || collected');
                           print(
                               '${_confirmPasswordController.text}  || Confirm Password || collected');
-                        
+
+                          Navigator.pushNamedAndRemoveUntil(context,
+                              '/greetingPage', (Route<dynamic> route) => false);
                         }
-                      
                       },
                     ),
 
