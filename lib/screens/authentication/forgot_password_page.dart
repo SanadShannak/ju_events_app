@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:temp_project/screens/authentication/components/custom_primary_button.dart';
-import 'package:temp_project/screens/authentication/components/custom_text_form_field.dart';
 import 'package:temp_project/utilities/constants.dart';
 import 'package:temp_project/utilities/validators.dart';
+import 'package:temp_project/widgets/custom_text_form_field.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   final String sourcePage;
@@ -73,8 +73,7 @@ class ForgotPasswordPage extends StatelessWidget {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         // collect data
-                        print(
-                            '${_emailController.text}  || Email || collected');
+                        print('${_emailController.text}  || Email || collected');
                       }
                     }),
               ),
@@ -91,8 +90,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   ),
                   label: Text(
                     'Back to $sourcePage ',
-                    style: const TextStyle(
-                        color: AppColors.kForestGreen, fontSize: 14),
+                    style: const TextStyle(color: AppColors.kForestGreen, fontSize: 14),
                   ))
             ],
           ),

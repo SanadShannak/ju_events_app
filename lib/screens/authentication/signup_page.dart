@@ -3,10 +3,11 @@ import 'package:temp_project/screens/authentication/components/background.dart';
 import 'package:temp_project/screens/authentication/components/background_top.dart';
 import 'package:temp_project/screens/authentication/components/custom_primary_button.dart';
 import 'package:temp_project/screens/authentication/components/custom_secondary_button.dart';
-import 'package:temp_project/screens/authentication/components/custom_text_form_field.dart';
 import 'package:temp_project/screens/authentication/components/footer.dart';
 import 'package:temp_project/utilities/constants.dart';
+import 'package:temp_project/widgets/custom_text_form_field.dart';
 
+import '../../services/auth_service.dart';
 import '../../utilities/validators.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -119,12 +120,20 @@ class SignUpPage extends StatelessWidget {
                       onPressed: () {
                         // validation
                         if (_formKey.currentState!.validate()) {
-                          // collect data
-                          print('${_emailController.text}  || Email || collected');
-                          print('${_passwordController.text}  || Password || collected');
-                          print('${_confirmPasswordController.text}  || Confirm Password || collected');
-
-                          Navigator.pushNamedAndRemoveUntil(context, '/greetingPage', (Route<dynamic> route) => false);
+                          // validation
+                          if (_formKey.currentState!.validate()) {
+                            AuthService.instance
+                                .signUp(email: _emailController.text, password: _passwordController.text)
+                                .then((errorMessage) {
+                              if (errorMessage != null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(errorMessage)),
+                                );
+                              } else {
+                                Navigator.pushReplacementNamed(context, '/homepage');
+                              }
+                            });
+                          }
                         }
                       },
                     ),

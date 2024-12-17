@@ -1,0 +1,76 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
+class AuthService {
+  // Private constructor to restrict instantiation
+  AuthService._privateConstructor();
+
+  // The single instance of the class
+  static final AuthService instance = AuthService._privateConstructor();
+
+  Future<String?> signUp({required String email, required String password}) async {
+    String? message;
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        message = 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        message = 'The email is already exist.';
+      } else {
+        message = 'Unexpected issue, please try later';
+      }
+      return message;
+    } catch (e) {
+      message = 'Unexpected issue, please try later';
+    }
+    return message;
+  }
+
+  Future<String?> signIn({required String email, required String password}) async {
+    String? message;
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-credential') {
+        message = 'The email or password is wrong.';
+      } else {
+        message = 'Unexpected issue, please try later';
+      }
+      return message;
+    } catch (e) {
+      message = 'Unexpected issue, please try later';
+    }
+    return message;
+  }
+
+  Future<String?> signOut() async {
+    String? message;
+
+    try {
+      FirebaseAuth.instance.signOut();
+    } on FirebaseAuthException {
+      message = 'Unexpected issue, please try later';
+    } catch (e) {
+      message = 'Unexpected issue, please try later';
+    }
+
+    return message;
+  }
+
+  bool isUserLoggedIn() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    User? currentUser = auth.currentUser;
+
+    // Return true if a user is logged in, otherwise false
+    return currentUser != null;
+  }
+}

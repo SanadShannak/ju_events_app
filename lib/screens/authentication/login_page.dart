@@ -3,11 +3,12 @@ import 'package:temp_project/screens/authentication/components/background.dart';
 import 'package:temp_project/screens/authentication/components/background_top.dart';
 import 'package:temp_project/screens/authentication/components/custom_primary_button.dart';
 import 'package:temp_project/screens/authentication/components/custom_secondary_button.dart';
-import 'package:temp_project/screens/authentication/components/custom_text_form_field.dart';
 import 'package:temp_project/screens/authentication/components/footer.dart';
 import 'package:temp_project/screens/authentication/forgot_password_page.dart';
 import 'package:temp_project/utilities/constants.dart';
+import 'package:temp_project/widgets/custom_text_form_field.dart';
 
+import '../../services/auth_service.dart';
 import '../../utilities/validators.dart';
 
 class LoginPage extends StatelessWidget {
@@ -57,10 +58,7 @@ class LoginPage extends StatelessWidget {
                       width: size.width * 0.88,
                       alignment: Alignment.centerLeft,
                       child: const Text("Sign In",
-                          style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.kDarkGreen)),
+                          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: AppColors.kDarkGreen)),
                     ),
 
                     // Text Form Fields
@@ -101,11 +99,8 @@ class LoginPage extends StatelessWidget {
                         alignment: Alignment.topRight,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ForgotPasswordPage(
-                                        sourcePage: 'Login Page')));
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => ForgotPasswordPage(sourcePage: 'Login Page')));
                           },
                           child: const Text(
                             "Forgot Password?",
@@ -121,11 +116,20 @@ class LoginPage extends StatelessWidget {
                       onPressed: () {
                         // validation
                         if (_formKey.currentState!.validate()) {
-                          // collect data
-                          print(
-                              '${_emailController.text}  || Email || collected');
-                          print(
-                              '${_passwordController.text}  || Password || collected');
+                          // validation
+                          if (_formKey.currentState!.validate()) {
+                            AuthService.instance
+                                .signIn(email: _emailController.text, password: _passwordController.text)
+                                .then((errorMessage) {
+                              if (errorMessage != null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(errorMessage)),
+                                );
+                              } else {
+                                Navigator.pushReplacementNamed(context, '/homepage');
+                              }
+                            });
+                          }
                         }
                       },
                     ),

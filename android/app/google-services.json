@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "700720028863",
+    "project_id": "juevents-app",
+    "storage_bucket": "juevents-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700720028863:android:fb932fa5b509351f93fa0a",
+        "android_client_info": {
+          "package_name": "com.example.ju_events_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDywgv0WTdOh3HODqVow9AFC__rIqr0710"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
