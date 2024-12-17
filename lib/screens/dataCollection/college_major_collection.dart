@@ -14,10 +14,8 @@ class CollegeMajorCollection extends StatefulWidget {
 
 class _CollegeMajorCollectionState extends State<CollegeMajorCollection> {
   final GlobalKey<FormState> _collegeMajorFormKey = GlobalKey<FormState>();
-  final GlobalKey<FormFieldState<String>> _collegeFieldKey =
-      GlobalKey<FormFieldState<String>>();
-  final GlobalKey<FormFieldState<String>> _majorFieldKey =
-      GlobalKey<FormFieldState<String>>();
+  final GlobalKey<FormFieldState<String>> _collegeFieldKey = GlobalKey<FormFieldState<String>>();
+  final GlobalKey<FormFieldState<String>> _majorFieldKey = GlobalKey<FormFieldState<String>>();
   Map<String, List<String>> collegeMajorMap = {
     'King Abdullah II School of Information Technology': [
       'Computer Science',
@@ -49,8 +47,7 @@ class _CollegeMajorCollectionState extends State<CollegeMajorCollection> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    List<String> majors =
-        selectedCollege != null ? collegeMajorMap[selectedCollege!]! : [];
+    List<String> majors = selectedCollege != null ? collegeMajorMap[selectedCollege!]! : [];
     List<DropdownMenuItem<String>> collegeDropdownMenuEntries = colleges
         .map((college) => DropdownMenuItem(
               value: college,
@@ -88,10 +85,7 @@ class _CollegeMajorCollectionState extends State<CollegeMajorCollection> {
                 const Text(
                   'Please Select your College and Major',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.kDarkGreen),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.kDarkGreen),
                 ),
                 const SizedBox(
                   height: 40,

@@ -15,8 +15,7 @@ class SignUpPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,16 +52,13 @@ class SignUpPage extends StatelessWidget {
                       height: size.height * 0.05,
                     ),
 
-                    // Sign In
+                    // Sign Up
                     Container(
                       width: size.width * 0.9,
                       alignment: Alignment.centerLeft,
                       child: const Text(
                         "Sign Up",
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.kDarkGreen),
+                        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: AppColors.kDarkGreen),
                       ),
                     ),
                     // Text Form Fields
@@ -79,6 +75,7 @@ class SignUpPage extends StatelessWidget {
                               validator: Validators.email,
                               controller: _emailController,
                               formType: FormType.emailAddress,
+                              autoValidateMode: AutovalidateMode.onUserInteraction,
                             ),
                           ),
                           // Enter Your Password
@@ -88,8 +85,7 @@ class SignUpPage extends StatelessWidget {
                               hint: 'Enter Your Password',
                               validator: Validators.password,
                               controller: _passwordController,
-                              autoValidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              autoValidateMode: AutovalidateMode.onUserInteraction,
                               formType: FormType.password,
                             ),
                           ),
@@ -124,15 +120,11 @@ class SignUpPage extends StatelessWidget {
                         // validation
                         if (_formKey.currentState!.validate()) {
                           // collect data
-                          print(
-                              '${_emailController.text}  || Email || collected');
-                          print(
-                              '${_passwordController.text}  || Password || collected');
-                          print(
-                              '${_confirmPasswordController.text}  || Confirm Password || collected');
+                          print('${_emailController.text}  || Email || collected');
+                          print('${_passwordController.text}  || Password || collected');
+                          print('${_confirmPasswordController.text}  || Confirm Password || collected');
 
-                          Navigator.pushNamedAndRemoveUntil(context,
-                              '/greetingPage', (Route<dynamic> route) => false);
+                          Navigator.pushNamedAndRemoveUntil(context, '/greetingPage', (Route<dynamic> route) => false);
                         }
                       },
                     ),

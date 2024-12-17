@@ -8,6 +8,7 @@ enum FormType {
     secondSuffixIcon: Icon(Icons.visibility),
     prefixIcon: Icon(Icons.password),
     changeObscurityOnSuffixTap: true,
+    enableInteractiveSelection: false,
   ),
   emailAddress(
     keyboardType: TextInputType.emailAddress,
@@ -22,18 +23,19 @@ enum FormType {
       this.prefixIcon,
       this.firstSuffixIcon,
       this.secondSuffixIcon,
-      this.changeObscurityOnSuffixTap = false});
+      this.changeObscurityOnSuffixTap = false,
+      this.enableInteractiveSelection = true});
 
   final TextInputType keyboardType;
   final Icon? prefixIcon;
   final Icon? firstSuffixIcon;
   final Icon? secondSuffixIcon;
   final bool changeObscurityOnSuffixTap;
+  final bool enableInteractiveSelection;
 }
 
 class CustomTextFormFieldContainer extends StatelessWidget {
-  const CustomTextFormFieldContainer(
-      {super.key, required this.textFormField, required this.screenWidthRatio});
+  const CustomTextFormFieldContainer({super.key, required this.textFormField, required this.screenWidthRatio});
   final TextFormField textFormField;
   final double screenWidthRatio;
 
@@ -90,27 +92,34 @@ class _EmailTextFormFieldState extends State<CustomTextFormField> {
         decoration: InputDecoration(
           hintText: widget.hint,
           prefixIcon: widget.formType.prefixIcon,
-          contentPadding: widget.formType.prefixIcon == null
-              ? const EdgeInsets.only(left: 20)
-              : null,
+          contentPadding: widget.formType.prefixIcon == null ? const EdgeInsets.only(left: 20) : null,
           // Suffix Icon
           suffixIcon: widget.formType.secondSuffixIcon == null
               ? widget.formType.firstSuffixIcon
               : GestureDetector(
-                  child: suffixIconState
-                      ? widget.formType.firstSuffixIcon
-                      : widget.formType.secondSuffixIcon,
-                  onTap: () {
+                  child: suffixIconState ? widget.formType.firstSuffixIcon : widget.formType.secondSuffixIcon,
+                  onTapDown: (_) {
+                    // Show the password when pressing the icon
+                    setState(() {
+                      suffixIconState = !suffixIconState;
+                    });
+                  },
+                  onTapUp: (_) {
+                    // Hide the password when releasing the icon
+                    setState(() {
+                      suffixIconState = !suffixIconState;
+                    });
+                  },
+                  onTapCancel: () {
+                    // Hide the password when releasing the icon
                     setState(() {
                       suffixIconState = !suffixIconState;
                     });
                   },
                 ),
         ),
-
-        obscureText: widget.formType.changeObscurityOnSuffixTap
-            ? suffixIconState
-            : false,
+        enableInteractiveSelection: widget.formType.enableInteractiveSelection,
+        obscureText: widget.formType.changeObscurityOnSuffixTap ? suffixIconState : false,
       ),
     );
   }
