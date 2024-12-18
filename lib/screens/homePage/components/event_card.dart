@@ -2,29 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:temp_project/utilities/constants.dart';
 
-void main() => runApp(const Testing());
-
-class Testing extends StatelessWidget {
-  const Testing({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: EventCard(
-              backgroundImage:
-                  'lib/assets/images/event_card_images/background-image.jpg',
-              eventTitle:
-                  'Build Your chatbot with KASIT testing testing testing',
-              eventDate: '30/03/2024',
-              eventLocation: 'Kasit School testing testing testing'),
-        ),
-      ),
-    );
-  }
-}
-
 class EventCard extends StatelessWidget {
   final String backgroundImage;
   final String eventTitle;
@@ -70,8 +47,7 @@ class EventCard extends StatelessWidget {
           child: Stack(
             children: [
               //------------------------------------- Background Image ---------------------------------------
-              Image.asset(backgroundImage,
-                  height: eventCardHeight, width: eventCardWidth,
+              Image.asset(backgroundImage, height: eventCardHeight, width: eventCardWidth,
                   errorBuilder: (context, error, stackTrace) {
                 return Icon(
                   Icons.broken_image,
@@ -102,8 +78,7 @@ class EventCard extends StatelessWidget {
                     children: [
                       // TITLE ROW
                       Padding(
-                        padding:
-                            const EdgeInsets.only(left: 20, right: 10, top: 3),
+                        padding: const EdgeInsets.only(left: 20, right: 10, top: 3),
                         child: Container(
                           constraints: BoxConstraints(
                             maxHeight: eventCardHeight * 0.17,
@@ -113,10 +88,8 @@ class EventCard extends StatelessWidget {
                           width: eventCardWidth,
                           child: AutoSizeText(
                             eventTitle,
-                            style: const TextStyle(
-                                fontSize: 24,
-                                color: AppColors.kDarkGreen,
-                                fontWeight: FontWeight.w600),
+                            style:
+                                const TextStyle(fontSize: 24, color: AppColors.kDarkGreen, fontWeight: FontWeight.w600),
                             minFontSize: 16,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -146,9 +119,7 @@ class EventCard extends StatelessWidget {
                                 Text(
                                   eventDate,
                                   style: const TextStyle(
-                                      color: AppColors.kForestGreen,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600),
+                                      color: AppColors.kForestGreen, fontSize: 10, fontWeight: FontWeight.w600),
                                 ),
                               ],
                             ),

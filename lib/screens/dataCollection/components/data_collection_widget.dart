@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/material.dart';
 import 'package:temp_project/utilities/constants.dart';
 
 const int numberOfPages = 3;
@@ -42,13 +42,13 @@ class _DataCollectionWidgetState extends State<DataCollectionWidget> {
     if (widget.pageFormKey == null) {
       Navigator.pushNamedAndRemoveUntil(
         context,
-        '/homePage',
+        '/homepage',
         (Route<dynamic> route) => false,
       );
     } else if (widget.pageFormKey!.currentState!.validate()) {
       Navigator.pushNamedAndRemoveUntil(
         context,
-        '/homePage',
+        '/homepage',
         (Route<dynamic> route) => false,
       );
     }
@@ -86,54 +86,39 @@ class _DataCollectionWidgetState extends State<DataCollectionWidget> {
                     padding: const EdgeInsets.only(left: 315, bottom: 8.0),
                     child: TextButton(
                       onPressed: () => _navigateToNext(widget.nextPage!),
-                      child: const Text('Next',
-                          style: TextStyle(
-                              color: AppColors.kForestGreen, fontSize: 16)),
+                      child: const Text('Next', style: TextStyle(color: AppColors.kForestGreen, fontSize: 16)),
                     ),
                   ),
-                ] else if (widget.dataCollectionPageIndex ==
-                    numberOfPages - 1) ...[
+                ] else if (widget.dataCollectionPageIndex == numberOfPages - 1) ...[
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 16.0, right: 16.0, bottom: 8.0),
+                    padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton(
-                          onPressed: () =>
-                              _navigateToPrevious(widget.previousPage!),
-                          child: const Text('Previous',
-                              style: TextStyle(
-                                  color: AppColors.kForestGreen, fontSize: 16)),
+                          onPressed: () => _navigateToPrevious(widget.previousPage!),
+                          child: const Text('Previous', style: TextStyle(color: AppColors.kForestGreen, fontSize: 16)),
                         ),
                         TextButton(
                           onPressed: _finish,
-                          child: const Text('Finish',
-                              style: TextStyle(
-                                  color: AppColors.kForestGreen, fontSize: 16)),
+                          child: const Text('Finish', style: TextStyle(color: AppColors.kForestGreen, fontSize: 16)),
                         ),
                       ],
                     ),
                   ),
                 ] else ...[
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 16.0, right: 16.0, bottom: 8.0),
+                    padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton(
-                          onPressed: () =>
-                              _navigateToPrevious(widget.previousPage!),
-                          child: const Text('Previous',
-                              style: TextStyle(
-                                  color: AppColors.kForestGreen, fontSize: 16)),
+                          onPressed: () => _navigateToPrevious(widget.previousPage!),
+                          child: const Text('Previous', style: TextStyle(color: AppColors.kForestGreen, fontSize: 16)),
                         ),
                         TextButton(
                           onPressed: () => _navigateToNext(widget.nextPage!),
-                          child: const Text('Next',
-                              style: TextStyle(
-                                  color: AppColors.kForestGreen, fontSize: 16)),
+                          child: const Text('Next', style: TextStyle(color: AppColors.kForestGreen, fontSize: 16)),
                         ),
                       ],
                     ),

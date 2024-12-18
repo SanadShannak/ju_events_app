@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../../services/auth_service.dart';
 import '../../utilities/constants.dart';
 import '../authentication/components/custom_primary_button.dart';
+import 'components/calendar_widget.dart';
+import 'components/event_card.dart';
+import 'components/institutional_unit_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -69,6 +72,26 @@ class HomePage extends StatelessWidget {
                   prompt: 'Sign Out',
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              const InstitutionalUnitCard(
+                imagePath: 'lib/assets/images/event_card_images/background-image.jpg',
+                name: 'KASIT School',
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const EventCard(
+                backgroundImage: 'lib/assets/images/event_card_images/background-image.jpg',
+                eventDate: '20/2/2022',
+                eventLocation: 'KASIT School',
+                eventTitle: 'Robotics and AI',
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const CalendarWidget(),
             ],
           ),
         ),

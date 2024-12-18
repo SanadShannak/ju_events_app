@@ -130,7 +130,7 @@ class SignUpPage extends StatelessWidget {
                                   SnackBar(content: Text(errorMessage)),
                                 );
                               } else {
-                                Navigator.pushReplacementNamed(context, '/homepage');
+                                Navigator.pushReplacementNamed(context, '/greetingPage');
                               }
                             });
                           }
