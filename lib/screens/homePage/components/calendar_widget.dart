@@ -26,7 +26,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
               return Container(
                 // Container Details
-                width: isSelected ? 65 : 55,
+                width: isSelected ? 63 : 53,
                 height: isSelected ? 110 : 90,
                 decoration: BoxDecoration(
                   color: isSelected
@@ -47,7 +47,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                         color: AppColors.kForestGreen,
                         fontSize: isSelected ? 18 : 14,
                         fontWeight:
-                            isSelected ? FontWeight.w900 : FontWeight.bold,
+                            isSelected ? FontWeight.w700 : FontWeight.w500,
                       ),
                     ),
                     // Space between Day and Date

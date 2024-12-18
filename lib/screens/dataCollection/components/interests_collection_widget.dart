@@ -18,7 +18,7 @@ final Set<int> selectedInterests = {};
 
 class _InterestsCollectionWidgetState extends State<InterestsCollectionWidget> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return Wrap(
       alignment: WrapAlignment.spaceEvenly,
       children: [

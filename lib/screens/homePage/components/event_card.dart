@@ -47,7 +47,10 @@ class EventCard extends StatelessWidget {
           child: Stack(
             children: [
               //------------------------------------- Background Image ---------------------------------------
-              Image.asset(backgroundImage, height: eventCardHeight, width: eventCardWidth,
+              Image.asset(backgroundImage,
+                  height: eventCardHeight,
+                  width: eventCardWidth,
+                  fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                 return Icon(
                   Icons.broken_image,
@@ -78,7 +81,8 @@ class EventCard extends StatelessWidget {
                     children: [
                       // TITLE ROW
                       Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 10, top: 3),
+                        padding:
+                            const EdgeInsets.only(left: 20, right: 10, top: 3),
                         child: Container(
                           constraints: BoxConstraints(
                             maxHeight: eventCardHeight * 0.17,
@@ -88,8 +92,10 @@ class EventCard extends StatelessWidget {
                           width: eventCardWidth,
                           child: AutoSizeText(
                             eventTitle,
-                            style:
-                                const TextStyle(fontSize: 24, color: AppColors.kDarkGreen, fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                                fontSize: 24,
+                                color: AppColors.kDarkGreen,
+                                fontWeight: FontWeight.w600),
                             minFontSize: 16,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -119,7 +125,9 @@ class EventCard extends StatelessWidget {
                                 Text(
                                   eventDate,
                                   style: const TextStyle(
-                                      color: AppColors.kForestGreen, fontSize: 10, fontWeight: FontWeight.w600),
+                                      color: AppColors.kForestGreen,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600),
                                 ),
                               ],
                             ),

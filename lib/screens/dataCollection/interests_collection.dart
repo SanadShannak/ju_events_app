@@ -7,7 +7,6 @@ import 'package:temp_project/utilities/constants.dart';
 
 class InterestCollection extends StatelessWidget {
   InterestCollection({super.key});
-  final GlobalKey<FormState> _interestsFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {

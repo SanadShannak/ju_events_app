@@ -37,6 +37,7 @@ flutter:
     - lib/assets/images/others/
     - lib/assets/images/logos/
     - lib/assets/images/event_card_images/
+    - lib/assets/images/college_card_images/
     - lib/assets/images/icons/
     - lib/assets/images/svg_files/
     - lib/assets/images/emojis/
