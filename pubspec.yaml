@@ -19,6 +19,7 @@ dependencies:
   intl: ^0.17.0
   dots_indicator: ^2.1.1
   firebase_core: ^3.8.1
+
   
   
 
@@ -28,6 +29,7 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^4.0.0
+  
   
 
 
@@ -41,6 +43,8 @@ flutter:
     - lib/assets/images/icons/
     - lib/assets/images/svg_files/
     - lib/assets/images/emojis/
+    - lib/assets/images/svg_icons/
+
 
 
   fonts:

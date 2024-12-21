@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:temp_project/screens/allEventsPage/all_events_page.dart';
 import 'package:temp_project/screens/authentication/landing_page.dart';
 import 'package:temp_project/screens/authentication/login_page.dart';
 import 'package:temp_project/screens/authentication/signup_page.dart';
@@ -8,6 +9,7 @@ import 'package:temp_project/screens/dataCollection/name_collection.dart';
 import 'package:temp_project/screens/homePage/home_page.dart';
 import 'package:temp_project/services/auth_service.dart';
 import 'package:temp_project/utilities/theme/theme.dart';
+import 'package:temp_project/widgets/bottom_navigation_bar.dart';
 
 import 'firebase_options.dart';
 
@@ -29,7 +31,7 @@ class JUEvents extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       themeMode: ThemeMode.light,
-      initialRoute: AuthService.instance.isUserLoggedIn() ? '/homepage' : '/',
+      initialRoute: AuthService.instance.isUserLoggedIn() ? '/mainPages' : '/',
       routes: {
         '/': (context) => const LandingPage(),
         '/login': (context) => LoginPage(),
@@ -37,6 +39,8 @@ class JUEvents extends StatelessWidget {
         '/nameCollection': (context) => NameCollectionPage(),
         '/greetingPage': (context) => const GreetingPage(),
         '/homepage': (context) => const HomePage(),
+        '/allEventsPage': (context) => const AllEventsPage(),
+        '/mainPages': (context) => const MainBottomNavigationBar(),
       },
       // theme: ThemeData(textTheme: const TextTheme()),
     );

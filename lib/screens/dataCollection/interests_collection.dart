@@ -6,7 +6,7 @@ import 'package:temp_project/screens/homePage/home_page.dart';
 import 'package:temp_project/utilities/constants.dart';
 
 class InterestCollection extends StatelessWidget {
-  InterestCollection({super.key});
+  const InterestCollection({super.key});
 
   @override
   Widget build(BuildContext context) {

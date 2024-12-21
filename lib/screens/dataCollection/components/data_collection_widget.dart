@@ -71,12 +71,12 @@ class _DataCollectionWidgetState extends State<DataCollectionWidget> {
                 DotsIndicator(
                   dotsCount: numberOfPages,
                   position: widget.dataCollectionPageIndex.toDouble(),
-                  decorator: DotsDecorator(
+                  decorator: const DotsDecorator(
                     color: AppColors.kDarkGreen,
                     activeColor: AppColors.kPaleGoldenrod,
-                    size: const Size.square(16.0),
-                    activeSize: const Size.square(16.0),
-                    spacing: const EdgeInsets.all(20.0),
+                    size: Size.square(16.0),
+                    activeSize: Size.square(16.0),
+                    spacing: EdgeInsets.all(20.0),
                   ),
                 ),
                 widget.pageBody,

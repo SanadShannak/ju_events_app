@@ -4,7 +4,7 @@ import 'package:temp_project/utilities/constants.dart';
 class InterestsCollectionWidget extends StatefulWidget {
   final List<String> interestsList;
   final int maxNumberSelected;
-  InterestsCollectionWidget(
+  const InterestsCollectionWidget(
       {super.key,
       required this.interestsList,
       required this.maxNumberSelected});

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:temp_project/screens/homePage/components/event_details_screen.dart';
 
 import '../../services/auth_service.dart';
 import '../../utilities/constants.dart';
@@ -6,9 +7,14 @@ import 'components/calendar_widget.dart';
 import 'components/event_card.dart';
 import 'components/institutional_unit_card.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     Map<int, List> eventsList = {
@@ -16,25 +22,41 @@ class HomePage extends StatelessWidget {
         'lib/assets/images/event_card_images/ai-workshop.jpeg',
         'AI Workshop',
         '25/12/2024',
-        'Tech Hall'
+        '9:00 AM - 11:00 AM',
+        'Engineering Building',
+        'Tech Hall',
+        'Join us for an interactive AI workshop where you’ll explore the latest advancements in artificial intelligence. Learn how AI is transforming industries and gain hands-on experience with popular tools and techniques in machine learning.', // Description
+        'Team InnovAI'
       ],
       1: [
         'lib/assets/images/event_card_images/iot-seminar.jpeg',
         'Internet of Things Seminar',
         '30/12/2024',
-        'Innovation Center'
+        '11:30 AM - 2:30 PM',
+        'Science Hall',
+        'Auditorium A',
+        'Discover the world of IoT in this seminar. Explore how interconnected devices are revolutionizing industries, enhancing everyday life, and creating new business opportunities. Expert speakers will discuss trends, challenges, and practical applications of IoT technology.',
+        'Team IoT Nexus'
       ],
       2: [
         'lib/assets/images/event_card_images/data-science-talk.jpeg',
         'Data Science Talk',
         '05/01/2025',
-        'Main Auditorium'
+        '11:30 AM - 2:30 PM',
+        'Library',
+        'Seminar Room 3',
+        'This data science talk will dive into the power of data and analytics. Learn about the latest trends, tools, and techniques used by data scientists to extract valuable insights from complex datasets, with real-world examples from various industries.',
+        'Team Data Pioneers'
       ],
       3: [
         'lib/assets/images/event_card_images/cybersecurity-expo.jpeg',
         'Cybersecurity Expo',
         '10/01/2025',
-        'Tech Park'
+        '11:30 AM - 2:30 PM',
+        'Student Activity Center',
+        '',
+        'Explore the latest in cybersecurity at this expo. Gain insights into the newest threats, defense strategies, and technologies designed to protect personal and business data. Meet industry experts and discover solutions to enhance your security practices.',
+        'Team CyberShield'
       ],
     };
     Map<int, List> collegeList = {
@@ -63,7 +85,16 @@ class HomePage extends StatelessWidget {
         'lib/assets/images/college_card_images/deanship-of-student-affairs.jpg'
       ],
     };
+
     Size size = MediaQuery.of(context).size;
+    int eventBackgroundImagePathIndex = 0;
+    int eventTitleIndex = 1;
+    int eventDateStringIndex = 2;
+    int eventStartEndTimeStringIndex = 3;
+    int eventLocationIndex = 4;
+    int eventSubLocationIndex = 5;
+    int eventDescriptionIndex = 6;
+    int eventHostNameIndex = 7;
 
     return Scaffold(
       backgroundColor: AppColors.kBackground,
@@ -122,10 +153,19 @@ class HomePage extends StatelessWidget {
                                   top: 14.0, bottom: 14.0, right: 35)
                               : const EdgeInsets.symmetric(vertical: 14.0)),
                       child: EventCard(
-                          backgroundImage: eventsList[index]?[0],
-                          eventTitle: eventsList[index]?[1],
-                          eventDate: eventsList[index]?[2],
-                          eventLocation: eventsList[index]?[3]),
+                        backgroundImage: eventsList[index]
+                            ?[eventBackgroundImagePathIndex],
+                        eventTitle: eventsList[index]?[eventTitleIndex],
+                        eventDate: eventsList[index]?[eventDateStringIndex],
+                        eventLocation: eventsList[index]?[eventLocationIndex],
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EventDetails(
+                                      eventDataList: eventsList[index])));
+                        },
+                      ),
                     );
                   },
                   separatorBuilder: (context, index) {
@@ -188,7 +228,7 @@ class HomePage extends StatelessWidget {
                       })
                     ]),
               ),
-              SizedBox(
+              const SizedBox(
                 // TODO: Delete this (ADDED FOR TESTING PURPOSES ONLY)
                 height: 50,
               )
@@ -196,6 +236,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
+      
     );
   }
 }

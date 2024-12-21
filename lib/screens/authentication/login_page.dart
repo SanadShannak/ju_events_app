@@ -58,7 +58,10 @@ class LoginPage extends StatelessWidget {
                       width: size.width * 0.88,
                       alignment: Alignment.centerLeft,
                       child: const Text("Sign In",
-                          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: AppColors.kDarkGreen)),
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.kDarkGreen)),
                     ),
 
                     // Text Form Fields
@@ -99,8 +102,11 @@ class LoginPage extends StatelessWidget {
                         alignment: Alignment.topRight,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => ForgotPasswordPage(sourcePage: 'Login Page')));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ForgotPasswordPage(
+                                        sourcePage: 'Login Page')));
                           },
                           child: const Text(
                             "Forgot Password?",
@@ -119,14 +125,17 @@ class LoginPage extends StatelessWidget {
                           // validation
                           if (_formKey.currentState!.validate()) {
                             AuthService.instance
-                                .signIn(email: _emailController.text, password: _passwordController.text)
+                                .signIn(
+                                    email: _emailController.text,
+                                    password: _passwordController.text)
                                 .then((errorMessage) {
                               if (errorMessage != null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text(errorMessage)),
                                 );
                               } else {
-                                Navigator.pushReplacementNamed(context, '/homepage');
+                                Navigator.pushReplacementNamed(context,
+                                    '/mainPages'); //TODO: Change this if needed
                               }
                             });
                           }
