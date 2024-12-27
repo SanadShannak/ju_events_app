@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:temp_project/screens/allEventsPage/all_events_page.dart';
 import 'package:temp_project/screens/authentication/landing_page.dart';
 import 'package:temp_project/screens/authentication/login_page.dart';
 import 'package:temp_project/screens/authentication/signup_page.dart';
@@ -39,7 +38,6 @@ class JUEvents extends StatelessWidget {
         '/nameCollection': (context) => NameCollectionPage(),
         '/greetingPage': (context) => const GreetingPage(),
         '/homepage': (context) => const HomePage(),
-        
         '/mainPages': (context) => const MainBottomNavigationBar(),
       },
       // theme: ThemeData(textTheme: const TextTheme()),
