@@ -1,5 +1,7 @@
+import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+
 import 'package:intl/message_format.dart';
 import 'package:temp_project/screens/allEventsPage/all_events_page.dart';
 import 'package:temp_project/screens/homePage/home_page.dart';
@@ -17,28 +19,45 @@ class MainBottomNavigationBar extends StatefulWidget {
 class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
   int _currentIndex = 0;
   final List<Widget> _pages = [
-    HomePage(),
-    AllEventsPage(),
-    UserProfilePage(),
+    const HomePage(),
+    const AllEventsPage(),
+    const UserProfilePage(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.event), label: 'All Events'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-        currentIndex: _currentIndex,
-        onTap: (int newIndex) {
-          setState(() {
-            _currentIndex = newIndex;
-          });
-        },
-        selectedItemColor: AppColors.kFernGreen,
+      bottomNavigationBar: FlashyTabBar(
+        selectedIndex: _currentIndex,
         backgroundColor: Colors.white,
+        animationDuration: Duration(milliseconds: 300),
+        showElevation: true,
+        onItemSelected: (int newIndex) {
+          setState(
+            () {
+              _currentIndex = newIndex;
+            },
+          );
+        },
+        items: [
+          FlashyTabBarItem(
+              icon: Icon(Icons.home),
+              title: Text(
+                'Home',
+              ),
+              activeColor: AppColors.kFernGreen,
+              inactiveColor: Colors.grey),
+          FlashyTabBarItem(
+              icon: Icon(Icons.event),
+              title: Text('All Events'),
+              activeColor: AppColors.kFernGreen,
+              inactiveColor: Colors.grey),
+          FlashyTabBarItem(
+              icon: Icon(Icons.person),
+              title: Text('Profile'),
+              activeColor: AppColors.kFernGreen,
+              inactiveColor: Colors.grey)
+        ],
       ),
     );
   }

@@ -39,7 +39,7 @@ class JUEvents extends StatelessWidget {
         '/nameCollection': (context) => NameCollectionPage(),
         '/greetingPage': (context) => const GreetingPage(),
         '/homepage': (context) => const HomePage(),
-        '/allEventsPage': (context) => const AllEventsPage(),
+        
         '/mainPages': (context) => const MainBottomNavigationBar(),
       },
       // theme: ThemeData(textTheme: const TextTheme()),

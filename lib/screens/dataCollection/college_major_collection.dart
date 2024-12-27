@@ -163,7 +163,7 @@ class _CollegeMajorCollectionState extends State<CollegeMajorCollection> {
           ),
           dataCollectionPageIndex: 1,
           previousPage: NameCollectionPage(),
-          nextPage: InterestCollection(),
+          nextPage: const InterestCollection(),
           pageFormKey: _collegeMajorFormKey),
     );
   }

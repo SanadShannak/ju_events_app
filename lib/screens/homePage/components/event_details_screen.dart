@@ -42,15 +42,16 @@ class EventDetails extends StatelessWidget {
                       bottomRight: Radius.circular(30.0))),
               // Back Button
               child: Padding(
-                padding: const EdgeInsets.only(left: 10, top: 50),
+                padding: const EdgeInsets.only(left: 30, top: 50),
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       iconColor: Colors.white,
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: Colors.white.withOpacity(.9),
+                      padding: const EdgeInsets.all(10.0),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                          borderRadius: BorderRadius.circular(30)),
                     ),
                     onPressed: () {
                       Navigator.pop(context);
@@ -60,7 +61,7 @@ class EventDetails extends StatelessWidget {
                       color: AppColors.kFernGreen,
                       size: 30,
                       shadows: [
-                        Shadow(color: AppColors.kFernGreen, blurRadius: 5)
+                        Shadow(color: AppColors.kFernGreen, blurRadius: 2)
                       ],
                     ),
                   ),
