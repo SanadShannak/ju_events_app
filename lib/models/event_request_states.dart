@@ -1,10 +1,20 @@
+import 'package:json_annotation/json_annotation.dart';
+
+/// Defines the possible states of an event request.
 enum EventRequestState {
-  // Pending: Request sent, awaiting response from admin
+  /// Request has been sent, awaiting response from the admin.
+  @JsonValue('pending')
   pending,
-  // Accepted: Request accepted by the admin
+
+  /// Request has been accepted by the admin.
+  @JsonValue('accepted')
   accepted,
-  // Rejected: Request declined by the admin
+
+  /// Request has been declined by the admin.
+  @JsonValue('rejected')
   rejected,
-  // Canceled: Request canceled by the TeamLeader
-  canceled;
+
+  /// Request has been canceled by the team leader.
+  @JsonValue('canceled')
+  canceled,
 }

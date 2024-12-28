@@ -5,7 +5,6 @@ import 'package:temp_project/screens/authentication/login_page.dart';
 import 'package:temp_project/screens/authentication/signup_page.dart';
 import 'package:temp_project/screens/dataCollection/greeting_page.dart';
 import 'package:temp_project/screens/dataCollection/name_collection.dart';
-import 'package:temp_project/screens/homePage/home_page.dart';
 import 'package:temp_project/services/auth_service.dart';
 import 'package:temp_project/utilities/theme/theme.dart';
 import 'package:temp_project/widgets/bottom_navigation_bar.dart';
@@ -37,7 +36,6 @@ class JUEvents extends StatelessWidget {
         '/signup': (context) => SignUpPage(),
         '/nameCollection': (context) => NameCollectionPage(),
         '/greetingPage': (context) => const GreetingPage(),
-        '/homepage': (context) => const HomePage(),
         '/mainPages': (context) => const MainBottomNavigationBar(),
       },
       // theme: ThemeData(textTheme: const TextTheme()),

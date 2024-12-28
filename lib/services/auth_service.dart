@@ -6,12 +6,13 @@ class AuthService {
 
   // The single instance of the class
   static final AuthService instance = AuthService._privateConstructor();
+  static final FirebaseAuth _authInst = FirebaseAuth.instance;
 
   Future<String?> signUp({required String email, required String password}) async {
     String? message;
 
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await _authInst.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -34,7 +35,7 @@ class AuthService {
     String? message;
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await _authInst.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -55,7 +56,7 @@ class AuthService {
     String? message;
 
     try {
-      FirebaseAuth.instance.signOut();
+      _authInst.signOut();
     } on FirebaseAuthException {
       message = 'Unexpected issue, please try later';
     } catch (e) {
@@ -66,11 +67,17 @@ class AuthService {
   }
 
   bool isUserLoggedIn() {
-    FirebaseAuth auth = FirebaseAuth.instance;
-
-    User? currentUser = auth.currentUser;
+    User? currentUser = _authInst.currentUser;
 
     // Return true if a user is logged in, otherwise false
     return currentUser != null;
+  }
+
+  String? getUserId() {
+    User? currentUser = _authInst.currentUser;
+    if (currentUser != null) {
+      return currentUser.uid;
+    }
+    return null;
   }
 }
