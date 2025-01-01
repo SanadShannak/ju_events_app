@@ -24,15 +24,16 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: AppColors.kBackground,
       body: SingleChildScrollView(
         child: Stack(
           children: [
             // Background Widget
             const TopBackgroundVectorShape(),
             const BackgroundVectorShape(),
-      
+
             // Login Screen Components
-      
+
             SizedBox(
               height: size.height,
               child: Column(
@@ -57,12 +58,9 @@ class LoginPage extends StatelessWidget {
                     width: size.width * 0.88,
                     alignment: Alignment.centerLeft,
                     child: const Text("Sign In",
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.kDarkGreen)),
+                        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: AppColors.kDarkGreen)),
                   ),
-      
+
                   // Text Form Fields
                   Form(
                     key: _formKey,
@@ -92,7 +90,7 @@ class LoginPage extends StatelessWidget {
                       ],
                     ),
                   ),
-      
+
                   // Forgot Password?
                   SizedBox(
                     width: size.width * 0.9,
@@ -101,11 +99,8 @@ class LoginPage extends StatelessWidget {
                       alignment: Alignment.topRight,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ForgotPasswordPage(
-                                      sourcePage: 'Login Page')));
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => ForgotPasswordPage(sourcePage: 'Login Page')));
                         },
                         child: const Text(
                           "Forgot Password?",
@@ -114,7 +109,7 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                   ),
-      
+
                   // Sign In Button
                   CustomPrimaryButton(
                     prompt: 'Sign In',
@@ -124,24 +119,21 @@ class LoginPage extends StatelessWidget {
                         // validation
                         if (_formKey.currentState!.validate()) {
                           AuthService.instance
-                              .signIn(
-                                  email: _emailController.text,
-                                  password: _passwordController.text)
+                              .signIn(email: _emailController.text, password: _passwordController.text)
                               .then((errorMessage) {
                             if (errorMessage != null) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text(errorMessage)),
                               );
                             } else {
-                              Navigator.pushReplacementNamed(context,
-                                  '/mainPages'); //TODO: Change this if needed
+                              Navigator.pushReplacementNamed(context, '/mainPages'); //TODO: Change this if needed
                             }
                           });
                         }
                       }
                     },
                   ),
-      
+
                   // OR
                   Container(
                     height: size.height * 0.05,
@@ -153,7 +145,7 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                   ),
-      
+
                   // Continue With Google Button
                   CustomSecondaryButton(
                     onPressed: () {},
@@ -164,9 +156,9 @@ class LoginPage extends StatelessWidget {
                       height: 30,
                     ),
                   ),
-      
+
                   const Spacer(),
-      
+
                   // Don't Have An Account ? Sign Up
                   Expanded(
                     child: FooterWidget(

@@ -8,12 +8,13 @@ import 'package:temp_project/screens/homePage/home_page.dart';
 import 'package:temp_project/screens/profilePage/user_profile_page.dart';
 import 'package:temp_project/utilities/constants.dart';
 
+import '../screens/all_events/all_events_page.dart';
+
 class MainBottomNavigationBar extends StatefulWidget {
   const MainBottomNavigationBar({super.key});
 
   @override
-  State<MainBottomNavigationBar> createState() =>
-      _MainBottomNavigationBarState();
+  State<MainBottomNavigationBar> createState() => _MainBottomNavigationBarState();
 }
 
 class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {

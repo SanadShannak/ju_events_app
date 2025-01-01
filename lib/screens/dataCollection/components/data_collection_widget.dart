@@ -42,13 +42,13 @@ class _DataCollectionWidgetState extends State<DataCollectionWidget> {
     if (widget.pageFormKey == null) {
       Navigator.pushNamedAndRemoveUntil(
         context,
-        '/homepage',
+        '/mainPages',
         (Route<dynamic> route) => false,
       );
     } else if (widget.pageFormKey!.currentState!.validate()) {
       Navigator.pushNamedAndRemoveUntil(
         context,
-        '/homepage',
+        '/mainPages',
         (Route<dynamic> route) => false,
       );
     }
@@ -56,8 +56,6 @@ class _DataCollectionWidgetState extends State<DataCollectionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return SafeArea(
       child: SizedBox(
         width: double.infinity,

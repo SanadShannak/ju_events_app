@@ -25,6 +25,7 @@ class SignUpPage extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: AppColors.kBackground,
       body: SingleChildScrollView(
         child: Stack(
           children: [
@@ -59,10 +60,7 @@ class SignUpPage extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: const Text(
                       "Sign Up",
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.kDarkGreen),
+                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: AppColors.kDarkGreen),
                     ),
                   ),
                   // Text Form Fields
@@ -79,8 +77,7 @@ class SignUpPage extends StatelessWidget {
                             validator: Validators.email,
                             controller: _emailController,
                             formType: FormType.emailAddress,
-                            autoValidateMode:
-                                AutovalidateMode.onUserInteraction,
+                            autoValidateMode: AutovalidateMode.onUserInteraction,
                           ),
                         ),
                         // Enter Your Password
@@ -90,8 +87,7 @@ class SignUpPage extends StatelessWidget {
                             hint: 'Enter Your Password',
                             validator: Validators.password,
                             controller: _passwordController,
-                            autoValidateMode:
-                                AutovalidateMode.onUserInteraction,
+                            autoValidateMode: AutovalidateMode.onUserInteraction,
                             formType: FormType.password,
                           ),
                         ),
@@ -128,17 +124,14 @@ class SignUpPage extends StatelessWidget {
                         // validation
                         if (_formKey.currentState!.validate()) {
                           AuthService.instance
-                              .signUp(
-                                  email: _emailController.text,
-                                  password: _passwordController.text)
+                              .signUp(email: _emailController.text, password: _passwordController.text)
                               .then((errorMessage) {
                             if (errorMessage != null) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text(errorMessage)),
                               );
                             } else {
-                              Navigator.pushReplacementNamed(
-                                  context, '/greetingPage');
+                              Navigator.pushReplacementNamed(context, '/greetingPage');
                             }
                           });
                         }
