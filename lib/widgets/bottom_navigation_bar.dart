@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:intl/message_format.dart';
-import 'package:temp_project/screens/allEventsPage/all_events_page.dart';
+import 'package:temp_project/screens/all_events/all_events_page.dart';
 import 'package:temp_project/screens/homePage/home_page.dart';
 import 'package:temp_project/screens/profilePage/user_profile_page.dart';
 import 'package:temp_project/utilities/constants.dart';

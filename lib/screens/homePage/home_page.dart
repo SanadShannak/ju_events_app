@@ -143,6 +143,7 @@ class _HomePageState extends State<HomePage> {
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: eventsList.length,
+                  
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: index == 0
