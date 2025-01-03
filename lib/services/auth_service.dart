@@ -8,7 +8,8 @@ class AuthService {
   static final AuthService instance = AuthService._privateConstructor();
   static final FirebaseAuth _authInst = FirebaseAuth.instance;
 
-  Future<String?> signUp({required String email, required String password}) async {
+  Future<String?> signUp(
+      {required String email, required String password}) async {
     String? message;
 
     try {
@@ -20,7 +21,7 @@ class AuthService {
       if (e.code == 'weak-password') {
         message = 'The password provided is too weak.';
       } else if (e.code == 'email-already-in-use') {
-        message = 'The email is already exist.';
+        message = 'The email is already registered';
       } else {
         message = 'Unexpected issue, please try later';
       }
@@ -31,7 +32,8 @@ class AuthService {
     return message;
   }
 
-  Future<String?> signIn({required String email, required String password}) async {
+  Future<String?> signIn(
+      {required String email, required String password}) async {
     String? message;
 
     try {

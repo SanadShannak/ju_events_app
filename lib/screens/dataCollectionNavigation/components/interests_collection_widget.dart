@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:temp_project/providers/data_collection_provider.dart';
 import 'package:temp_project/utilities/constants.dart';
 
 class InterestsCollectionWidget extends StatefulWidget {
@@ -18,7 +20,7 @@ final Set<int> selectedInterests = {};
 
 class _InterestsCollectionWidgetState extends State<InterestsCollectionWidget> {
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     return Wrap(
       alignment: WrapAlignment.spaceEvenly,
       children: [
@@ -28,9 +30,13 @@ class _InterestsCollectionWidgetState extends State<InterestsCollectionWidget> {
               onTap: () {
                 setState(() {
                   if (isSelected) {
-                    selectedInterests.remove(selectedInterestIndex); // Deselect
+                    selectedInterests.remove(selectedInterestIndex);
+                    context.read<DataCollectionProvider>().removeInterest(widget
+                        .interestsList[selectedInterestIndex]); // Deselect
                   } else {
-                    selectedInterests.add(selectedInterestIndex); // Select
+                    selectedInterests.add(selectedInterestIndex);
+                    context.read<DataCollectionProvider>().addInterest(
+                        widget.interestsList[selectedInterestIndex]); // Select
                   }
                 });
               },

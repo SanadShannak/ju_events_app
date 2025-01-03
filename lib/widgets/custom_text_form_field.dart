@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:temp_project/utilities/constants.dart';
 
 enum FormType {
@@ -35,7 +36,8 @@ enum FormType {
 }
 
 class CustomTextFormFieldContainer extends StatelessWidget {
-  const CustomTextFormFieldContainer({super.key, required this.textFormField, required this.screenWidthRatio});
+  const CustomTextFormFieldContainer(
+      {super.key, required this.textFormField, required this.screenWidthRatio});
   final TextFormField textFormField;
   final double screenWidthRatio;
 
@@ -59,7 +61,9 @@ class CustomTextFormField extends StatefulWidget {
       this.validator,
       this.autoValidateMode,
       required this.formType,
-      this.screenWidthRatio = 0.9});
+      this.screenWidthRatio = 0.9,
+      this.onTextChange,
+      this.lettersAndSpacesOnly = false});
 
   final String hint;
   final TextEditingController? controller;
@@ -67,6 +71,8 @@ class CustomTextFormField extends StatefulWidget {
   final FormType formType;
   final AutovalidateMode? autoValidateMode;
   final double screenWidthRatio;
+  final void Function(String)? onTextChange;
+  final bool lettersAndSpacesOnly;
 
   @override
   State<CustomTextFormField> createState() => _EmailTextFormFieldState();
@@ -84,6 +90,14 @@ class _EmailTextFormFieldState extends State<CustomTextFormField> {
         autovalidateMode: widget.autoValidateMode,
         validator: widget.validator,
         controller: widget.controller,
+        onChanged: widget.onTextChange,
+        inputFormatters: widget.lettersAndSpacesOnly
+            ? [
+                FilteringTextInputFormatter.allow(
+                  RegExp(r'[a-zA-Z\s]'),
+                )
+              ]
+            : null,
 
         // keyboard input type
         keyboardType: widget.formType.keyboardType,
@@ -92,12 +106,16 @@ class _EmailTextFormFieldState extends State<CustomTextFormField> {
         decoration: InputDecoration(
           hintText: widget.hint,
           prefixIcon: widget.formType.prefixIcon,
-          contentPadding: widget.formType.prefixIcon == null ? const EdgeInsets.only(left: 20) : null,
+          contentPadding: widget.formType.prefixIcon == null
+              ? const EdgeInsets.only(left: 20)
+              : null,
           // Suffix Icon
           suffixIcon: widget.formType.secondSuffixIcon == null
               ? widget.formType.firstSuffixIcon
               : GestureDetector(
-                  child: suffixIconState ? widget.formType.firstSuffixIcon : widget.formType.secondSuffixIcon,
+                  child: suffixIconState
+                      ? widget.formType.firstSuffixIcon
+                      : widget.formType.secondSuffixIcon,
                   onTapDown: (_) {
                     // Show the password when pressing the icon
                     setState(() {
@@ -119,7 +137,9 @@ class _EmailTextFormFieldState extends State<CustomTextFormField> {
                 ),
         ),
         enableInteractiveSelection: widget.formType.enableInteractiveSelection,
-        obscureText: widget.formType.changeObscurityOnSuffixTap ? suffixIconState : false,
+        obscureText: widget.formType.changeObscurityOnSuffixTap
+            ? suffixIconState
+            : false,
       ),
     );
   }

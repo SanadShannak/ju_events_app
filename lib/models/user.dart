@@ -15,6 +15,7 @@ class User {
   final String major;
 
   /// A list of the user's interests.
+  @JsonKey(name: 'interests')
   final List<String> interests;
 
   /// The ID of the user's institutional unit.
