@@ -4,7 +4,7 @@ import 'package:temp_project/screens/homePage/home_page.dart';
 import 'package:temp_project/screens/profilePage/user_profile_page.dart';
 import 'package:temp_project/utilities/constants.dart';
 
-import '../screens/all_events/all_events_page.dart';
+import '../screens/events/events_page.dart';
 
 class MainBottomNavigationBar extends StatefulWidget {
   const MainBottomNavigationBar({super.key});
@@ -15,11 +15,13 @@ class MainBottomNavigationBar extends StatefulWidget {
 
 class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
   int _currentIndex = 0;
+
   final List<Widget> _pages = [
     const HomePage(),
-    const AllEventsPage(),
+    const EventsPage.all(),
     const UserProfilePage(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +29,7 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
       bottomNavigationBar: FlashyTabBar(
         selectedIndex: _currentIndex,
         backgroundColor: Colors.white,
-        animationDuration: Duration(milliseconds: 300),
+        animationDuration: const Duration(milliseconds: 300),
         showElevation: true,
         onItemSelected: (int newIndex) {
           setState(
@@ -38,20 +40,20 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
         },
         items: [
           FlashyTabBarItem(
-              icon: Icon(Icons.home),
-              title: Text(
+              icon: const Icon(Icons.home),
+              title: const Text(
                 'Home',
               ),
               activeColor: AppColors.kFernGreen,
               inactiveColor: Colors.grey),
           FlashyTabBarItem(
-              icon: Icon(Icons.event),
-              title: Text('All Events'),
+              icon: const Icon(Icons.event),
+              title: const Text('All Events'),
               activeColor: AppColors.kFernGreen,
               inactiveColor: Colors.grey),
           FlashyTabBarItem(
-              icon: Icon(Icons.person),
-              title: Text('Profile'),
+              icon: const Icon(Icons.person),
+              title: const Text('Profile'),
               activeColor: AppColors.kFernGreen,
               inactiveColor: Colors.grey)
         ],

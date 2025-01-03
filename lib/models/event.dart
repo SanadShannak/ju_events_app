@@ -11,7 +11,7 @@ class Event {
 
   /// The date and time of the event.
   @JsonKey(name: 'date_time')
-  final DateTime? dateTime;
+  final DateTime dateTime;
 
   /// General location information.
   @JsonKey(name: 'location_info')

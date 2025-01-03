@@ -9,9 +9,7 @@ part of 'requested_event.dart';
 RequestedEvent _$RequestedEventFromJson(Map<String, dynamic> json) =>
     RequestedEvent(
       name: json['event_name'] as String,
-      dateTime: json['date_time'] == null
-          ? null
-          : DateTime.parse(json['date_time'] as String),
+      dateTime: DateTime.parse(json['date_time'] as String),
       locationInfo: json['location_info'] as String,
       subLocationInfo: json['sub_location_info'] as String,
       topics:
@@ -31,7 +29,7 @@ RequestedEvent _$RequestedEventFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$RequestedEventToJson(RequestedEvent instance) =>
     <String, dynamic>{
       'event_name': instance.name,
-      'date_time': instance.dateTime?.toIso8601String(),
+      'date_time': instance.dateTime.toIso8601String(),
       'location_info': instance.locationInfo,
       'sub_location_info': instance.subLocationInfo,
       'topics': instance.topics,

@@ -1,242 +1,245 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // Import for DateFormat
 import 'package:temp_project/screens/homePage/components/event_details_screen.dart';
+import 'package:temp_project/services/auth_service.dart';
+import 'package:temp_project/services/database_service/extensions/event_extensions.dart';
 
-import '../../services/auth_service.dart';
+import '../../models/event.dart';
+import '../../models/institutional_unit.dart';
+import '../../services/database_service/database_service.dart';
 import '../../utilities/constants.dart';
+import '../../utilities/testing_random_image_generator.dart';
+import '../events/events_page.dart';
 import 'components/calendar_widget.dart';
 import 'components/event_card.dart';
 import 'components/institutional_unit_card.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
-  @override
   Widget build(BuildContext context) {
-    Map<int, List> eventsList = {
-      0: [
-        'lib/assets/images/event_card_images/ai-workshop.jpeg',
-        'AI Workshop',
-        '25/12/2024',
-        '9:00 AM - 11:00 AM',
-        'Engineering Building',
-        'Tech Hall',
-        'Join us for an interactive AI workshop where you’ll explore the latest advancements in artificial intelligence. Learn how AI is transforming industries and gain hands-on experience with popular tools and techniques in machine learning.', // Description
-        'Team InnovAI'
-      ],
-      1: [
-        'lib/assets/images/event_card_images/iot-seminar.jpeg',
-        'Internet of Things Seminar',
-        '30/12/2024',
-        '11:30 AM - 2:30 PM',
-        'Science Hall',
-        'Auditorium A',
-        'Discover the world of IoT in this seminar. Explore how interconnected devices are revolutionizing industries, enhancing everyday life, and creating new business opportunities. Expert speakers will discuss trends, challenges, and practical applications of IoT technology.',
-        'Team IoT Nexus'
-      ],
-      2: [
-        'lib/assets/images/event_card_images/data-science-talk.jpeg',
-        'Data Science Talk',
-        '05/01/2025',
-        '11:30 AM - 2:30 PM',
-        'Library',
-        'Seminar Room 3',
-        'This data science talk will dive into the power of data and analytics. Learn about the latest trends, tools, and techniques used by data scientists to extract valuable insights from complex datasets, with real-world examples from various industries.',
-        'Team Data Pioneers'
-      ],
-      3: [
-        'lib/assets/images/event_card_images/cybersecurity-expo.jpeg',
-        'Cybersecurity Expo',
-        '10/01/2025',
-        '11:30 AM - 2:30 PM',
-        'Student Activity Center',
-        '',
-        'Explore the latest in cybersecurity at this expo. Gain insights into the newest threats, defense strategies, and technologies designed to protect personal and business data. Meet industry experts and discover solutions to enhance your security practices.',
-        'Team CyberShield'
-      ],
-    };
-    Map<int, List> collegeList = {
-      0: [
-        'KASIT School',
-        'lib/assets/images/college_card_images/kasit-school.jpg'
-      ],
-      1: [
-        'Engineering School',
-        'lib/assets/images/college_card_images/engineering-school.jpg'
-      ],
-      2: [
-        'Languages School',
-        'lib/assets/images/college_card_images/languages-school.jpg'
-      ],
-      3: [
-        'Business School',
-        'lib/assets/images/college_card_images/business-school.jpg'
-      ],
-      4: [
-        'Medicine School',
-        'lib/assets/images/college_card_images/medicine-school.jpg'
-      ],
-      5: [
-        'Deanship of Student Affairs',
-        'lib/assets/images/college_card_images/deanship-of-student-affairs.jpg'
-      ],
-    };
-
     Size size = MediaQuery.of(context).size;
-    int eventBackgroundImagePathIndex = 0;
-    int eventTitleIndex = 1;
-    int eventDateStringIndex = 2;
-    int eventStartEndTimeStringIndex = 3;
-    int eventLocationIndex = 4;
-    int eventSubLocationIndex = 5;
-    int eventDescriptionIndex = 6;
-    int eventHostNameIndex = 7;
 
     return Scaffold(
-      backgroundColor: AppColors.kBackground,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: size.height * .05,
-              ),
-              // top text
-              Container(
-                width: size.width * 0.9,
-                height: size.height * 0.05,
-                alignment: Alignment.centerLeft,
-                child: RichText(
-                  textAlign: TextAlign.center, // Optional, centers the text
-                  text: const TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Events that might interest ',
-                        style: TextStyle(
-                          fontSize: 23, // Adjust font size
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.kDarkGreen, // Set color
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: size.height * .05),
+            child: Column(
+              children: [
+                //------------------------------------ 'Events that might interest you' text ---------------------------
+                Container(
+                  width: size.width * 0.9,
+                  height: size.height * 0.05,
+                  alignment: Alignment.centerLeft,
+                  child: RichText(
+                    textAlign: TextAlign.center, // Optional, centers the text
+                    text: const TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Events that might interest ',
+                          style: TextStyle(
+                            fontSize: 23, // Adjust font size
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.kDarkGreen, // Set color
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: 'you',
-                        style: TextStyle(
-                          fontSize: 23, // Adjust font size
-                          color: AppColors.kForestGreen, // Set color
-                          fontWeight: FontWeight.w600, // Bold for emphasis
+                        TextSpan(
+                          text: 'you',
+                          style: TextStyle(
+                            fontSize: 23, // Adjust font size
+                            color: AppColors.kForestGreen, // Set color
+                            fontWeight: FontWeight.w600, // Bold for emphasis
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: size.height * .01,
-              ),
-              // Event Cards
-              Container(
-                height: size.width * .59,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: eventsList.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: index == 0
-                          ? const EdgeInsets.only(
-                              top: 14.0, bottom: 14.0, left: 35)
-                          : (index == eventsList.length - 1
-                              ? const EdgeInsets.only(
-                                  top: 14.0, bottom: 14.0, right: 35)
-                              : const EdgeInsets.symmetric(vertical: 14.0)),
-                      child: EventCard(
-                        backgroundImage: eventsList[index]
-                            ?[eventBackgroundImagePathIndex],
-                        eventTitle: eventsList[index]?[eventTitleIndex],
-                        eventDate: eventsList[index]?[eventDateStringIndex],
-                        eventLocation: eventsList[index]?[eventLocationIndex],
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EventDetails(
-                                      eventDataList: eventsList[index])));
-                        },
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      width: size.width * .05,
-                    );
-                  },
-                ),
-              ),
+                //------------------------------------ 'Events that might interest you' text ---------------------------
 
-              const SizedBox(
-                height: 40,
-              ),
-              // Event Dates text
-              Container(
+                SizedBox(
+                  height: size.height * .01,
+                ),
+
+                //------------------------------------ Event Cards -----------------------------------------------------
+                SizedBox(
+                  height: size.width * .59,
+                  child: FutureBuilder<QuerySnapshot?>(
+                    // Replace the old future method with the new one
+                    future: DatabaseService().getMatchingEvents(AuthService.instance.getUserId()!),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.kDarkGreen,
+                          ),
+                        );
+                      }
+
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      }
+
+                      if (snapshot.hasData && snapshot.data != null) {
+                        final documents = snapshot.data!.docs;
+
+                        if (documents.isEmpty) {
+                          return const Center(child: Text('No events found.'));
+                        }
+
+                        return ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: documents.length,
+                          itemBuilder: (context, index) {
+                            final eventData = documents[index].data() as Event; // Convert to Map<String, dynamic>
+                            final event = eventData; // Convert map to Event object
+                            final imagePath =
+                                'lib/assets/images/event_card_images_by_index/${RandomImageGenerator.getRandomEventImagePath()}';
+
+                            return Padding(
+                              padding: index == 0
+                                  ? const EdgeInsets.only(top: 14.0, bottom: 14.0, left: 35)
+                                  : (index == documents.length - 1
+                                      ? const EdgeInsets.only(top: 14.0, bottom: 14.0, right: 35)
+                                      : const EdgeInsets.symmetric(vertical: 14.0)),
+                              child: EventCard(
+                                backgroundImage: imagePath,
+                                eventTitle: event.name,
+                                eventDate: DateFormat('dd/MM/yyyy').format(event.dateTime),
+                                eventLocation: event.locationInfo,
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => EventDetails(
+                                                event: event,
+                                                imagePath: imagePath,
+                                              )));
+                                },
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(
+                              width: size.width * .05,
+                            );
+                          },
+                        );
+                      }
+
+                      return const Center(child: Text('No events found.'));
+                    },
+                  ),
+                ),
+                //------------------------------------ Event Cards -----------------------------------------------------
+
+                const SizedBox(
+                  height: 40,
+                ),
+
+                //------------------------------------ 'Events By Date' text -------------------------------------------
+                Container(
+                    width: size.width * 0.9,
+                    height: size.height * 0.05,
+                    alignment: Alignment.centerLeft,
+                    child: const Text(
+                      'Events By Date',
+                      style: TextStyle(
+                        fontSize: 23, // Adjust font size
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.kDarkGreen, // Set color
+                      ),
+                    )),
+                //------------------------------------ 'Events By Date' text -------------------------------------------
+
+                //------------------------------------ Calendar Widget -------------------------------------------------
+                SizedBox(width: size.width * .95, child: const CalendarWidget()),
+                //------------------------------------ Calendar Widget -------------------------------------------------
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                //------------------------------------ 'Events By Institutional Unit' text -----------------------------
+                Container(
                   width: size.width * 0.9,
                   height: size.height * 0.05,
                   alignment: Alignment.centerLeft,
                   child: const Text(
-                    'Event Dates',
+                    'Events By Institutional Unit',
                     style: TextStyle(
                       fontSize: 23, // Adjust font size
                       fontWeight: FontWeight.w600,
                       color: AppColors.kDarkGreen, // Set color
                     ),
-                  )),
-              // Calendar Widget
-              Container(width: size.width * .95, child: const CalendarWidget()),
-              const SizedBox(
-                height: 20,
-              ),
-              // Colleges text
-              Container(
-                  width: size.width * 0.9,
-                  height: size.height * 0.05,
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    'Colleges',
-                    style: TextStyle(
-                      fontSize: 23, // Adjust font size
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.kDarkGreen, // Set color
-                    ),
-                  )),
-              const SizedBox(
-                height: 20,
-              ),
-              // Colleges cards
-              Container(
-                width: size.width * .9,
-                child: Wrap(
-                    alignment: WrapAlignment.spaceAround,
-                    spacing: 20.0,
-                    runSpacing: 36.0,
-                    children: [
-                      ...List.generate(collegeList.length, (index) {
-                        return InstitutionalUnitCard(
-                            name: collegeList[index]?[0],
-                            imagePath: collegeList[index]?[1]);
-                      })
-                    ]),
-              ),
-              const SizedBox(
-                // TODO: Delete this (ADDED FOR TESTING PURPOSES ONLY)
-                height: 50,
-              )
-            ],
+                  ),
+                ),
+                //------------------------------------ 'Events By Institutional Unit' text -----------------------------
+
+                const SizedBox(
+                  height: 20,
+                ),
+                //------------------------------------ Institutional Unit Cards ----------------------------------------
+                SizedBox(
+                  width: size.width * .9,
+                  child: FutureBuilder(
+                    future: DatabaseService().getAllDocuments(CollectionRefs.institutionalUnits),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.kDarkGreen,
+                          ),
+                        );
+                      }
+
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      }
+
+                      if (snapshot.hasData && snapshot.data != null) {
+                        final documents = snapshot.data?.docs;
+
+                        return Wrap(
+                          alignment: WrapAlignment.spaceAround,
+                          spacing: 20.0,
+                          runSpacing: 36.0,
+                          children: List.generate(documents!.length, (index) {
+                            final unitData = documents[index].data() as InstitutionalUnit;
+                            final unitName = unitData.name;
+                            final imagePath =
+                                'lib/assets/images/college_card_images_by_index/${RandomImageGenerator.getRandomInstitutionalUnitImagePath()}';
+
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EventsPage.filteredByInstitutionalUnit(
+                                              institutionalUnit: unitName,
+                                            )));
+                              },
+                              child: InstitutionalUnitCard(
+                                name: unitName,
+                                imagePath: imagePath,
+                              ),
+                            );
+                          }),
+                        );
+                      }
+
+                      return const Center(child: Text('No institutional units found.'));
+                    },
+                  ),
+                ),
+                //------------------------------------ Institutional Unit Cards ----------------------------------------
+              ],
+            ),
           ),
         ),
       ),
-      
     );
   }
 }

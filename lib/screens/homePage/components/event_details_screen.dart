@@ -1,28 +1,21 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:temp_project/screens/homePage/components/event_desciption_text.dart';
-
+import 'package:temp_project/screens/homePage/components/event_description_text.dart';
 import 'package:temp_project/utilities/constants.dart';
+import 'package:temp_project/utilities/testing_random_image_generator.dart';
+
+import '../../../models/event.dart';
 
 class EventDetails extends StatelessWidget {
-  final List? eventDataList;
+  final Event event;
+  final String? imagePath;
 
-  const EventDetails({super.key, required this.eventDataList});
+  const EventDetails({super.key, required this.event, this.imagePath});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    String eventBackgroundImagePath = eventDataList?[0];
-    String eventTitle = eventDataList?[1];
-    String eventDateString = eventDataList?[2];
-    String eventStartEndTimeString = eventDataList?[3];
-    String eventLocation = eventDataList?[4];
-    String eventSubLocation = eventDataList?[5];
-    String eventDescription = eventDataList?[6];
-    String eventHostName = eventDataList?[7];
-    DateTime eventDate = DateFormat("dd/MM/yyyy").parse(eventDateString);
-    String eventDayName = DateFormat('EEEE').format(eventDate);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -35,11 +28,11 @@ class EventDetails extends StatelessWidget {
               height: size.height / 2.1,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(eventBackgroundImagePath),
+                      image: AssetImage(imagePath ??
+                          'lib/assets/images/event_card_images_by_index/${RandomImageGenerator.getRandomEventImagePath()}'),
                       fit: BoxFit.cover),
-                  borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(30.0),
-                      bottomRight: Radius.circular(30.0))),
+                  borderRadius:
+                      const BorderRadius.only(bottomLeft: Radius.circular(30.0), bottomRight: Radius.circular(30.0))),
               // Back Button
               child: Padding(
                 padding: const EdgeInsets.only(left: 30, top: 50),
@@ -48,10 +41,9 @@ class EventDetails extends StatelessWidget {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       iconColor: Colors.white,
-                      backgroundColor: Colors.white.withOpacity(.9),
+                      backgroundColor: Colors.white.withValues(alpha: 230),
                       padding: const EdgeInsets.all(10.0),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                     ),
                     onPressed: () {
                       Navigator.pop(context);
@@ -60,9 +52,7 @@ class EventDetails extends StatelessWidget {
                       Icons.arrow_back,
                       color: AppColors.kFernGreen,
                       size: 30,
-                      shadows: [
-                        Shadow(color: AppColors.kFernGreen, blurRadius: 2)
-                      ],
+                      shadows: [Shadow(color: AppColors.kFernGreen, blurRadius: 2)],
                     ),
                   ),
                 ),
@@ -74,7 +64,7 @@ class EventDetails extends StatelessWidget {
             // ------------------------------------------ Event Title ------------------------------------------
             Padding(
               padding: const EdgeInsets.only(left: 24),
-              child: AutoSizeText(eventTitle,
+              child: AutoSizeText(event.name,
                   style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -90,7 +80,7 @@ class EventDetails extends StatelessWidget {
             // ------------------------------------------ Event Description ------------------------------------------
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: EventDescriptionText(text: eventDescription),
+              child: EventDescriptionText(text: event.description),
             ),
             const SizedBox(
               height: 20,
@@ -114,18 +104,13 @@ class EventDetails extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '$eventDayName, $eventDateString',
-                        style: const TextStyle(
-                            color: AppColors.kDarkGreen,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        '${DateFormat('EEE').format(event.dateTime)}, ${DateFormat('dd-MM-yyyy').format(event.dateTime)}',
+                        style: const TextStyle(color: AppColors.kDarkGreen, fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        eventStartEndTimeString,
-                        style: const TextStyle(
-                            color: AppColors.kForestGreen,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500),
+                        DateFormat('hh:mm a').format(event.dateTime),
+                        style:
+                            const TextStyle(color: AppColors.kForestGreen, fontSize: 12, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -155,20 +140,16 @@ class EventDetails extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AutoSizeText(
-                          eventLocation,
+                          event.locationInfo,
                           minFontSize: 12,
                           maxLines: 2,
-                          style: const TextStyle(
-                              color: AppColors.kDarkGreen,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                          style:
+                              const TextStyle(color: AppColors.kDarkGreen, fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          eventSubLocation,
-                          style: const TextStyle(
-                              color: AppColors.kForestGreen,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500),
+                          event.subLocationInfo,
+                          style:
+                              const TextStyle(color: AppColors.kForestGreen, fontSize: 12, fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -199,17 +180,12 @@ class EventDetails extends StatelessWidget {
                     children: [
                       const Text(
                         'Hosted by',
-                        style: TextStyle(
-                            color: AppColors.kDarkGreen,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(color: AppColors.kDarkGreen, fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        eventHostName,
-                        style: const TextStyle(
-                            color: AppColors.kForestGreen,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500),
+                        event.postedByName,
+                        style:
+                            const TextStyle(color: AppColors.kForestGreen, fontSize: 12, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -220,6 +196,5 @@ class EventDetails extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

@@ -8,6 +8,7 @@ class AppTheme {
     fontFamily: 'Roboto',
     brightness: Brightness.light,
     inputDecorationTheme: UserInputBoxTheme.lightUserInputBoxTheme,
+    scaffoldBackgroundColor: AppColors.kBackground,
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.kPaleGoldenrod.withAlpha(150),
       elevation: 0,

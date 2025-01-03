@@ -6,7 +6,7 @@ class EventDescriptionText extends StatefulWidget {
   const EventDescriptionText({super.key, required this.text});
 
   @override
-  _EventDescriptionTextState createState() => _EventDescriptionTextState();
+  State<EventDescriptionText> createState() => _EventDescriptionTextState();
 }
 
 class _EventDescriptionTextState extends State<EventDescriptionText> {
@@ -40,7 +40,7 @@ class _EventDescriptionTextState extends State<EventDescriptionText> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: AppColors.kDarkGreen.withOpacity(.9),
+            color: AppColors.kDarkGreen.withAlpha(230),
           ),
         ),
         // ------------------------------------------ 'Read More' button ------------------------------------------
@@ -50,9 +50,7 @@ class _EventDescriptionTextState extends State<EventDescriptionText> {
           ),
         if (widget.text.length > maxLength)
           TextButton(
-            style: const ButtonStyle(
-                backgroundColor:
-                    WidgetStatePropertyAll(AppColors.kPaleGoldenrod)),
+            style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(AppColors.kPaleGoldenrod)),
             onPressed: () {
               setState(() {
                 isExpanded = !isExpanded;
