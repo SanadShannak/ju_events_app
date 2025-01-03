@@ -42,10 +42,11 @@ class JUEvents extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
             color: AppColors.kBackground,
-            child: const Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.grey,
-                color: AppColors.kDarkGreen,
+            child: Center(
+              child: Image.asset(
+                'lib/assets/images/JE_Events_logo/logo.png',
+                width: 200,
+                height: 200,
               ),
             ),
           );
@@ -56,16 +57,16 @@ class JUEvents extends StatelessWidget {
             theme: AppTheme.lightTheme,
             themeMode: ThemeMode.light,
             initialRoute:
-                AuthService.instance.isUserLoggedIn() ? (areDetailsFilled ? '/mainPages' : '/greetingPage') : '/',
+                AuthService.instance.isUserLoggedIn() ? (areDetailsFilled ? '/' : '/greetingPage') : '/landingPage',
             routes: {
-              '/': (context) => const LandingPage(),
+              '/landingPage': (context) => const LandingPage(),
               '/login': (context) => LoginPage(),
               '/signup': (context) => SignUpPage(),
               '/nameCollection': (context) => NameCollectionPage(),
               '/greetingPage': (context) => const GreetingPage(),
-              '/dataCollectionPages': (context) => DataCollectionNavigation(),
-              '/mainPages': (context) => const MainBottomNavigationBar(),
-              '/dataCollectionNavigation': (context) => DataCollectionNavigation(),
+              '/dataCollectionPages': (context) => const DataCollectionNavigation(),
+              '/': (context) => const MainBottomNavigationBar(),
+              '/dataCollectionNavigation': (context) => const DataCollectionNavigation(),
             },
           );
         }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:temp_project/models/user.dart';
+import 'package:temp_project/services/auth_service.dart';
 import 'package:temp_project/services/database_service/database_service.dart';
 import 'package:temp_project/services/database_service/extensions/user_extensions.dart';
 import 'package:temp_project/utilities/constants.dart';
@@ -43,6 +44,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               children: [
                 IconButton(
                   onPressed: () {
+                    AuthService.instance.signOut();
                     Navigator.pushNamedAndRemoveUntil(
                       context,
                       '/login',
@@ -77,7 +79,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             return const Center(child: Text('User not found.'));
           }
 
-          return Container(
+          return SizedBox(
             width: size.width,
             child: Column(
               children: [
@@ -88,10 +90,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   padding: EdgeInsets.only(right: size.width * .6),
                   child: const Text(
                     'Profile',
-                    style: TextStyle(
-                        color: AppColors.kDarkGreen,
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold),
+                    style: TextStyle(color: AppColors.kDarkGreen, fontSize: 36, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(
@@ -101,7 +100,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 Container(
                   width: size.width * .9,
                   height: size.height * .5,
-                  color: AppColors.kPaleGoldenrod.withOpacity(.1),
+                  color: AppColors.kPaleGoldenrod.withAlpha(26),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -116,10 +115,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       ),
                       const SizedBox(height: 15),
                       Text(user.name, // Safely using user properties
-                          style: const TextStyle(
-                              color: AppColors.kDarkGreen,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold)),
+                          style:
+                              const TextStyle(color: AppColors.kDarkGreen, fontSize: 20, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 25),
                       //-------------------------------------------College-------------------------------------------
                       Container(
@@ -135,17 +132,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text('College: ',
-                                    style: const TextStyle(
-                                        color: AppColors.kDarkGreen,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
+                                const Text('College: ',
+                                    style: TextStyle(
+                                        color: AppColors.kDarkGreen, fontSize: 16, fontWeight: FontWeight.bold)),
                                 Text(
                                   user.institutionalUnitName, // Safely using user properties
                                   style: const TextStyle(
-                                      color: AppColors.kDarkGreen,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400),
+                                      color: AppColors.kDarkGreen, fontSize: 11, fontWeight: FontWeight.w400),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -169,17 +162,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text('Major: ',
-                                    style: const TextStyle(
-                                        color: AppColors.kDarkGreen,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
+                                const Text('Major: ',
+                                    style: TextStyle(
+                                        color: AppColors.kDarkGreen, fontSize: 16, fontWeight: FontWeight.bold)),
                                 Text(
                                   user.major, // Safely using user properties
                                   style: const TextStyle(
-                                      color: AppColors.kDarkGreen,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400),
+                                      color: AppColors.kDarkGreen, fontSize: 11, fontWeight: FontWeight.w400),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -198,22 +187,18 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
+                          child: const Padding(
+                            padding: EdgeInsets.only(left: 10.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text('Role: ',
-                                    style: const TextStyle(
-                                        color: AppColors.kDarkGreen,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
+                                    style: TextStyle(
+                                        color: AppColors.kDarkGreen, fontSize: 16, fontWeight: FontWeight.bold)),
                                 Text(
                                   'Student', // TODO: Change this to the user's role
-                                  style: const TextStyle(
-                                      color: AppColors.kDarkGreen,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400),
+                                  style:
+                                      TextStyle(color: AppColors.kDarkGreen, fontSize: 11, fontWeight: FontWeight.w400),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),

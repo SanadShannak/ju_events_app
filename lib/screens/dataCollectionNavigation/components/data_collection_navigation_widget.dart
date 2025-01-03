@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:temp_project/models/user.dart';
+import 'package:temp_project/providers/data_collection_provider.dart';
 import 'package:temp_project/screens/dataCollectionNavigation/college_major_collection.dart';
 import 'package:temp_project/screens/dataCollectionNavigation/interests_collection.dart';
 import 'package:temp_project/screens/dataCollectionNavigation/name_collection.dart';
-import 'package:temp_project/models/user.dart';
-import 'package:temp_project/models/user_roles.dart';
-import 'package:temp_project/providers/data_collection_provider.dart';
 import 'package:temp_project/services/database_service/database_service.dart';
 import 'package:temp_project/services/database_service/extensions/user_extensions.dart';
 import 'package:temp_project/utilities/constants.dart';
 
 class DataCollectionNavigation extends StatefulWidget {
+  const DataCollectionNavigation({super.key});
+
   @override
-  State<DataCollectionNavigation> createState() =>
-      _DataCollectionNavigationState();
+  State<DataCollectionNavigation> createState() => _DataCollectionNavigationState();
 }
 
 class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
@@ -26,8 +26,8 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
     super.initState();
     _pages = [
       NameCollectionPage(),
-      CollegeMajorCollection(),
-      InterestCollection(),
+      const CollegeMajorCollection(),
+      const InterestCollection(),
     ];
   }
 
@@ -38,8 +38,7 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
   }
 
   Future<void> _finishDataCollection() async {
-    final dataCollectionProvider =
-        Provider.of<DataCollectionProvider>(context, listen: false);
+    final dataCollectionProvider = Provider.of<DataCollectionProvider>(context, listen: false);
 
     final user = User(
       name: dataCollectionProvider.name!,
@@ -53,8 +52,7 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
     final status = await DatabaseService().createUserRecord(user);
 
     if (status == OperationStatus.success) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/mainPages', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -85,196 +83,164 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
               spacing: 20,
             ),
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           Expanded(
             child: PageView(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               controller: _pageController,
               onPageChanged: _onPageChanged,
               children: _pages,
             ),
           ),
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: _currentPage == 0
-                  ? Row(
-                      children: [
-                        SizedBox(),
-                        Spacer(),
-                        TextButton(
-                          onPressed: () {
-                            String? name = Provider.of<DataCollectionProvider>(
-                                    context,
-                                    listen: false)
-                                .name;
-                            if (name != null &&
-                                name.trim().isNotEmpty &&
-                                name.isNotEmpty) {
-                              _pageController.nextPage(
-                                duration: Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  duration: const Duration(
-                                      seconds: 1, milliseconds: 500),
-                                  content: const Text(
-                                    'Please enter your name',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: AppColors.kDarkGreen,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14),
-                                  ),
-                                  backgroundColor: Colors.grey[300],
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: _currentPage == 0
+                ? Row(
+                    children: [
+                      const SizedBox(),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          String? name = Provider.of<DataCollectionProvider>(context, listen: false).name;
+                          if (name != null && name.trim().isNotEmpty && name.isNotEmpty) {
+                            _pageController.nextPage(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                duration: const Duration(seconds: 1, milliseconds: 500),
+                                content: const Text(
+                                  'Please enter your name',
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      TextStyle(color: AppColors.kDarkGreen, fontWeight: FontWeight.w500, fontSize: 14),
                                 ),
-                              );
-                            }
-                          },
-                          child: const Text(
-                            'Next',
-                            style: TextStyle(
-                                color: AppColors.kDarkGreen, fontSize: 16),
-                          ),
+                                backgroundColor: Colors.grey[300],
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text(
+                          'Next',
+                          style: TextStyle(color: AppColors.kDarkGreen, fontSize: 16),
                         ),
-                      ],
-                    )
-                  : (_currentPage == 1
-                      ? Row(
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                _pageController.previousPage(
-                                  duration: Duration(milliseconds: 300),
-                                  curve: Curves.easeOut,
-                                );
-                              },
-                              child: const Text(
-                                'Previous',
-                                style: TextStyle(
-                                    color: AppColors.kDarkGreen, fontSize: 16),
-                              ),
+                      ),
+                    ],
+                  )
+                : (_currentPage == 1
+                    ? Row(
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              _pageController.previousPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeOut,
+                              );
+                            },
+                            child: const Text(
+                              'Previous',
+                              style: TextStyle(color: AppColors.kDarkGreen, fontSize: 16),
                             ),
-                            const Spacer(),
-                            TextButton(
-                              onPressed: () {
-                                String? selectedCollege =
-                                    Provider.of<DataCollectionProvider>(context,
-                                            listen: false)
-                                        .selectedCollege;
-                                String? selectedMajor =
-                                    Provider.of<DataCollectionProvider>(context,
-                                            listen: false)
-                                        .selectedMajor;
-                                if (selectedCollege != null) {
-                                  if (selectedMajor != null) {
-                                    _pageController.nextPage(
-                                      duration: Duration(milliseconds: 300),
-                                      curve: Curves.easeInOut,
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        duration: const Duration(
-                                            seconds: 1, milliseconds: 500),
-                                        content: const Text(
-                                          'Please select your major',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: AppColors.kDarkGreen,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14),
-                                        ),
-                                        backgroundColor: Colors.grey[300],
-                                      ),
-                                    );
-                                  }
+                          ),
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {
+                              String? selectedCollege =
+                                  Provider.of<DataCollectionProvider>(context, listen: false).selectedCollege;
+                              String? selectedMajor =
+                                  Provider.of<DataCollectionProvider>(context, listen: false).selectedMajor;
+                              if (selectedCollege != null) {
+                                if (selectedMajor != null) {
+                                  _pageController.nextPage(
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeInOut,
+                                  );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      duration: const Duration(
-                                          seconds: 1, milliseconds: 500),
+                                      duration: const Duration(seconds: 1, milliseconds: 500),
                                       content: const Text(
-                                        'Please select your college and major',
+                                        'Please select your major',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            color: AppColors.kDarkGreen,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14),
+                                            color: AppColors.kDarkGreen, fontWeight: FontWeight.w500, fontSize: 14),
                                       ),
                                       backgroundColor: Colors.grey[300],
                                     ),
                                   );
                                 }
-                              },
-                              child: const Text(
-                                'Next',
-                                style: TextStyle(
-                                    color: AppColors.kDarkGreen, fontSize: 16),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Row(
-                          // Final page
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                _pageController.previousPage(
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeOut,
-                                );
-                              },
-                              child: const Text(
-                                'Previous',
-                                style: TextStyle(
-                                    color: AppColors.kDarkGreen, fontSize: 16),
-                              ),
-                            ),
-                            const Spacer(),
-                            TextButton(
-                              onPressed: () {
-                                List? selectedInterests =
-                                    Provider.of<DataCollectionProvider>(context,
-                                            listen: false)
-                                        .selectedInterests;
-                                if (selectedInterests != null &&
-                                    selectedInterests.length >= 1) {
-                                  _finishDataCollection();
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      duration: const Duration(
-                                          seconds: 1, milliseconds: 500),
-                                      content: const Text(
-                                        'Please select atleast one interest',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: AppColors.kDarkGreen,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14),
-                                      ),
-                                      backgroundColor: Colors.grey[300],
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    duration: const Duration(seconds: 1, milliseconds: 500),
+                                    content: const Text(
+                                      'Please select your college and major',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: AppColors.kDarkGreen, fontWeight: FontWeight.w500, fontSize: 14),
                                     ),
-                                  );
-                                }
-                              },
-                              child: const Text(
-                                'Finish',
-                                style: TextStyle(
-                                    color: AppColors.kDarkGreen, fontSize: 16),
-                              ),
+                                    backgroundColor: Colors.grey[300],
+                                  ),
+                                );
+                              }
+                            },
+                            child: const Text(
+                              'Next',
+                              style: TextStyle(color: AppColors.kDarkGreen, fontSize: 16),
                             ),
-                          ],
-                        ))),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        // Final page
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              _pageController.previousPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeOut,
+                              );
+                            },
+                            child: const Text(
+                              'Previous',
+                              style: TextStyle(color: AppColors.kDarkGreen, fontSize: 16),
+                            ),
+                          ),
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {
+                              List? selectedInterests =
+                                  Provider.of<DataCollectionProvider>(context, listen: false).selectedInterests;
+                              if (selectedInterests != null && selectedInterests.isNotEmpty) {
+                                _finishDataCollection();
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    duration: const Duration(seconds: 1, milliseconds: 500),
+                                    content: const Text(
+                                      'Please select at least one interest',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: AppColors.kDarkGreen, fontWeight: FontWeight.w500, fontSize: 14),
+                                    ),
+                                    backgroundColor: Colors.grey[300],
+                                  ),
+                                );
+                              }
+                            },
+                            child: const Text(
+                              'Finish',
+                              style: TextStyle(color: AppColors.kDarkGreen, fontSize: 16),
+                            ),
+                          ),
+                        ],
+                      )),
+          ),
           const SizedBox(height: 16),
         ],
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(home: DataCollectionNavigation()));
 }

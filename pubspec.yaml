@@ -55,6 +55,7 @@ flutter:
     - lib/assets/images/svg_files/
     - lib/assets/images/emojis/
     - lib/assets/images/svg_icons/
+    - lib/assets/images/JE_Events_logo/
 
 
 

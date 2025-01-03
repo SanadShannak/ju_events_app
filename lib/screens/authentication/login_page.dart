@@ -63,10 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: size.width * 0.88,
                     alignment: Alignment.centerLeft,
                     child: const Text("Sign In",
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.kDarkGreen)),
+                        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: AppColors.kDarkGreen)),
                   ),
 
                   // Text Form Fields
@@ -107,11 +104,8 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.topRight,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ForgotPasswordPage(
-                                      sourcePage: 'Login Page')));
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => ForgotPasswordPage(sourcePage: 'Login Page')));
                         },
                         child: const Text(
                           "Forgot Password?",
@@ -136,14 +130,11 @@ class _LoginPageState extends State<LoginPage> {
                             SnackBar(content: Text(errorMessage)),
                           );
                         } else {
-                          final areDetailsFilled =
-                              await DatabaseService().areUserDetailsFilled();
+                          final areDetailsFilled = await DatabaseService().areUserDetailsFilled();
                           if (areDetailsFilled) {
-                            Navigator.pushReplacementNamed(
-                                context, '/mainPages');
+                            Navigator.pushReplacementNamed(context, '/');
                           } else {
-                            Navigator.pushReplacementNamed(
-                                context, '/greetingPage');
+                            Navigator.pushReplacementNamed(context, '/greetingPage');
                           }
                         }
                       }
