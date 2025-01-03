@@ -63,7 +63,7 @@ class GreetingPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(
                       context,
-                      '/nameCollection', //TODO: change this if needed
+                      '/dataCollectionPages',
                       (Route<dynamic> route) => false,
                     );
                   })

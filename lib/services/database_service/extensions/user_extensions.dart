@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../../models/user.dart';
 import '../../auth_service.dart';
 import '../database_service.dart';
@@ -20,9 +22,12 @@ extension UserExtensions on DatabaseService {
     final String? userId = AuthService.instance.getUserId();
     try {
       if (userId != null) {
-        await refs[CollectionRefs.users]!.doc(userId).set(user);
+        await refs[CollectionRefs.users]!.doc(userId).set(user, SetOptions(merge: true));
+        print('User record created successfully');
+
         return OperationStatus.success;
       } else {
+        print('User ID is null');
         return OperationStatus.failure;
       }
     } catch (e) {
@@ -59,5 +64,34 @@ extension UserExtensions on DatabaseService {
       print('Error checking required fields: $e');
       return UserOperationStatus.unexpectedError;
     }
+  }
+
+  Future<User?> getUserDocument() async {
+    final String? userId = AuthService.instance.getUserId();
+    if (userId == null) {
+      return null; // No user ID means no document to fetch.
+    }
+
+    try {
+      final userDoc = await DatabaseService().getDocument(CollectionRefs.users, userId);
+      if (userDoc == null) {
+        return null; // Document does not exist.
+      }
+
+      final userData = userDoc.data() as User;
+      return userData; // Convert the data to a User object.
+    } catch (e) {
+      print('Error fetching user document: $e');
+      return null;
+    }
+  }
+
+  Future<bool> areUserDetailsFilled() async {
+    final user = await DatabaseService().getUserDocument();
+    return user != null &&
+        user.name.isNotEmpty &&
+        user.major.isNotEmpty &&
+        user.institutionalUnitName.isNotEmpty &&
+        user.interests.isNotEmpty;
   }
 }
