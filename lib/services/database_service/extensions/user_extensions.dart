@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../../../models/user.dart';
 import '../../auth_service.dart';
 import '../database_service.dart';
@@ -22,7 +20,7 @@ extension UserExtensions on DatabaseService {
     final String? userId = AuthService.instance.getUserId();
     try {
       if (userId != null) {
-        await refs[CollectionRefs.users]!.doc(userId).set({'full_name': 'osama'}, SetOptions(merge: true));
+        await refs[CollectionRefs.users]!.doc(userId).set(user);
         return OperationStatus.success;
       } else {
         return OperationStatus.failure;

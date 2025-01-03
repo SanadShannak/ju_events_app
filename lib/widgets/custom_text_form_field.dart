@@ -98,24 +98,12 @@ class _EmailTextFormFieldState extends State<CustomTextFormField> {
               ? widget.formType.firstSuffixIcon
               : GestureDetector(
                   child: suffixIconState ? widget.formType.firstSuffixIcon : widget.formType.secondSuffixIcon,
-                  onTapDown: (_) {
-                    // Show the password when pressing the icon
-                    setState(() {
-                      suffixIconState = !suffixIconState;
-                    });
-                  },
-                  onTapUp: (_) {
-                    // Hide the password when releasing the icon
-                    setState(() {
-                      suffixIconState = !suffixIconState;
-                    });
-                  },
-                  onTapCancel: () {
-                    // Hide the password when releasing the icon
-                    setState(() {
-                      suffixIconState = !suffixIconState;
-                    });
-                  },
+                  onLongPress: () => setState(() {
+                    suffixIconState = !suffixIconState;
+                  }),
+                  onLongPressEnd: (details) => setState(() {
+                    suffixIconState = !suffixIconState;
+                  }),
                 ),
         ),
         enableInteractiveSelection: widget.formType.enableInteractiveSelection,

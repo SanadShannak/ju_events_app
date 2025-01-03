@@ -68,7 +68,7 @@ class AuthService {
 
   bool isUserLoggedIn() {
     User? currentUser = _authInst.currentUser;
-
+    FirebaseAuth.instance.currentUser == null ? 'user doesn\'nt sign in' : 'user is signed in';
     // Return true if a user is logged in, otherwise false
     return currentUser != null;
   }
