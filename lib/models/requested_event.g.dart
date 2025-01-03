@@ -17,7 +17,8 @@ RequestedEvent _$RequestedEventFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String,
       postedById: json['posted_by_id'] as String,
       postedByName: json['posted_by_name'] as String,
-      requestDateTime: DateTime.parse(json['request_date_time'] as String),
+      requestDateTime:
+          RequestedEvent._timestampFromJson(json['request_date_time']),
       initiatorId: json['initiator_id'] as String,
       initiatorName: json['initiator_name'] as String,
       targetId: json['target_id'] as String,
@@ -36,7 +37,8 @@ Map<String, dynamic> _$RequestedEventToJson(RequestedEvent instance) =>
       'description': instance.description,
       'posted_by_id': instance.postedById,
       'posted_by_name': instance.postedByName,
-      'request_date_time': instance.requestDateTime.toIso8601String(),
+      'request_date_time':
+          RequestedEvent._timestampToJson(instance.requestDateTime),
       'initiator_id': instance.initiatorId,
       'initiator_name': instance.initiatorName,
       'target_id': instance.targetId,

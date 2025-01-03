@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'event.dart';
@@ -9,22 +10,26 @@ part 'requested_event.g.dart';
 @JsonSerializable()
 class RequestedEvent extends Event {
   /// The date and time when the request was made.
-  @JsonKey(name: 'request_date_time')
-  final DateTime requestDateTime;
+  @JsonKey(
+    name: 'request_date_time',
+    fromJson: _timestampFromJson,
+    toJson: _timestampToJson,
+  )
+  final Timestamp requestDateTime;
 
-  /// The ID of the person or entity the request is sent from.
+  /// The ID of the person or entity the request was sent from.
   @JsonKey(name: 'initiator_id')
   final String initiatorId;
 
-  /// The name of the person or entity the request is sent from.
+  /// The name of the person or entity the request was sent from.
   @JsonKey(name: 'initiator_name')
   final String initiatorName;
 
-  /// The ID of the person or entity the request is sent to.
+  /// The ID of the person or entity the request was sent to.
   @JsonKey(name: 'target_id')
   final String targetId;
 
-  /// The name of the person or entity the request is sent to.
+  /// The name of the person or entity the request was sent to.
   @JsonKey(name: 'target_name')
   final String targetName;
 
@@ -56,4 +61,14 @@ class RequestedEvent extends Event {
   /// Converts the `RequestedEvent` to a JSON map.
   @override
   Map<String, dynamic> toJson() => _$RequestedEventToJson(this);
+
+  /// Converts a JSON value to a Firestore `Timestamp`.
+  static Timestamp _timestampFromJson(dynamic json) {
+    if (json is Timestamp) return json;
+    if (json is int) return Timestamp.fromMillisecondsSinceEpoch(json);
+    throw ArgumentError('Invalid timestamp format');
+  }
+
+  /// Converts a Firestore `Timestamp` to a JSON-compatible value.
+  static int _timestampToJson(Timestamp timestamp) => timestamp.millisecondsSinceEpoch;
 }
