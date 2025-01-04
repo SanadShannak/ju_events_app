@@ -9,15 +9,15 @@ class AppTheme {
     brightness: Brightness.light,
     inputDecorationTheme: UserInputBoxTheme.lightUserInputBoxTheme,
     scaffoldBackgroundColor: AppColors.kBackground,
-    appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.kPaleGoldenrod.withAlpha(150),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.kForestGreen,
       elevation: 0,
-      titleTextStyle: const TextStyle(
+      titleTextStyle: TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.bold,
-        color: AppColors.kDarkGreen,
+        color: AppColors.kBackground,
       ),
-      iconTheme: const IconThemeData(color: AppColors.kDarkGreen), // Dark green
+      iconTheme: IconThemeData(color: AppColors.kDarkGreen), // Dark green
     ),
   );
 }

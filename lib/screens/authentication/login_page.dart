@@ -14,14 +14,46 @@ import '../../services/auth_service.dart';
 import '../../utilities/validators.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _signIn() async {
+    if (_formKey.currentState!.validate()) {
+      final errorMessage = await AuthService.instance.signIn(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      if (!mounted) return;
+
+      if (errorMessage != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      } else {
+        final areDetailsFilled = await DatabaseService().areUserDetailsFilled();
+        if (!mounted) return;
+
+        if (areDetailsFilled) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/',
+            (route) => false,
+          );
+        } else {
+          Navigator.pushReplacementNamed(context, '/greetingPage');
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,27 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                   // Sign In Button
                   CustomPrimaryButton(
                     prompt: 'Sign In',
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        final errorMessage = await AuthService.instance.signIn(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        );
-
-                        if (errorMessage != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(errorMessage)),
-                          );
-                        } else {
-                          final areDetailsFilled = await DatabaseService().areUserDetailsFilled();
-                          if (areDetailsFilled) {
-                            Navigator.pushReplacementNamed(context, '/');
-                          } else {
-                            Navigator.pushReplacementNamed(context, '/greetingPage');
-                          }
-                        }
-                      }
-                    },
+                    onPressed: _signIn,
                   ),
 
                   // OR

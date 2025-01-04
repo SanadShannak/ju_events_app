@@ -10,14 +10,41 @@ import 'package:temp_project/widgets/custom_text_form_field.dart';
 import '../../services/auth_service.dart';
 import '../../utilities/validators.dart';
 
-class SignUpPage extends StatelessWidget {
-  SignUpPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+
+  final TextEditingController _confirmPasswordController = TextEditingController();
+
+  Future<void> _signUp() async {
+    // validation
+    // validation
+    if (_formKey.currentState!.validate()) {
+      AuthService.instance
+          .signUp(email: _emailController.text, password: _passwordController.text)
+          .then((errorMessage) {
+        if (mounted) {
+          if (errorMessage != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(errorMessage)),
+            );
+          } else {
+            Navigator.pushReplacementNamed(context, '/greetingPage');
+          }
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,25 +145,7 @@ class SignUpPage extends StatelessWidget {
                   // Sign Up Button
                   CustomPrimaryButton(
                     prompt: 'Sign Up',
-                    onPressed: () {
-                      // validation
-                      if (_formKey.currentState!.validate()) {
-                        // validation
-                        if (_formKey.currentState!.validate()) {
-                          AuthService.instance
-                              .signUp(email: _emailController.text, password: _passwordController.text)
-                              .then((errorMessage) {
-                            if (errorMessage != null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(errorMessage)),
-                              );
-                            } else {
-                              Navigator.pushReplacementNamed(context, '/greetingPage');
-                            }
-                          });
-                        }
-                      }
-                    },
+                    onPressed: _signUp,
                   ),
 
                   // OR

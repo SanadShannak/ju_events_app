@@ -60,8 +60,8 @@ class JUEvents extends StatelessWidget {
                 AuthService.instance.isUserLoggedIn() ? (areDetailsFilled ? '/' : '/greetingPage') : '/landingPage',
             routes: {
               '/landingPage': (context) => const LandingPage(),
-              '/login': (context) => LoginPage(),
-              '/signup': (context) => SignUpPage(),
+              '/login': (context) => const LoginPage(),
+              '/signup': (context) => const SignUpPage(),
               '/nameCollection': (context) => NameCollectionPage(),
               '/greetingPage': (context) => const GreetingPage(),
               '/dataCollectionPages': (context) => const DataCollectionNavigation(),

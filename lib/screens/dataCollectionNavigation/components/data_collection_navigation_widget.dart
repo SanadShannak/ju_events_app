@@ -50,16 +50,17 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
     );
 
     final status = await DatabaseService().createUserRecord(user);
-
-    if (status == OperationStatus.success) {
-      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to create user record. Please try again.'),
-          backgroundColor: Colors.red,
-        ),
-      );
+    if (mounted) {
+      if (status == OperationStatus.success) {
+        Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to create user record. Please try again.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
