@@ -69,7 +69,8 @@ class HomePage extends StatelessWidget {
                   height: size.width * .59,
                   child: FutureBuilder<QuerySnapshot?>(
                     // Replace the old future method with the new one
-                    future: DatabaseService().getMatchingEvents(AuthService.instance.getUserId()!),
+                    future: DatabaseService()
+                        .getMatchingEvents(AuthService.instance.getUserId()!),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
@@ -94,21 +95,27 @@ class HomePage extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemCount: documents.length,
                           itemBuilder: (context, index) {
-                            final eventData = documents[index].data() as Event; // Convert to Map<String, dynamic>
-                            final event = eventData; // Convert map to Event object
+                            final eventData = documents[index].data()
+                                as Event; // Convert to Map<String, dynamic>
+                            final event =
+                                eventData; // Convert map to Event object
                             final imagePath =
                                 'lib/assets/images/event_card_images_by_index/${RandomImageGenerator.getRandomEventImagePath()}';
 
                             return Padding(
                               padding: index == 0
-                                  ? const EdgeInsets.only(top: 14.0, bottom: 14.0, left: 35)
+                                  ? const EdgeInsets.only(
+                                      top: 14.0, bottom: 14.0, left: 35)
                                   : (index == documents.length - 1
-                                      ? const EdgeInsets.only(top: 14.0, bottom: 14.0, right: 35)
-                                      : const EdgeInsets.symmetric(vertical: 14.0)),
+                                      ? const EdgeInsets.only(
+                                          top: 14.0, bottom: 14.0, right: 35)
+                                      : const EdgeInsets.symmetric(
+                                          vertical: 14.0)),
                               child: EventCard(
                                 backgroundImage: imagePath,
                                 eventTitle: event.name,
-                                eventDate: DateFormat('dd/MM/yyyy').format(event.dateTime),
+                                eventDate: DateFormat('dd/MM/yyyy')
+                                    .format(event.dateTime),
                                 eventLocation: event.locationInfo,
                                 onTap: () {
                                   Navigator.push(
@@ -156,7 +163,8 @@ class HomePage extends StatelessWidget {
                 //------------------------------------ 'Events By Date' text -------------------------------------------
 
                 //------------------------------------ Calendar Widget -------------------------------------------------
-                SizedBox(width: size.width * .95, child: const CalendarWidget()),
+                SizedBox(
+                    width: size.width * .95, child: const CalendarWidget()),
                 //------------------------------------ Calendar Widget -------------------------------------------------
 
                 const SizedBox(
@@ -186,7 +194,8 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   width: size.width * .9,
                   child: FutureBuilder(
-                    future: DatabaseService().getAllDocuments(CollectionRefs.institutionalUnits),
+                    future: DatabaseService()
+                        .getAllDocuments(CollectionRefs.institutionalUnits),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
@@ -208,7 +217,8 @@ class HomePage extends StatelessWidget {
                           spacing: 20.0,
                           runSpacing: 36.0,
                           children: List.generate(documents!.length, (index) {
-                            final unitData = documents[index].data() as InstitutionalUnit;
+                            final unitData =
+                                documents[index].data() as InstitutionalUnit;
                             final unitName = unitData.name;
                             final imagePath =
                                 'lib/assets/images/college_card_images_by_index/${RandomImageGenerator.getRandomInstitutionalUnitImagePath()}';
@@ -218,8 +228,10 @@ class HomePage extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => EventsPage.filteredByInstitutionalUnit(
+                                        builder: (context) => EventsPage
+                                                .filteredByInstitutionalUnit(
                                               institutionalUnit: unitName,
+                                              showBackButton: true,
                                             )));
                               },
                               child: InstitutionalUnitCard(
@@ -231,7 +243,8 @@ class HomePage extends StatelessWidget {
                         );
                       }
 
-                      return const Center(child: Text('No institutional units found.'));
+                      return const Center(
+                          child: Text('No institutional units found.'));
                     },
                   ),
                 ),

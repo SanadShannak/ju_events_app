@@ -30,6 +30,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => EventsPage.filteredByDate(
+                            showBackButton: true,
                             dateTime: date,
                           )));
             },
@@ -38,7 +39,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               width: isSelected ? 63 : 53,
               height: isSelected ? 110 : 90,
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.kPaleGoldenrod : AppColors.kPaleGoldenrod.withAlpha(153),
+                color: isSelected
+                    ? AppColors.kPaleGoldenrod
+                    : AppColors.kPaleGoldenrod.withAlpha(153),
                 borderRadius: BorderRadius.circular(25),
               ),
               child: Column(
@@ -46,11 +49,15 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 children: [
                   // Day Text
                   Text(
-                    DateFormat('EEE').format(date).substring(0, 2).toUpperCase(), // Day abbreviation (MO, TU, etc.)
+                    DateFormat('EEE')
+                        .format(date)
+                        .substring(0, 2)
+                        .toUpperCase(), // Day abbreviation (MO, TU, etc.)
                     style: TextStyle(
                       color: AppColors.kForestGreen,
                       fontSize: isSelected ? 18 : 14,
-                      fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight:
+                          isSelected ? FontWeight.w700 : FontWeight.w500,
                     ),
                   ),
                   // Space between Day and Date
@@ -63,7 +70,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     style: TextStyle(
                       color: AppColors.kForestGreen,
                       fontSize: isSelected ? 18 : 14,
-                      fontWeight: isSelected ? FontWeight.w900 : FontWeight.bold,
+                      fontWeight:
+                          isSelected ? FontWeight.w900 : FontWeight.bold,
                     ),
                   ),
                 ],

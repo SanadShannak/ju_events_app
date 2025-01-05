@@ -24,19 +24,19 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
 
   final List<Widget> _normalUserPages = [
     const HomePage(),
-    const EventsPage.all(),
+    EventsPage.all(),
     const UserProfilePage(),
   ];
 
   final List<Widget> _teamUserPages = [
     const HomePage(),
-    const EventsPage.all(),
+    EventsPage.all(),
     const TeamRequestedEventsPage(),
     const UserProfilePage(),
   ];
   final List<Widget> _adminUserPages = [
     const HomePage(),
-    const EventsPage.all(),
+    EventsPage.all(),
     const AdminPendingEvents(), //TODO: Change this to Requested Events for Admin Page
     const UserProfilePage(),
   ];

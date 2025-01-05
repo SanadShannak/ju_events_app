@@ -137,7 +137,7 @@ class _AdminPendingEventsState extends State<AdminPendingEvents> {
                       return Center(
                           child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  vertical: size.width * .55),
+                                  vertical: size.width * .75),
                               child: const Text(
                                 'No Pending Events.',
                                 style: TextStyle(

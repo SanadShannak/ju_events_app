@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:temp_project/services/database_service/extensions/event_extensions.dart';
+import 'package:temp_project/widgets/custom_app_bar.dart';
 import 'package:temp_project/widgets/event_widget.dart';
 
 import '../../models/event.dart';
@@ -9,15 +10,16 @@ import '../../utilities/constants.dart';
 import '../homePage/components/event_details_screen.dart';
 
 class EventsPage extends StatefulWidget {
-  const EventsPage.all({
+  EventsPage.all({
     super.key,
   })  : dateTime = null,
         appBarTitle = 'All Events',
         institutionalUnit = null;
 
-  const EventsPage.filteredByInstitutionalUnit({
+  EventsPage.filteredByInstitutionalUnit({
     super.key,
     required this.institutionalUnit,
+    required this.showBackButton,
   })  : dateTime = null,
         appBarTitle = institutionalUnit;
 
@@ -25,12 +27,14 @@ class EventsPage extends StatefulWidget {
   EventsPage.filteredByDate({
     super.key,
     required this.dateTime,
+    required this.showBackButton,
   })  : institutionalUnit = null,
         appBarTitle = 'Events on ${DateFormat('dd/MM/yyyy').format(dateTime!)}';
 
   final String? institutionalUnit;
   final String? appBarTitle;
   final DateTime? dateTime;
+  bool? showBackButton;
 
   @override
   State<EventsPage> createState() => _EventsPageState();
@@ -41,9 +45,10 @@ class _EventsPageState extends State<EventsPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.appBarTitle ?? 'All Events',
-            style: TextStyle(
+      appBar: CustomAppBar(
+        showBackButton: widget.showBackButton == true ? true : false,
+        titleWidget: Text(widget.appBarTitle ?? 'All Events',
+            style: const TextStyle(
                 color: AppColors.kDarkGreen,
                 fontWeight: FontWeight.w600,
                 fontSize: 20)),
@@ -51,7 +56,7 @@ class _EventsPageState extends State<EventsPage> {
         //   SearchWidget(
         //     widthRatio: 0.5,
         //   )
-        // ],
+        // ],),
       ),
       body: SingleChildScrollView(
         child: Column(
