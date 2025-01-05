@@ -25,7 +25,9 @@ void main() async {
   );
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => DataCollectionProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => DataCollectionProvider())
+      ],
       child: const JUEvents(),
     ),
   );
@@ -56,17 +58,20 @@ class JUEvents extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
             themeMode: ThemeMode.light,
-            initialRoute:
-                AuthService.instance.isUserLoggedIn() ? (areDetailsFilled ? '/' : '/greetingPage') : '/landingPage',
+            initialRoute: AuthService.instance.isUserLoggedIn()
+                ? (areDetailsFilled ? '/' : '/greetingPage')
+                : '/landingPage',
             routes: {
               '/landingPage': (context) => const LandingPage(),
               '/login': (context) => const LoginPage(),
               '/signup': (context) => const SignUpPage(),
               '/nameCollection': (context) => NameCollectionPage(),
               '/greetingPage': (context) => const GreetingPage(),
-              '/dataCollectionPages': (context) => const DataCollectionNavigation(),
+              '/dataCollectionPages': (context) =>
+                  const DataCollectionNavigation(),
               '/': (context) => const MainBottomNavigationBar(),
-              '/dataCollectionNavigation': (context) => const DataCollectionNavigation(),
+              '/dataCollectionNavigation': (context) =>
+                  const DataCollectionNavigation(),
             },
           );
         }

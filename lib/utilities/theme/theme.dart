@@ -10,11 +10,11 @@ class AppTheme {
     inputDecorationTheme: UserInputBoxTheme.lightUserInputBoxTheme,
     scaffoldBackgroundColor: AppColors.kBackground,
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.kForestGreen,
+      backgroundColor: AppColors.kPaleGoldenrod,
       elevation: 0,
       titleTextStyle: TextStyle(
         fontSize: 20,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w500,
         color: AppColors.kBackground,
       ),
       iconTheme: IconThemeData(color: AppColors.kDarkGreen), // Dark green

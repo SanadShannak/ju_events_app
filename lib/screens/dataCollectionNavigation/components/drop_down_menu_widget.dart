@@ -32,8 +32,6 @@ class _CustomDropDownMenuWidgetState extends State<CustomDropDownMenuWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return DropdownButtonFormField<String>(
       key: widget.dropDownMenuKey,
       value: widget.dropDownMenuValue,

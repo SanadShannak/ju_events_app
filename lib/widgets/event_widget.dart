@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:temp_project/services/database_service/database_service.dart';
+import 'package:temp_project/services/database_service/extensions/requested_event_extensions.dart';
 import 'package:temp_project/utilities/constants.dart';
 
 import '../models/event_request_states.dart';
@@ -13,8 +15,11 @@ class EventWidget extends StatelessWidget {
   final double width;
   final Widget? trailing;
   final EventRequestState? requestEventState;
+  final String? requestedEventId;
 
-  const EventWidget({
+  VoidCallback? onRequestedEventStateChange;
+
+  EventWidget({
     super.key,
     required this.eventTitle,
     required this.eventDate,
@@ -24,9 +29,10 @@ class EventWidget extends StatelessWidget {
     required this.width,
     this.trailing,
     this.requestEventState,
+    this.requestedEventId,
   });
 
-  const EventWidget.normalUser({
+  EventWidget.normalUser({
     super.key,
     required this.eventTitle,
     required this.eventDate,
@@ -34,10 +40,11 @@ class EventWidget extends StatelessWidget {
     this.onTap,
     required this.height,
     required this.width,
+    this.requestedEventId,
   })  : trailing = null,
         requestEventState = null;
 
-  const EventWidget.admin({
+  EventWidget.admin({
     super.key,
     required this.eventTitle,
     required this.eventDate,
@@ -45,8 +52,12 @@ class EventWidget extends StatelessWidget {
     this.onTap,
     required this.height,
     required this.width,
-  })  : trailing = const TeamLeaderTrailing(),
-        requestEventState = null;
+    this.requestEventState,
+    required this.requestedEventId,
+    required this.onRequestedEventStateChange,
+  }) : trailing = AdminTrailing(
+            requestedEventId: requestedEventId!,
+            onRequestedEventStateChange: onRequestedEventStateChange!);
 
   EventWidget.teamLeader({
     super.key,
@@ -57,7 +68,10 @@ class EventWidget extends StatelessWidget {
     required this.height,
     required this.width,
     this.requestEventState,
-  }) : trailing = AdminTrailing(eventRequestState: requestEventState!);
+    this.requestedEventId,
+  }) : trailing = TeamLeaderTrailing(
+          eventRequestState: requestEventState!,
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +94,8 @@ class EventWidget extends StatelessWidget {
                 children: [
                   //---------------------------------------------- Title ------------------------------
                   Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 10, top: 10, bottom: 5),
+                    padding: const EdgeInsets.only(
+                        left: 20, right: 10, top: 10, bottom: 5),
                     child: Container(
                       constraints: BoxConstraints(
                         maxHeight: height * 0.5,
@@ -123,7 +138,9 @@ class EventWidget extends StatelessWidget {
                             Text(
                               eventDate,
                               style: const TextStyle(
-                                  color: AppColors.kForestGreen, fontSize: 10, fontWeight: FontWeight.w600),
+                                  color: AppColors.kForestGreen,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600),
                             ),
                           ],
                         ),
@@ -179,8 +196,20 @@ class EventWidget extends StatelessWidget {
   }
 }
 
-class TeamLeaderTrailing extends StatelessWidget {
-  const TeamLeaderTrailing({super.key});
+class AdminTrailing extends StatelessWidget {
+  const AdminTrailing({
+    super.key,
+    required this.requestedEventId,
+    required this.onRequestedEventStateChange,
+  });
+  final String requestedEventId;
+
+  final VoidCallback onRequestedEventStateChange;
+
+  Future<void> _updateEventState(String eventId, String newState) async {
+    await DatabaseService().updateRequestedEventState(eventId, newState);
+    onRequestedEventStateChange();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,14 +218,14 @@ class TeamLeaderTrailing extends StatelessWidget {
       children: [
         IconButton(
           icon: const Icon(Icons.check, color: AppColors.kForestGreen),
-          onPressed: () {
-            // Handle accept logic
+          onPressed: () async {
+            await _updateEventState(requestedEventId, 'accepted');
           },
         ),
         IconButton(
           icon: const Icon(Icons.close, color: Colors.redAccent),
-          onPressed: () {
-            // Handle reject logic
+          onPressed: () async {
+            await _updateEventState(requestedEventId, 'rejected');
           },
         ),
       ],
@@ -204,15 +233,16 @@ class TeamLeaderTrailing extends StatelessWidget {
   }
 }
 
-class AdminTrailing extends StatelessWidget {
-  const AdminTrailing({super.key, required this.eventRequestState});
+class TeamLeaderTrailing extends StatelessWidget {
+  const TeamLeaderTrailing({super.key, required this.eventRequestState});
   final EventRequestState eventRequestState;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        eventRequestState.name[0].toUpperCase() + eventRequestState.name.substring(1),
+        eventRequestState.name[0].toUpperCase() +
+            eventRequestState.name.substring(1),
         style: TextStyle(
           fontSize: 14,
           color: AppColors.getColorForState(eventRequestState),

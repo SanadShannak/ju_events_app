@@ -31,8 +31,9 @@ class EventDetails extends StatelessWidget {
                       image: AssetImage(imagePath ??
                           'lib/assets/images/event_card_images_by_index/${RandomImageGenerator.getRandomEventImagePath()}'),
                       fit: BoxFit.cover),
-                  borderRadius:
-                      const BorderRadius.only(bottomLeft: Radius.circular(30.0), bottomRight: Radius.circular(30.0))),
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(30.0),
+                      bottomRight: Radius.circular(30.0))),
               // Back Button
               child: Padding(
                 padding: const EdgeInsets.only(left: 30, top: 50),
@@ -41,9 +42,10 @@ class EventDetails extends StatelessWidget {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       iconColor: Colors.white,
-                      backgroundColor: Colors.white.withValues(alpha: 230),
+                      backgroundColor: Colors.white.withValues(alpha: 20),
                       padding: const EdgeInsets.all(10.0),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
                     ),
                     onPressed: () {
                       Navigator.pop(context);
@@ -52,7 +54,9 @@ class EventDetails extends StatelessWidget {
                       Icons.arrow_back,
                       color: AppColors.kFernGreen,
                       size: 30,
-                      shadows: [Shadow(color: AppColors.kFernGreen, blurRadius: 2)],
+                      shadows: [
+                        Shadow(color: AppColors.kFernGreen, blurRadius: 2)
+                      ],
                     ),
                   ),
                 ),
@@ -105,12 +109,17 @@ class EventDetails extends StatelessWidget {
                     children: [
                       Text(
                         '${DateFormat('EEE').format(event.dateTime)}, ${DateFormat('dd-MM-yyyy').format(event.dateTime)}',
-                        style: const TextStyle(color: AppColors.kDarkGreen, fontSize: 15, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            color: AppColors.kDarkGreen,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
                       ),
                       Text(
                         DateFormat('hh:mm a').format(event.dateTime),
-                        style:
-                            const TextStyle(color: AppColors.kForestGreen, fontSize: 12, fontWeight: FontWeight.w500),
+                        style: const TextStyle(
+                            color: AppColors.kForestGreen,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -143,13 +152,17 @@ class EventDetails extends StatelessWidget {
                           event.locationInfo,
                           minFontSize: 12,
                           maxLines: 2,
-                          style:
-                              const TextStyle(color: AppColors.kDarkGreen, fontSize: 15, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                              color: AppColors.kDarkGreen,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
                           event.subLocationInfo,
-                          style:
-                              const TextStyle(color: AppColors.kForestGreen, fontSize: 12, fontWeight: FontWeight.w500),
+                          style: const TextStyle(
+                              color: AppColors.kForestGreen,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -180,12 +193,17 @@ class EventDetails extends StatelessWidget {
                     children: [
                       const Text(
                         'Hosted by',
-                        style: TextStyle(color: AppColors.kDarkGreen, fontSize: 15, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            color: AppColors.kDarkGreen,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
                       ),
                       Text(
                         event.postedByName,
-                        style:
-                            const TextStyle(color: AppColors.kForestGreen, fontSize: 12, fontWeight: FontWeight.w500),
+                        style: const TextStyle(
+                            color: AppColors.kForestGreen,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),

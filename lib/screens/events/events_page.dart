@@ -42,7 +42,11 @@ class _EventsPageState extends State<EventsPage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.appBarTitle ?? 'All Events'),
+        title: Text(widget.appBarTitle ?? 'All Events',
+            style: TextStyle(
+                color: AppColors.kDarkGreen,
+                fontWeight: FontWeight.w600,
+                fontSize: 20)),
         // actions: const [
         //   SearchWidget(
         //     widthRatio: 0.5,
@@ -90,10 +94,12 @@ class _EventsPageState extends State<EventsPage> {
             // this is just an example
             FutureBuilder(
               future: widget.institutionalUnit != null
-                  ? DatabaseService().getEventsByInstitutionalUnit(widget.institutionalUnit!)
+                  ? DatabaseService()
+                      .getEventsByInstitutionalUnit(widget.institutionalUnit!)
                   : widget.dateTime != null
                       ? DatabaseService().getEventsByDate(widget.dateTime!)
-                      : DatabaseService().getAllDocuments(CollectionRefs.events),
+                      : DatabaseService()
+                          .getAllDocuments(CollectionRefs.events),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Padding(
@@ -114,7 +120,8 @@ class _EventsPageState extends State<EventsPage> {
 
                   return ListView.builder(
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(), // Disable scrolling for the inner ListView
+                    physics:
+                        const NeverScrollableScrollPhysics(), // Disable scrolling for the inner ListView
                     itemCount: documents?.length,
                     itemBuilder: (context, index) {
                       // Safely parse document data into the Event model
@@ -125,12 +132,16 @@ class _EventsPageState extends State<EventsPage> {
                         child: GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => EventDetails(event: eventData)));
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EventDetails(event: eventData)));
                           },
                           child: EventWidget(
                             width: size.width * 0.9,
                             height: 80,
-                            eventDate: DateFormat('dd-MM-yyyy').format(eventData.dateTime),
+                            eventDate: DateFormat('dd-MM-yyyy')
+                                .format(eventData.dateTime),
                             eventLocation: eventData.locationInfo,
                             eventTitle: eventData.name,
                           ),

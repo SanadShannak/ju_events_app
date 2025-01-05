@@ -14,7 +14,8 @@ class DataCollectionNavigation extends StatefulWidget {
   const DataCollectionNavigation({super.key});
 
   @override
-  State<DataCollectionNavigation> createState() => _DataCollectionNavigationState();
+  State<DataCollectionNavigation> createState() =>
+      _DataCollectionNavigationState();
 }
 
 class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
@@ -38,7 +39,8 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
   }
 
   Future<void> _finishDataCollection() async {
-    final dataCollectionProvider = Provider.of<DataCollectionProvider>(context, listen: false);
+    final dataCollectionProvider =
+        Provider.of<DataCollectionProvider>(context, listen: false);
 
     final user = User(
       name: dataCollectionProvider.name!,
@@ -67,6 +69,7 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Column(
         children: [
@@ -102,8 +105,13 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
                       const Spacer(),
                       TextButton(
                         onPressed: () {
-                          String? name = Provider.of<DataCollectionProvider>(context, listen: false).name;
-                          if (name != null && name.trim().isNotEmpty && name.isNotEmpty) {
+                          String? name = Provider.of<DataCollectionProvider>(
+                                  context,
+                                  listen: false)
+                              .name;
+                          if (name != null &&
+                              name.trim().isNotEmpty &&
+                              name.isNotEmpty) {
                             _pageController.nextPage(
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.easeInOut,
@@ -111,12 +119,15 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                duration: const Duration(seconds: 1, milliseconds: 500),
+                                duration: const Duration(
+                                    seconds: 1, milliseconds: 500),
                                 content: const Text(
                                   'Please enter your name',
                                   textAlign: TextAlign.center,
-                                  style:
-                                      TextStyle(color: AppColors.kDarkGreen, fontWeight: FontWeight.w500, fontSize: 14),
+                                  style: TextStyle(
+                                      color: AppColors.kDarkGreen,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
                                 ),
                                 backgroundColor: Colors.grey[300],
                               ),
@@ -125,7 +136,8 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
                         },
                         child: const Text(
                           'Next',
-                          style: TextStyle(color: AppColors.kDarkGreen, fontSize: 16),
+                          style: TextStyle(
+                              color: AppColors.kDarkGreen, fontSize: 16),
                         ),
                       ),
                     ],
@@ -142,16 +154,21 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
                             },
                             child: const Text(
                               'Previous',
-                              style: TextStyle(color: AppColors.kDarkGreen, fontSize: 16),
+                              style: TextStyle(
+                                  color: AppColors.kDarkGreen, fontSize: 16),
                             ),
                           ),
                           const Spacer(),
                           TextButton(
                             onPressed: () {
                               String? selectedCollege =
-                                  Provider.of<DataCollectionProvider>(context, listen: false).selectedCollege;
+                                  Provider.of<DataCollectionProvider>(context,
+                                          listen: false)
+                                      .selectedCollege;
                               String? selectedMajor =
-                                  Provider.of<DataCollectionProvider>(context, listen: false).selectedMajor;
+                                  Provider.of<DataCollectionProvider>(context,
+                                          listen: false)
+                                      .selectedMajor;
                               if (selectedCollege != null) {
                                 if (selectedMajor != null) {
                                   _pageController.nextPage(
@@ -161,12 +178,15 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      duration: const Duration(seconds: 1, milliseconds: 500),
+                                      duration: const Duration(
+                                          seconds: 1, milliseconds: 500),
                                       content: const Text(
                                         'Please select your major',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            color: AppColors.kDarkGreen, fontWeight: FontWeight.w500, fontSize: 14),
+                                            color: AppColors.kDarkGreen,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14),
                                       ),
                                       backgroundColor: Colors.grey[300],
                                     ),
@@ -175,12 +195,15 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    duration: const Duration(seconds: 1, milliseconds: 500),
+                                    duration: const Duration(
+                                        seconds: 1, milliseconds: 500),
                                     content: const Text(
                                       'Please select your college and major',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          color: AppColors.kDarkGreen, fontWeight: FontWeight.w500, fontSize: 14),
+                                          color: AppColors.kDarkGreen,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14),
                                     ),
                                     backgroundColor: Colors.grey[300],
                                   ),
@@ -189,7 +212,8 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
                             },
                             child: const Text(
                               'Next',
-                              style: TextStyle(color: AppColors.kDarkGreen, fontSize: 16),
+                              style: TextStyle(
+                                  color: AppColors.kDarkGreen, fontSize: 16),
                             ),
                           ),
                         ],
@@ -206,25 +230,32 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
                             },
                             child: const Text(
                               'Previous',
-                              style: TextStyle(color: AppColors.kDarkGreen, fontSize: 16),
+                              style: TextStyle(
+                                  color: AppColors.kDarkGreen, fontSize: 16),
                             ),
                           ),
                           const Spacer(),
                           TextButton(
                             onPressed: () {
                               List? selectedInterests =
-                                  Provider.of<DataCollectionProvider>(context, listen: false).selectedInterests;
-                              if (selectedInterests != null && selectedInterests.isNotEmpty) {
+                                  Provider.of<DataCollectionProvider>(context,
+                                          listen: false)
+                                      .selectedInterests;
+                              if (selectedInterests != null &&
+                                  selectedInterests.isNotEmpty) {
                                 _finishDataCollection();
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    duration: const Duration(seconds: 1, milliseconds: 500),
+                                    duration: const Duration(
+                                        seconds: 1, milliseconds: 500),
                                     content: const Text(
                                       'Please select at least one interest',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          color: AppColors.kDarkGreen, fontWeight: FontWeight.w500, fontSize: 14),
+                                          color: AppColors.kDarkGreen,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14),
                                     ),
                                     backgroundColor: Colors.grey[300],
                                   ),
@@ -233,7 +264,8 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
                             },
                             child: const Text(
                               'Finish',
-                              style: TextStyle(color: AppColors.kDarkGreen, fontSize: 16),
+                              style: TextStyle(
+                                  color: AppColors.kDarkGreen, fontSize: 16),
                             ),
                           ),
                         ],

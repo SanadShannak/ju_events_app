@@ -12,8 +12,8 @@ class NameCollectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    String? savedName = Provider.of<DataCollectionProvider>(context, listen: true).name;
+    Size size = MediaQuery.of(context).size; 
+    
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
@@ -27,7 +27,10 @@ class NameCollectionPage extends StatelessWidget {
             padding: EdgeInsets.only(left: 5),
             child: Text(
               'What should we call you?',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.kDarkGreen),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.kDarkGreen),
             ),
           ),
           const SizedBox(
@@ -43,7 +46,9 @@ class NameCollectionPage extends StatelessWidget {
                 controller: _nameController,
                 onTextChange: (value) {
                   String trimmedName = value.trim();
-                  context.read<DataCollectionProvider>().updateName(trimmedName);
+                  context
+                      .read<DataCollectionProvider>()
+                      .updateName(trimmedName);
                 },
                 lettersAndSpacesOnly: true,
               ),

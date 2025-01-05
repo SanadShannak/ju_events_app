@@ -50,5 +50,5 @@ const _$EventRequestStateEnumMap = {
   EventRequestState.pending: 'pending',
   EventRequestState.accepted: 'accepted',
   EventRequestState.rejected: 'rejected',
-  EventRequestState.canceled: 'canceled',
+  EventRequestState.cancelled: 'cancelled',
 };

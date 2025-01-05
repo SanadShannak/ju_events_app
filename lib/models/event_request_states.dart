@@ -14,7 +14,7 @@ enum EventRequestState {
   @JsonValue('rejected')
   rejected,
 
-  /// Request has been canceled by the team leader.
-  @JsonValue('canceled')
-  canceled,
+  /// Request has been cancelled by the team leader.
+  @JsonValue('cancelled')
+  cancelled,
 }

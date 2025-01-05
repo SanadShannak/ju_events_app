@@ -45,12 +45,6 @@ class _CollegeMajorCollectionState extends State<CollegeMajorCollection> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    String? savedCollege =
-        Provider.of<DataCollectionProvider>(context, listen: true)
-            .selectedCollege;
-    String? savedMajor =
-        Provider.of<DataCollectionProvider>(context, listen: true)
-            .selectedMajor;
     List<String> majors =
         selectedCollege != null ? collegeMajorMap[selectedCollege!]! : [];
     List<DropdownMenuItem<String>> collegeDropdownMenuEntries = colleges
@@ -79,6 +73,7 @@ class _CollegeMajorCollectionState extends State<CollegeMajorCollection> {
             ))
         .toList();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),

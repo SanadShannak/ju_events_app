@@ -19,7 +19,7 @@ class AppColors {
         return Colors.green;
       case EventRequestState.rejected:
         return Colors.redAccent;
-      case EventRequestState.canceled:
+      case EventRequestState.cancelled:
         return Colors.grey;
     }
   }

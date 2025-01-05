@@ -56,7 +56,8 @@ class RequestedEvent extends Event {
   });
 
   /// Creates a `RequestedEvent` from a JSON map.
-  factory RequestedEvent.fromJson(Map<String, dynamic> json) => _$RequestedEventFromJson(json);
+  factory RequestedEvent.fromJson(Map<String, dynamic> json) =>
+      _$RequestedEventFromJson(json);
 
   /// Converts the `RequestedEvent` to a JSON map.
   @override
@@ -70,5 +71,6 @@ class RequestedEvent extends Event {
   }
 
   /// Converts a Firestore `Timestamp` to a JSON-compatible value.
-  static int _timestampToJson(Timestamp timestamp) => timestamp.millisecondsSinceEpoch;
+  static int _timestampToJson(Timestamp timestamp) =>
+      timestamp.millisecondsSinceEpoch;
 }
