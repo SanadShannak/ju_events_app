@@ -2,20 +2,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:temp_project/providers/data_collection_provider.dart';
-import 'package:temp_project/screens/authentication/landing_page.dart';
-import 'package:temp_project/screens/authentication/login_page.dart';
-import 'package:temp_project/screens/authentication/signup_page.dart';
-import 'package:temp_project/screens/dataCollectionNavigation/components/data_collection_navigation_widget.dart';
-import 'package:temp_project/screens/dataCollectionNavigation/components/greeting_page.dart';
-import 'package:temp_project/screens/dataCollectionNavigation/name_collection.dart';
-import 'package:temp_project/services/auth_service.dart';
+import 'package:temp_project/screens/event_request_create_pages/event_provider.dart';
+import 'package:temp_project/screens/event_request_create_pages/event_request_create_pages.dart';
 import 'package:temp_project/services/database_service/database_service.dart';
 import 'package:temp_project/services/database_service/extensions/user_extensions.dart';
 import 'package:temp_project/utilities/constants.dart';
 import 'package:temp_project/utilities/theme/theme.dart';
-import 'package:temp_project/widgets/bottom_navigation_bar.dart';
 
 import 'firebase_options.dart';
+import 'models/user.dart';
+import 'models/user_roles.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,23 +47,33 @@ class JUEvents extends StatelessWidget {
             ),
           );
         } else {
-          final bool areDetailsFilled = snapshot.data ?? false;
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
             themeMode: ThemeMode.light,
-            initialRoute:
-                AuthService.instance.isUserLoggedIn() ? (areDetailsFilled ? '/' : '/greetingPage') : '/landingPage',
-            routes: {
-              '/landingPage': (context) => const LandingPage(),
-              '/login': (context) => const LoginPage(),
-              '/signup': (context) => const SignUpPage(),
-              '/nameCollection': (context) => NameCollectionPage(),
-              '/greetingPage': (context) => const GreetingPage(),
-              '/dataCollectionPages': (context) => const DataCollectionNavigation(),
-              '/': (context) => const MainBottomNavigationBar(),
-              '/dataCollectionNavigation': (context) => const DataCollectionNavigation(),
-            },
+            home: Provider(
+                create: (context) => EventProvider(),
+                child: EventRequestCreatePages(
+                  user: User(
+                      name: 'Ahmad Aljazairy',
+                      major: 'Computer Science',
+                      interests: [],
+                      institutionalUnitName: 'Facility of Information Technology',
+                      role: UserRole.admin,
+                      institutionalUnitId: 'ui2ebXQtSSJpDRUEj0tY'),
+                )),
+            // initialRoute:
+            //     AuthService.instance.isUserLoggedIn() ? (areDetailsFilled ? '/' : '/greetingPage') : '/landingPage',
+            // routes: {
+            //   '/landingPage': (context) => const LandingPage(),
+            //   '/login': (context) => const LoginPage(),
+            //   '/signup': (context) => const SignUpPage(),
+            //   '/nameCollection': (context) => NameCollectionPage(),
+            //   '/greetingPage': (context) => const GreetingPage(),
+            //   '/dataCollectionPages': (context) => const DataCollectionNavigation(),
+            //   '/': (context) => const MainBottomNavigationBar(),
+            //   '/dataCollectionNavigation': (context) => const DataCollectionNavigation(),
+            // },
           );
         }
       },

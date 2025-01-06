@@ -1,19 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:temp_project/providers/data_collection_provider.dart';
-import 'package:temp_project/screens/dataCollectionNavigation/components/interests_collection_widget.dart';
 import 'package:temp_project/services/database_service/extensions/interests_extensions.dart';
-import 'package:temp_project/utilities/constants.dart';
 
-class InterestCollection extends StatefulWidget {
-  const InterestCollection({super.key});
+import '../../utilities/constants.dart';
+import '../dataCollectionNavigation/components/interests_collection_widget.dart';
+import 'event_provider.dart';
+
+class EventTopics extends StatefulWidget {
+  const EventTopics({super.key});
 
   @override
-  State<InterestCollection> createState() => _InterestCollectionState();
+  State<EventTopics> createState() => _EventTopicsState();
 }
 
-class _InterestCollectionState extends State<InterestCollection> {
+class _EventTopicsState extends State<EventTopics> {
   List<String> interestsList = [];
 
   @override
@@ -37,9 +38,9 @@ class _InterestCollectionState extends State<InterestCollection> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      child: SingleChildScrollView(
         child: Column(
           children: [
             Column(
@@ -47,22 +48,25 @@ class _InterestCollectionState extends State<InterestCollection> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  'What are your interests?',
-                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: AppColors.kDarkGreen),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Choose The Event Topics',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.kDarkGreen),
+                  ),
                 ),
                 const SizedBox(
                   height: 15,
                 ),
                 SizedBox(
                   width: size.width * 1,
-                  child: InterestsCollectionWidget<DataCollectionProvider>(
+                  child: InterestsCollectionWidget<EventProvider>(
                     interestsList: interestsList,
                     maxNumberSelected: 5,
-                    addInterest: (DataCollectionProvider provider, String interest) =>
-                        context.read<DataCollectionProvider>().addInterest(interest),
-                    removeInterest: (DataCollectionProvider provider, String interest) =>
-                        context.read<DataCollectionProvider>().removeInterest(interest),
+                    addInterest: (EventProvider provider, String interest) =>
+                        context.read<EventProvider>().addTopic(interest),
+                    removeInterest: (EventProvider provider, String interest) =>
+                        context.read<EventProvider>().removeTopic(interest),
                   ),
                 ),
               ],
