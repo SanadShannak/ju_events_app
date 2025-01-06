@@ -126,42 +126,56 @@ class _TeamRequestedEventsPageState extends State<TeamRequestedEventsPage> {
 
                 if (snapshot.hasData && snapshot.data != null) {
                   final documents = snapshot.data?.docs;
+                  if (documents!.isNotEmpty) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics:
+                          const NeverScrollableScrollPhysics(), // Disable scrolling for the inner ListView
 
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics:
-                        const NeverScrollableScrollPhysics(), // Disable scrolling for the inner ListView
+                      itemCount: documents.length,
 
-                    itemCount: documents?.length,
+                      itemBuilder: (context, index) {
+                        // Safely parse document data into the Event model
+                        final eventData =
+                            documents[index].data() as RequestedEvent;
 
-                    itemBuilder: (context, index) {
-                      // Safely parse document data into the Event model
-                      final eventData =
-                          documents?[index].data() as RequestedEvent;
-
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        EventDetails(event: eventData)));
-                          },
-                          child: EventWidget.teamLeader(
-                            width: size.width * 0.9,
-                            height: 80,
-                            eventDate: DateFormat('dd-MM-yyyy')
-                                .format(eventData.dateTime),
-                            eventLocation: eventData.locationInfo,
-                            eventTitle: eventData.name,
-                            requestEventState: eventData.requestState,
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          EventDetails(event: eventData)));
+                            },
+                            child: EventWidget.teamLeader(
+                              width: size.width * 0.9,
+                              height: 80,
+                              eventDate: DateFormat('dd-MM-yyyy')
+                                  .format(eventData.dateTime),
+                              eventLocation: eventData.locationInfo,
+                              eventTitle: eventData.name,
+                              requestEventState: eventData.requestState,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
+                        );
+                      },
+                    );
+                  } else {
+                    return Center(
+                        child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: size.width * .75),
+                      child: const Text(
+                        'No Requested Events',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.kDarkGreen),
+                        textAlign: TextAlign.center,
+                      ),
+                    ));
+                  }
                 }
 
                 return const Center(child: Text('No Requested Events.'));
