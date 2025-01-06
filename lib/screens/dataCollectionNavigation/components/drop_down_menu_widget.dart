@@ -4,12 +4,13 @@ import 'package:temp_project/utilities/constants.dart';
 
 class CustomDropDownMenuWidget extends StatefulWidget {
   final GlobalKey<FormFieldState> dropDownMenuKey;
-  final String formLabel;
+  final String? formLabel;
   final List<DropdownMenuItem<String>> dropDownMenuEntries;
   final String? dropDownMenuValue;
   final Function(String?)? dropDownMenuOnChanged;
   final String? Function(String?)? dropDownMenuValidator;
   final List<Widget> Function(BuildContext)? selectedItemBuilder;
+  final String? formHint;
 
   const CustomDropDownMenuWidget({
     super.key,
@@ -19,7 +20,8 @@ class CustomDropDownMenuWidget extends StatefulWidget {
     required this.dropDownMenuOnChanged,
     required this.dropDownMenuValidator,
     required this.selectedItemBuilder,
-    required this.formLabel,
+    this.formLabel,
+    this.formHint,
   });
 
   @override
@@ -37,6 +39,16 @@ class _CustomDropDownMenuWidgetState extends State<CustomDropDownMenuWidget> {
       value: widget.dropDownMenuValue,
       dropdownColor: Colors.white,
       iconEnabledColor: AppColors.kDarkGreen,
+      hint: widget.formHint != null
+          ? Text(
+              widget.formHint!,
+              style: TextStyle(
+                color: AppColors.kHintTextColor,
+                fontSize: 15.0,
+                fontWeight: FontWeight.w500,
+              ),
+            )
+          : null,
       menuMaxHeight: 300.0,
       decoration: InputDecoration(
         labelText: widget.formLabel,

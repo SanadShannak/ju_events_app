@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:temp_project/providers/data_collection_provider.dart';
+import 'package:temp_project/screens/dataCollectionNavigation/components/drop_down_menu_widget.dart';
+import 'package:temp_project/services/database_service/extensions/institutional_unit_extensions.dart';
 
 import '../../utilities/constants.dart';
 import '../../widgets/custom_text_form_field.dart';
@@ -29,11 +33,29 @@ class _EventDetailsState extends State<EventDetails> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _startingTimeController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-
+  final GlobalKey<FormFieldState<String>> _collegeFieldKey =
+      GlobalKey<FormFieldState<String>>();
+  Map<String, List<String>> collegeMajorMap = {};
+  List<String> colleges = [];
+  String? selectedCollege;
   @override
   void initState() {
     context.read<EventProvider>().key = _formKey;
     super.initState();
+    fetchCollegesAndMajors();
+  }
+
+  Future<void> fetchCollegesAndMajors() async {
+    try {
+      final fetchedCollegeMajorMap =
+          await FirebaseFirestore.instance.fetchCollegesAndMajors();
+      setState(() {
+        collegeMajorMap = fetchedCollegeMajorMap;
+        colleges = collegeMajorMap.keys.toList();
+      });
+    } catch (e) {
+      print('Error fetching colleges and majors: $e');
+    }
   }
 
   Widget getLabel(String label) {
@@ -41,7 +63,10 @@ class _EventDetailsState extends State<EventDetails> {
       padding: const EdgeInsets.only(left: 10.0, top: 10.0),
       child: Text(
         label,
-        style: const TextStyle(color: AppColors.kDarkGreen, fontSize: 16, fontWeight: FontWeight.bold),
+        style: const TextStyle(
+            color: AppColors.kDarkGreen,
+            fontSize: 16,
+            fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -56,7 +81,8 @@ class _EventDetailsState extends State<EventDetails> {
         builder: (context, child) {
           return Theme(
             data: ThemeData.light().copyWith(
-              colorScheme: const ColorScheme.light(primary: AppColors.kForestGreen // circle color
+              colorScheme: const ColorScheme.light(
+                  primary: AppColors.kForestGreen // circle color
                   ),
             ),
             child: child!,
@@ -85,7 +111,8 @@ class _EventDetailsState extends State<EventDetails> {
               dayPeriodTextColor: AppColors.kForestGreen, // AM/PM text color
               dayPeriodColor: WidgetStateColor.resolveWith(
                 (states) => states.contains(WidgetState.selected)
-                    ? AppColors.kForestGreen.withAlpha(50) // Selected AM/PM background
+                    ? AppColors.kForestGreen
+                        .withAlpha(50) // Selected AM/PM background
                     : Colors.transparent, // Unselected AM/PM background
               ),
             ),
@@ -105,8 +132,20 @@ class _EventDetailsState extends State<EventDetails> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    List<DropdownMenuItem<String>> collegeDropdownMenuEntries = colleges
+        .map((college) => DropdownMenuItem(
+              value: college,
+              child: SizedBox(
+                width: size.width * .7,
+                child: Text(
+                  college,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+              ),
+            ))
+        .toList();
     return Consumer<EventProvider>(
-      
       builder: (BuildContext context, EventProvider event, Widget? child) {
         return Container(
           padding: const EdgeInsets.all(16.0),
@@ -114,7 +153,8 @@ class _EventDetailsState extends State<EventDetails> {
             key: _formKey,
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start, // Added for better alignment
+                crossAxisAlignment:
+                    CrossAxisAlignment.start, // Added for better alignment
                 children: [
                   getLabel('Title'),
                   CustomTextFormField(
@@ -131,19 +171,59 @@ class _EventDetailsState extends State<EventDetails> {
                     },
                   ),
                   getLabel('Location'),
-                  CustomTextFormField(
-                    formType: FormType.normalUse,
-                    hint: 'Enter Event Location',
-                    controller: _locationController,
-                    validator: (value) {
-                      try {
-                        event.locationInfo = value;
-                      } on ArgumentError catch (e) {
-                        return e.message;
-                      }
-                      return null;
-                    },
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 16.0, bottom: 16.0, right: 10.0, left: 4.0),
+                    child: CustomDropDownMenuWidget(
+                      dropDownMenuKey: _collegeFieldKey,
+                      dropDownMenuEntries: collegeDropdownMenuEntries,
+                      dropDownMenuValue: selectedCollege,
+                      dropDownMenuOnChanged: (college) {
+                        setState(() {
+                          selectedCollege = college;
+
+                          context
+                              .read<DataCollectionProvider>()
+                              .updateCollege(college);
+                        });
+                        _collegeFieldKey.currentState?.validate();
+                      },
+                      dropDownMenuValidator: (college) {
+                        try {
+                          event.locationInfo = college;
+                        } on ArgumentError catch (e) {
+                          return e.message;
+                        }
+                        return null;
+                      },
+                      selectedItemBuilder: (BuildContext context) {
+                        return colleges.map((college) {
+                          return SizedBox(
+                            width: size.width * .7,
+                            child: Text(
+                              college,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          );
+                        }).toList();
+                      },
+                      formHint: 'Enter Event Location',
+                    ),
                   ),
+                  //CustomTextFormField(
+                  //  formType: FormType.normalUse,
+                  //  hint: 'Enter Event Location',
+                  //  controller: _locationController,
+                  //  validator: (value) {
+                  //    try {
+                  //      event.locationInfo = value;
+                  //    } on ArgumentError catch (e) {
+                  //      return e.message;
+                  //    }
+                  //    return null;
+                  //  },
+                  //),
                   getLabel('Sub Location'),
                   CustomTextFormField(
                     formType: FormType.normalUse,
@@ -177,8 +257,8 @@ class _EventDetailsState extends State<EventDetails> {
                           }
 
                           List<String> dateParts = value.split('-');
-                          event.date =
-                              DateTime(int.parse(dateParts[0]), int.parse(dateParts[1]), int.parse(dateParts[2]));
+                          event.date = DateTime(int.parse(dateParts[0]),
+                              int.parse(dateParts[1]), int.parse(dateParts[2]));
                         } on ArgumentError catch (e) {
                           return e.message;
                         }
@@ -196,7 +276,8 @@ class _EventDetailsState extends State<EventDetails> {
                             return "Starting Time Field Can't be empty.";
                           }
                           final timeComponents = value.split(' ');
-                          final timeWithoutPeriod = timeComponents[0].split(':');
+                          final timeWithoutPeriod =
+                              timeComponents[0].split(':');
                           final period = timeComponents[1].toUpperCase();
 
                           int hour = int.parse(timeWithoutPeriod[0]);
@@ -208,7 +289,8 @@ class _EventDetailsState extends State<EventDetails> {
                           } else if (period == 'AM' && hour == 12) {
                             hour = 0;
                           }
-                          event.startingTime = TimeOfDay(hour: hour, minute: minute);
+                          event.startingTime =
+                              TimeOfDay(hour: hour, minute: minute);
                         } on ArgumentError catch (e) {
                           return e.message;
                         }
