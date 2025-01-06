@@ -17,6 +17,9 @@ enum FormType {
   ),
   userName(
     keyboardType: TextInputType.name,
+  ),
+  normalUse(
+    keyboardType: TextInputType.text,
   );
 
   const FormType(
@@ -45,7 +48,7 @@ class CustomTextFormFieldContainer extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      padding: const EdgeInsets.all(5),
       width: size.width * screenWidthRatio,
       child: textFormField,
     );
