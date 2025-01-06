@@ -2,11 +2,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'package:temp_project/models/requested_event.dart';
+import 'package:temp_project/models/user.dart' as userModel;
+import 'package:temp_project/providers/data_collection_provider.dart';
+import 'package:temp_project/screens/event_request_create_pages/event_provider.dart';
+
+import 'package:temp_project/screens/event_request_create_pages/event_request_create_pages.dart';
 import 'package:temp_project/screens/homePage/components/event_details_screen.dart';
 import 'package:temp_project/services/database_service/database_service.dart'
-    as DBService;
+    as dbService;
 import 'package:temp_project/services/database_service/extensions/requested_event_extensions.dart';
 
 import 'package:temp_project/services/database_service/extensions/user_extensions.dart';
@@ -34,7 +40,7 @@ class _TeamRequestedEventsPageState extends State<TeamRequestedEventsPage> {
   Future<void> _fetchTeamName() async {
     final String? leaderId = FirebaseAuth.instance.currentUser?.uid;
     if (leaderId != null) {
-      final name = await DBService.DatabaseService().getTeamNameByLeaderId();
+      final name = await dbService.DatabaseService().getTeamNameByLeaderId();
       setState(() {
         teamName = name;
       });
@@ -83,15 +89,18 @@ class _TeamRequestedEventsPageState extends State<TeamRequestedEventsPage> {
         child: Column(
           children: [
             FutureBuilder(
-              future: DBService.DatabaseService()
+              future: dbService.DatabaseService()
                   .getRequestedEventsByCurrentUserTeam(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Padding(
-                    padding: EdgeInsets.all(50),
-                    child: Center(
-                        child: CircularProgressIndicator(
-                      color: AppColors.kDarkGreen,
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: size.width * .75),
+                    child: const Center(
+                        child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(
+                        color: AppColors.kDarkGreen,
+                      ),
                     )),
                   );
                 }
@@ -100,9 +109,9 @@ class _TeamRequestedEventsPageState extends State<TeamRequestedEventsPage> {
                   if (snapshot.error.toString() == '{null}') {
                     return Center(
                         child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: size.width * .55),
+                      padding: EdgeInsets.symmetric(vertical: size.width * .75),
                       child: const Text(
-                        'No Requested Events.',
+                        'No Requested Events',
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -162,9 +171,30 @@ class _TeamRequestedEventsPageState extends State<TeamRequestedEventsPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print(
-              'Floating Action Button Pressed'); // TODO: change the floating action button press function
+        onPressed: () async {
+          final userModel.User? currentUser =
+              await dbService.DatabaseService().getUserDocument();
+
+          if (currentUser != null) {
+            await Navigator.push(
+              context,
+              await MaterialPageRoute(
+                  builder: (context) => Provider<EventProvider>(
+                        create: (context) => EventProvider(),
+                        child: EventRequestCreatePages(
+                          user: currentUser,
+                        ),
+                      )),
+            );
+            setState(() {});
+          } else {
+            // Handle the case where user details could not be fetched
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Failed to fetch user details')),
+            );
+          }
+          Provider.of<DataCollectionProvider>(context, listen: false)
+              .resetDataToNull();
         },
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(22.0)),

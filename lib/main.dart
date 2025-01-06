@@ -2,16 +2,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:temp_project/providers/data_collection_provider.dart';
-import 'package:temp_project/screens/event_request_create_pages/event_provider.dart';
-import 'package:temp_project/screens/event_request_create_pages/event_request_create_pages.dart';
+import 'package:temp_project/screens/authentication/landing_page.dart';
+import 'package:temp_project/screens/authentication/login_page.dart';
+import 'package:temp_project/screens/authentication/signup_page.dart';
+import 'package:temp_project/screens/dataCollectionNavigation/components/data_collection_navigation_widget.dart';
+import 'package:temp_project/screens/dataCollectionNavigation/components/greeting_page.dart';
+import 'package:temp_project/screens/dataCollectionNavigation/name_collection.dart';
+import 'package:temp_project/services/auth_service.dart';
 import 'package:temp_project/services/database_service/database_service.dart';
 import 'package:temp_project/services/database_service/extensions/user_extensions.dart';
 import 'package:temp_project/utilities/constants.dart';
 import 'package:temp_project/utilities/theme/theme.dart';
+import 'package:temp_project/widgets/bottom_navigation_bar.dart';
 
 import 'firebase_options.dart';
-import 'models/user.dart';
-import 'models/user_roles.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +53,7 @@ class JUEvents extends StatelessWidget {
             ),
           );
         } else {
+          final bool areDetailsFilled = snapshot.data ?? false;
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,

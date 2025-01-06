@@ -59,11 +59,13 @@ extension EventExtensions on DatabaseService {
 
   Future<QuerySnapshot> getPendingEventsToCurrentUser() async {
     final String? adminUnitId = await getCurrentUserUnitId();
+    final String? userId = AuthService.instance.getUserId();
     try {
       if (adminUnitId != null) {
         QuerySnapshot querySnapshot =
             await refs[CollectionRefs.requestedEvents]!
-                .where('target_id', isEqualTo: adminUnitId)
+                .where('target_id', isEqualTo: userId)
+                .where('request_state', isEqualTo: 'pending')
                 .get();
         return querySnapshot;
       }
@@ -80,5 +82,12 @@ extension EventExtensions on DatabaseService {
         .collection('requested_events')
         .doc(eventId)
         .update({'request_state': newState});
+  }
+
+  Future<void> removeEventFromRequestedEvents(String eventId) async {
+    await FirebaseFirestore.instance
+        .collection('requested_events')
+        .doc(eventId)
+        .delete();
   }
 }

@@ -9,6 +9,7 @@ import '../../services/database_service/database_service.dart';
 import '../../utilities/constants.dart';
 import '../homePage/components/event_details_screen.dart';
 
+// ignore: must_be_immutable
 class EventsPage extends StatefulWidget {
   EventsPage.all({
     super.key,
@@ -122,41 +123,57 @@ class _EventsPageState extends State<EventsPage> {
 
                 if (snapshot.hasData && snapshot.data != null) {
                   final documents = snapshot.data?.docs;
+                  if (documents!.isNotEmpty) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics:
+                          const NeverScrollableScrollPhysics(), // Disable scrolling for the inner ListView
+                      itemCount: documents.length,
+                      itemBuilder: (context, index) {
+                        // Safely parse document data into the Event model
+                        final eventData = documents[index].data() as Event;
 
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics:
-                        const NeverScrollableScrollPhysics(), // Disable scrolling for the inner ListView
-                    itemCount: documents?.length,
-                    itemBuilder: (context, index) {
-                      // Safely parse document data into the Event model
-                      final eventData = documents?[index].data() as Event;
-
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        EventDetails(event: eventData)));
-                          },
-                          child: EventWidget(
-                            width: size.width * 0.9,
-                            height: 80,
-                            eventDate: DateFormat('dd-MM-yyyy')
-                                .format(eventData.dateTime),
-                            eventLocation: eventData.locationInfo,
-                            eventTitle: eventData.name,
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          EventDetails(event: eventData)));
+                            },
+                            child: EventWidget(
+                              width: size.width * 0.9,
+                              height: 80,
+                              eventDate: DateFormat('dd-MM-yyyy')
+                                  .format(eventData.dateTime),
+                              eventLocation: eventData.locationInfo,
+                              eventTitle: eventData.name,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
+                        );
+                      },
+                    );
+                  } else {
+                    return Center(
+                        // If there are no events pending to this user
+                        child: Container(
+                            height: size.height,
+                            padding: EdgeInsets.symmetric(
+                                vertical: size.width * .75),
+                            child: const Text(
+                              'No Events Available',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.kDarkGreen),
+                              textAlign: TextAlign.center,
+                            )));
+                  }
                 }
 
-                return const Center(child: Text('No events found.'));
+                return Center(child: Text('Error: ${snapshot.error}'));
               },
             )
           ],

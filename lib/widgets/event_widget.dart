@@ -1,11 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:temp_project/models/event.dart';
+import 'package:temp_project/models/requested_event.dart';
 import 'package:temp_project/services/database_service/database_service.dart';
 import 'package:temp_project/services/database_service/extensions/requested_event_extensions.dart';
 import 'package:temp_project/utilities/constants.dart';
 
 import '../models/event_request_states.dart';
 
+// ignore: must_be_immutable
 class EventWidget extends StatelessWidget {
   final String eventTitle;
   final String eventDate;
@@ -18,6 +21,8 @@ class EventWidget extends StatelessWidget {
   final String? requestedEventId;
 
   VoidCallback? onRequestedEventStateChange;
+
+  RequestedEvent? eventData;
 
   EventWidget({
     super.key,
@@ -55,7 +60,9 @@ class EventWidget extends StatelessWidget {
     this.requestEventState,
     required this.requestedEventId,
     required this.onRequestedEventStateChange,
+    required this.eventData,
   }) : trailing = AdminTrailing(
+            eventData: eventData!,
             requestedEventId: requestedEventId!,
             onRequestedEventStateChange: onRequestedEventStateChange!);
 
@@ -201,14 +208,28 @@ class AdminTrailing extends StatelessWidget {
     super.key,
     required this.requestedEventId,
     required this.onRequestedEventStateChange,
+    required this.eventData,
   });
   final String requestedEventId;
-
   final VoidCallback onRequestedEventStateChange;
+  final RequestedEvent eventData;
 
   Future<void> _updateEventState(String eventId, String newState) async {
     await DatabaseService().updateRequestedEventState(eventId, newState);
     onRequestedEventStateChange();
+  }
+
+  Future<void> _handleAcceptedEvent(String acceptedEventId) async {
+    final acceptedEvent = Event(
+        name: eventData.name,
+        dateTime: eventData.dateTime,
+        locationInfo: eventData.locationInfo,
+        subLocationInfo: eventData.subLocationInfo,
+        topics: eventData.topics,
+        description: eventData.description,
+        postedById: eventData.postedById,
+        postedByName: eventData.postedByName);
+    DatabaseService().addDocument(CollectionRefs.events, acceptedEvent);
   }
 
   @override
@@ -220,6 +241,7 @@ class AdminTrailing extends StatelessWidget {
           icon: const Icon(Icons.check, color: AppColors.kForestGreen),
           onPressed: () async {
             await _updateEventState(requestedEventId, 'accepted');
+            await _handleAcceptedEvent(requestedEventId);
           },
         ),
         IconButton(

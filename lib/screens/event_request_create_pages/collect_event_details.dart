@@ -106,6 +106,7 @@ class _EventDetailsState extends State<EventDetails> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Consumer<EventProvider>(
+      
       builder: (BuildContext context, EventProvider event, Widget? child) {
         return Container(
           padding: const EdgeInsets.all(16.0),

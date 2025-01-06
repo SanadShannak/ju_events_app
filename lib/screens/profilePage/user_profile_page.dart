@@ -53,9 +53,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
     final String? leaderId = AuthService.instance.getUserId();
     if (leaderId != null) {
       final name = await DatabaseService().getTeamNameByLeaderId();
-      setState(() {
-        teamName = name;
-      });
+      if (mounted) {
+        setState(() {
+          teamName = name;
+        });
+      }
     }
   }
 

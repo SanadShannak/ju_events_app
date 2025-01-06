@@ -5,9 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:temp_project/models/event_request_states.dart';
 import 'package:temp_project/models/institutional_unit.dart';
 import 'package:temp_project/models/requested_event.dart';
+import 'package:temp_project/providers/data_collection_provider.dart';
 import 'package:temp_project/screens/event_request_create_pages/collect_event_details.dart';
 import 'package:temp_project/screens/event_request_create_pages/event_provider.dart';
 import 'package:temp_project/services/database_service/database_service.dart';
+import 'package:temp_project/services/database_service/extensions/user_extensions.dart';
+import 'package:temp_project/widgets/custom_app_bar.dart';
 
 import '../../models/event.dart';
 import '../../models/user.dart';
@@ -20,8 +23,10 @@ import 'collect_event_topics.dart';
 class EventRequestCreatePages extends StatefulWidget {
   const EventRequestCreatePages({super.key, required this.user});
   final User user;
+
   @override
-  State<EventRequestCreatePages> createState() => _EventRequestCreatePagesState();
+  State<EventRequestCreatePages> createState() =>
+      _EventRequestCreatePagesState();
 }
 
 class _EventRequestCreatePagesState extends State<EventRequestCreatePages> {
@@ -47,7 +52,8 @@ class _EventRequestCreatePagesState extends State<EventRequestCreatePages> {
   }
 
   void _nextPage() {
-    if (_pageController.page != null && context.read<EventProvider>().eventDetailsWidgetValidator()) {
+    if (_pageController.page != null &&
+        context.read<EventProvider>().eventDetailsWidgetValidator()) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -69,7 +75,8 @@ class _EventRequestCreatePagesState extends State<EventRequestCreatePages> {
     final authService = AuthService.instance;
 
     if (!eventProvider.eventTopicsWidgetValidator()) {
-      await _showSnackBar('Please select at least one interest', AppColors.kDarkGreen);
+      await _showSnackBar(
+          'Please select at least one interest', AppColors.kDarkGreen);
       return;
     }
 
@@ -78,7 +85,8 @@ class _EventRequestCreatePagesState extends State<EventRequestCreatePages> {
 
     final eventInfo = eventProvider.getEvent();
     if (eventInfo == null) {
-      await _showSnackBar('Failed to Get Event Information, Please Try Later.', Colors.red);
+      await _showSnackBar(
+          'Failed to Get Event Information, Please Try Later.', Colors.red);
       _navigateToOriginPage();
       return;
     }
@@ -102,9 +110,13 @@ class _EventRequestCreatePagesState extends State<EventRequestCreatePages> {
     if (instDoc != null) {
       inst = instDoc.data() as InstitutionalUnit;
     } else {
-      await _showSnackBar('Failed to Send Event Request, Please Try Later.', Colors.red);
+      await _showSnackBar(
+          'Failed to Send Event Request, Please Try Later.', Colors.red);
       return;
     }
+
+    String? postedById = await DatabaseService().getTeamIdByLeaderId();
+    String? postedByName = await DatabaseService().getTeamNameByLeaderId();
 
     final eventRequest = RequestedEvent(
       name: eventInfo.name,
@@ -113,8 +125,10 @@ class _EventRequestCreatePagesState extends State<EventRequestCreatePages> {
       subLocationInfo: eventInfo.subLocationInfo,
       topics: eventInfo.topics,
       description: eventInfo.description,
-      postedById: AuthService.instance.getUserId().toString(),
-      postedByName: widget.user.name,
+      postedById: postedById!,
+      postedByName: postedByName!,
+      //postedById: AuthService.instance.getUserId().toString(),
+      // postedByName: widget.user.name,
       requestDateTime: Timestamp.now(),
       initiatorId: AuthService.instance.getUserId().toString(),
       initiatorName: widget.user.name,
@@ -123,20 +137,27 @@ class _EventRequestCreatePagesState extends State<EventRequestCreatePages> {
       requestState: EventRequestState.pending,
     );
 
-    final operationStatus = await DatabaseService().addDocument(CollectionRefs.requestedEvents, eventRequest);
+    final operationStatus = await DatabaseService()
+        .addDocument(CollectionRefs.requestedEvents, eventRequest);
     if (operationStatus == OperationStatus.success && mounted) {
-      await _showSnackBar('Event Request Sent Successfully', AppColors.kDarkGreen);
+      await _showSnackBar(
+          'Event Request Sent Successfully', AppColors.kDarkGreen);
     } else if (mounted) {
-      await _showSnackBar('Failed to Send Event Request, Please Try Later.', Colors.red);
+      await _showSnackBar(
+          'Failed to Send Event Request, Please Try Later.', Colors.red);
     }
+    Provider.of<DataCollectionProvider>(context, listen: false)
+        .resetDataToNull();
   }
 
   Future<void> _handleAdmin(Event eventInfo) async {
-    final operationStatus = await DatabaseService().addDocument(CollectionRefs.events, eventInfo);
+    final operationStatus =
+        await DatabaseService().addDocument(CollectionRefs.events, eventInfo);
     if (operationStatus == OperationStatus.success && mounted) {
       await _showSnackBar('Event Published Successfully', AppColors.kDarkGreen);
     } else if (mounted) {
-      await _showSnackBar('Failed to Publish Event, Please Try Later.', Colors.red);
+      await _showSnackBar(
+          'Failed to Publish Event, Please Try Later.', Colors.red);
     }
   }
 
@@ -147,7 +168,8 @@ class _EventRequestCreatePagesState extends State<EventRequestCreatePages> {
         content: Text(
           message,
           textAlign: TextAlign.center,
-          style: TextStyle(color: textColor, fontWeight: FontWeight.w500, fontSize: 14),
+          style: TextStyle(
+              color: textColor, fontWeight: FontWeight.w500, fontSize: 14),
         ),
         backgroundColor: Colors.grey[300],
       ),
@@ -163,8 +185,18 @@ class _EventRequestCreatePagesState extends State<EventRequestCreatePages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.user.role == UserRole.teamLeader ? 'Event Request' : 'Create Event'),
+      resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(
+        titleWidget: Text(
+          widget.user.role == UserRole.teamLeader
+              ? 'Event Request'
+              : 'Create Event',
+          style: const TextStyle(
+              color: AppColors.kDarkGreen,
+              fontWeight: FontWeight.w600,
+              fontSize: 18),
+        ),
+        showBackButton: true,
       ),
       body: Column(
         children: [
@@ -212,7 +244,7 @@ class NavigationButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
       child: TextButton(
         onPressed: onPressed,
         child: Text(

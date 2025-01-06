@@ -9,6 +9,7 @@ class DataCollectionProvider extends ChangeNotifier {
   String? selectedCollegeId;
   String? selectedMajor;
   List<String>? selectedInterests;
+  Set<int> selectedInterestIndices = {}; // For Interest Coloring Management
   UserRole userRole = UserRole.normalUser;
 
   bool get isNameValid => name != null && name!.isNotEmpty;
@@ -56,6 +57,15 @@ class DataCollectionProvider extends ChangeNotifier {
       return;
     }
     selectedInterests!.remove(interest);
+    notifyListeners();
+  }
+
+  void resetDataToNull() {
+    name = null;
+    selectedCollege = null;
+    selectedMajor = null;
+    selectedInterests = [];
+    selectedInterestIndices.clear();
     notifyListeners();
   }
 }

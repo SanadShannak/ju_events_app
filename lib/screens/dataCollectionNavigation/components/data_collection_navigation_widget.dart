@@ -64,6 +64,7 @@ class _DataCollectionNavigationState extends State<DataCollectionNavigation> {
         );
       }
     }
+    dataCollectionProvider.resetDataToNull();
   }
 
   @override

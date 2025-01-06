@@ -108,6 +108,25 @@ extension UserExtensions on DatabaseService {
         user.interests.isNotEmpty;
   }
 
+  Future<String?> getTeamIdByLeaderId() async {
+    try {
+      final String? leaderId = AuthService.instance.getUserId();
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('teams')
+          .where('leader_id', isEqualTo: leaderId)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs.first.id as String?;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Error getting team name: $e');
+      return null;
+    }
+  }
+
   Future<String?> getTeamNameByLeaderId() async {
     try {
       final String? leaderId = AuthService.instance.getUserId();
