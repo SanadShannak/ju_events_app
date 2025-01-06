@@ -66,40 +66,40 @@ The Firestore database structure, UML, and ERD are documented in Lucidchart:
 
 1. **`auto_size_text`**
   
-  - Dynamically adjusts text size to fit within its bounds for responsive typography.
+    - Dynamically adjusts text size to fit within its bounds for responsive typography.
 2. **`firebase_auth`**
   
-  - Provides Firebase Authentication functionalities, enabling secure user authentication (email/password).
+    - Provides Firebase Authentication functionalities, enabling secure user authentication (email/password).
 3. **`provider`**
   
-  - Implements state management using the provider pattern.
+    - Implements state management using the provider pattern.
 4. **`flutter_svg`**
   
-  - Renders SVG images for scalable and high-quality graphics.
+    - Renders SVG images for scalable and high-quality graphics.
 5. **`intl`**
   
-  - Supports internationalization, including date, number, and currency formatting.
+    - Supports internationalization, including date, number, and currency formatting.
 6. **`dots_indicator`**
   
-  - Adds an animated dots indicator for page navigation.
+    - Adds an animated dots indicator for page navigation.
 7. **`firebase_core`**
   
-  - Initializes Firebase services, acting as the foundation for Firebase integration.
+    - Initializes Firebase services, acting as the foundation for Firebase integration.
 8. **`flashy_tab_bar2`**
   
-  - Provides a flashy, animated, and customizable tab bar for app navigation.
+    - Provides a flashy, animated, and customizable tab bar for app navigation.
 9. **`cloud_firestore`**
   
-  - Accesses Firebase Firestore, a NoSQL cloud database for real-time data storage.
+    - Accesses Firebase Firestore, a NoSQL cloud database for real-time data storage.
 10. **`json_serializable`**
   
-  - Simplifies JSON serialization and deserialization for converting JSON data into Dart objects and vice versa.
+    - Simplifies JSON serialization and deserialization for converting JSON data into Dart objects and vice versa.
 11. **`flutter_launcher_icons`**
   
-  - Automates the generation of app launcher icons (logo) for multiple platforms.
+    - Automates the generation of app launcher icons (logo) for multiple platforms.
 12. **`smooth_page_indicator`**
   
-  - Provides customizable and animated page indicators for paginated screens.
+    - Provides customizable and animated page indicators for paginated screens.
 
 ## Team Members Tasks
 
