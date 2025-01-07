@@ -37,7 +37,7 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
   final List<Widget> _adminUserPages = [
     const HomePage(),
     EventsPage.all(),
-    const AdminPendingEvents(), //TODO: Change this to Requested Events for Admin Page
+    const AdminPendingEvents(),
     const UserProfilePage(),
   ];
 

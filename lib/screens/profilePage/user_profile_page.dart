@@ -275,7 +275,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                   (userRole != null)
                                       ? (DatabaseService()
                                           .userRoleNameString(userRole!))
-                                      : 'Student', // TODO: Change this to the user's role
+                                      : 'Student',
                                   style: const TextStyle(
                                       color: AppColors.kDarkGreen,
                                       fontSize: 11,

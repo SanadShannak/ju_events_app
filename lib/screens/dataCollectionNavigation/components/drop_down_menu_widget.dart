@@ -42,7 +42,7 @@ class _CustomDropDownMenuWidgetState extends State<CustomDropDownMenuWidget> {
       hint: widget.formHint != null
           ? Text(
               widget.formHint!,
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppColors.kHintTextColor,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
