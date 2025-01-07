@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:temp_project/screens/authentication/components/custom_primary_button.dart';
+import 'package:temp_project/services/auth_service.dart';
 import 'package:temp_project/utilities/constants.dart';
 import 'package:temp_project/utilities/validators.dart';
 import 'package:temp_project/widgets/custom_text_form_field.dart';
@@ -9,9 +10,25 @@ class ForgotPasswordPage extends StatelessWidget {
   ForgotPasswordPage({super.key, required this.sourcePage});
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+  final _auth = AuthService.instance;
 
   @override
   Widget build(BuildContext context) {
+    Future<void> _showSnackBar(String message, Color textColor) async {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 1, milliseconds: 500),
+          content: Text(
+            message,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: textColor, fontWeight: FontWeight.w500, fontSize: 14),
+          ),
+          backgroundColor: Colors.grey[300],
+        ),
+      );
+    }
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -72,8 +89,13 @@ class ForgotPasswordPage extends StatelessWidget {
                     prompt: 'Reset Password',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // collect data
-                        print('${_emailController.text}  || Email || collected');
+                        print(_emailController.text);
+                        _auth.sendPasswordResetEmail(_emailController.text);
+                        _showSnackBar(
+                            'Reset instructions were send to your email!',
+                            AppColors.kDarkGreen);
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/login', (route) => false);
                       }
                     }),
               ),
@@ -90,7 +112,8 @@ class ForgotPasswordPage extends StatelessWidget {
                   ),
                   label: Text(
                     'Back to $sourcePage ',
-                    style: const TextStyle(color: AppColors.kForestGreen, fontSize: 14),
+                    style: const TextStyle(
+                        color: AppColors.kForestGreen, fontSize: 14),
                   ))
             ],
           ),

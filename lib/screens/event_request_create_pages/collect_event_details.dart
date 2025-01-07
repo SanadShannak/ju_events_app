@@ -28,7 +28,6 @@ class EventDetails extends StatefulWidget {
 class _EventDetailsState extends State<EventDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _locationController = TextEditingController();
   final TextEditingController _subLocationController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _startingTimeController = TextEditingController();

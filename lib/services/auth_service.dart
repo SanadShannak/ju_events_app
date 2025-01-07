@@ -70,7 +70,9 @@ class AuthService {
 
   bool isUserLoggedIn() {
     User? currentUser = _authInst.currentUser;
-    FirebaseAuth.instance.currentUser == null ? 'user doesn\'nt sign in' : 'user is signed in';
+    FirebaseAuth.instance.currentUser == null
+        ? 'user doesn\'nt sign in'
+        : 'user is signed in';
     // Return true if a user is logged in, otherwise false
     return currentUser != null;
   }
@@ -81,5 +83,13 @@ class AuthService {
       return currentUser.uid;
     }
     return null;
+  }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _authInst.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
